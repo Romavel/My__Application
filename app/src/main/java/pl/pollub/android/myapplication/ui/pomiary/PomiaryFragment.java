@@ -4,34 +4,44 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import com.github.mikephil.charting.charts.BarChart;
 
-import pl.pollub.android.myapplication.databinding.FragmentPomiaryBinding;
+import pl.pollub.android.myapplication.R;
 
 public class PomiaryFragment extends Fragment {
 
-    private FragmentPomiaryBinding binding;
+    // Dodaj odpowiednie importy dla wykorzystywanych bibliotek
+
+    private BarChart barChart;
+    private Button buttonAddInrMeasurement;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        PomiaryViewModel pomiaryViewModel =
-                new ViewModelProvider(this).get(PomiaryViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_pomiary, container, false);
 
-        binding = FragmentPomiaryBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        barChart = root.findViewById(R.id.barChart);
+        buttonAddInrMeasurement = root.findViewById(R.id.buttonAddInrMeasurement);
 
-        final TextView textView = binding.textPomiary;
-        pomiaryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        // Dodaj obsługę przycisku
+        buttonAddInrMeasurement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Po kliknięciu, otwórz nowy widok dodawania pomiaru INR
+                openAddInrMeasurementView();
+            }
+        });
+
+        // Tutaj możesz dodać kod do wczytywania danych do wykresu z bazy danych
+
         return root;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    private void openAddInrMeasurementView() {
+        // W tym miejscu otwórz nowy widok dodawania pomiaru INR
+        // (np. za pomocą Intents w Android)
     }
 }
