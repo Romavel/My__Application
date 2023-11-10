@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">My Application</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="title_pomiary">Pomiary</string>
     <string name="title_leki">Leki</string>
     <string name="title_dieta">Dieta</string>
