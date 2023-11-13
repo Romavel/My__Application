@@ -1,5 +1,6 @@
 package pl.pollub.android.myapplication.ui.pomiary;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,7 @@ public class PomiaryFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_pomiary, container, false);
 
-        barChart = root.findViewById(R.id.barChart);
+        //barChart = root.findViewById(R.id.barChart);
         buttonAddInrMeasurement = root.findViewById(R.id.buttonAddInrMeasurement);
 
         // Dodaj obsługę przycisku
@@ -41,7 +42,9 @@ public class PomiaryFragment extends Fragment {
     }
 
     private void openAddInrMeasurementView() {
-        // W tym miejscu otwórz nowy widok dodawania pomiaru INR
-        // (np. za pomocą Intents w Android)
+        // Tworzymy i uruchamiamy Intent
+        Intent intent = new Intent(getActivity(), AddInrMeasurementFragment.class);
+        startActivity(intent);
     }
+
 }
