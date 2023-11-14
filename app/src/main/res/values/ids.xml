@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="btnCancel" type="id">Anuluj</item>
+    <item name="btnReset" type="id">Reset</item>
+    <item name="emailBox" type="id">E-mail</item>
+</resources>
