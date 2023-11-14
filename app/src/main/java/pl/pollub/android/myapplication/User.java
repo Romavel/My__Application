@@ -1,48 +1,36 @@
 package pl.pollub.android.myapplication;
-
-// User.java
 public class User {
-    private String id;
+
     private String firstName;
     private String lastName;
     private String username;
     private String email;
-    private String password;
+    private String birthDate;
     private String country;
     private String phoneNumber;
     private String gender;
-    private String registrationDate;
+    private String userId; // UID z Firebase Authentication
+    private String registrationDate; // Aktualna data i czas rejestracji
 
-    // Pusty konstruktor
+    // Konstruktor bezargumentowy (domyślny)
     public User() {
-        // Pusty konstruktor wymagany przez Firebase
+        // Pusty konstruktor potrzebny do używania Firebase Firestore
     }
 
-    // Konstruktor
-    public User(String id, String firstName, String lastName, String username, String email, String password,
-                String country, String phoneNumber, String gender, String registrationDate) {
-        this.id = id;
+    // Konstruktor z argumentami
+    public User(String firstName, String lastName, String username, String email,
+                String birthDate, String country, String phoneNumber, String gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
-        this.password = password;
+        this.birthDate = birthDate;
         this.country = country;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
-        this.registrationDate = registrationDate;
     }
 
-    // Gettery i settery dla wszystkich pól
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    // Getter i setter dla firstName
     public String getFirstName() {
         return firstName;
     }
@@ -51,6 +39,7 @@ public class User {
         this.firstName = firstName;
     }
 
+    // Getter i setter dla lastName
     public String getLastName() {
         return lastName;
     }
@@ -59,6 +48,7 @@ public class User {
         this.lastName = lastName;
     }
 
+    // Getter i setter dla username
     public String getUsername() {
         return username;
     }
@@ -67,6 +57,7 @@ public class User {
         this.username = username;
     }
 
+    // Getter i setter dla email
     public String getEmail() {
         return email;
     }
@@ -75,14 +66,16 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    // Getter i setter dla birthDate
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
+    // Getter i setter dla country
     public String getCountry() {
         return country;
     }
@@ -91,6 +84,7 @@ public class User {
         this.country = country;
     }
 
+    // Getter i setter dla phoneNumber
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -99,6 +93,7 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
+    // Getter i setter dla gender
     public String getGender() {
         return gender;
     }
@@ -107,6 +102,16 @@ public class User {
         this.gender = gender;
     }
 
+    // Getter i setter dla userId
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    // Getter i setter dla registrationDate
     public String getRegistrationDate() {
         return registrationDate;
     }
