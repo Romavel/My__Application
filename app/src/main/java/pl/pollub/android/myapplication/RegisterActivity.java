@@ -96,9 +96,9 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
         String confirmPassword = editTextConfirmPassword.getText().toString();
+        String phoneNumber = editTextPhoneNumber.getText().toString();
         String birthDate = editTextBirthDate.getText().toString();
         String country = spinnerCountry.getSelectedItem().toString();
-        String phoneNumber = editTextPhoneNumber.getText().toString();
 
         // Sprawdź, czy hasła są zgodne
         if (!password.equals(confirmPassword)) {
@@ -119,9 +119,9 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         user.setLastName(lastName);
         user.setUsername(username);
         user.setEmail(email);
+        user.setPhoneNumber(phoneNumber);
         user.setBirthDate(birthDate);
         user.setCountry(country);
-        user.setPhoneNumber(phoneNumber);
         user.setGender(gender);
 
         // Dodaj kod do rejestracji użytkownika w Firebase Authentication

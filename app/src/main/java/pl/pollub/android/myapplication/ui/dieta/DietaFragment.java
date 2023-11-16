@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import pl.pollub.android.myapplication.LoginActivity;
 import pl.pollub.android.myapplication.databinding.FragmentDietaBinding;
 import pl.pollub.android.myapplication.RegisterActivity;
 
@@ -35,6 +36,9 @@ public class DietaFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
+
 
         return root;
     }

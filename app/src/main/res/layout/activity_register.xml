@@ -111,6 +111,22 @@
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Numer telefonu -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutPhoneNumber"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Numer telefonu"
+                    android:inputType="phone" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <!-- Data urodzenia -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutBirthDate"
@@ -142,22 +158,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Kraj" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Numer telefonu -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutPhoneNumber"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextPhoneNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Numer telefonu"
-                    android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Płeć -->
