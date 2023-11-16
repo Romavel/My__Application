@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,7 +53,12 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
+
+
 
         // Inicjalizacja obiektów widoku
         editTextEmail = findViewById(R.id.editTextEmail);
@@ -59,8 +66,6 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.buttonLogin);
         textViewRegister = findViewById(R.id.textViewRegister);
         textViewOr = findViewById(R.id.textViewOr);
-        imageViewPerson = findViewById(R.id.imageViewPerson);
-        imageViewLock = findViewById(R.id.imageViewLock);
         cardViewGoogleSignIn = findViewById(R.id.cardViewGoogleSignIn);
 
         // Inicjalizacja obiektu FirebaseAuth
@@ -121,6 +126,8 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             Toast.makeText(LoginActivity.this, "Zalogowano jako " + user.getEmail(), Toast.LENGTH_SHORT).show();
                             // Tutaj możesz przekierować użytkownika na inny ekran po zalogowaniu
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
                         } else {
                             // Logowanie nieudane
                             Toast.makeText(LoginActivity.this, "Logowanie nieudane", Toast.LENGTH_SHORT).show();

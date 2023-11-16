@@ -1,5 +1,6 @@
 package pl.pollub.android.myapplication.ui.profil;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import pl.pollub.android.myapplication.LoginActivity;
+import pl.pollub.android.myapplication.RegisterActivity;
 import pl.pollub.android.myapplication.databinding.FragmentProfilBinding;
 
 public class ProfilFragment extends Fragment {
@@ -49,7 +52,11 @@ public class ProfilFragment extends Fragment {
         // Jeśli korzystasz z nawigacji, możesz przekierować użytkownika na ekran logowania
         // NavController navController = Navigation.findNavController(requireView());
         // navController.navigate(R.id.action_profilFragment_to_loginFragment);
+
+        // Przejście do ekranu rejestracji po kliknięciu na "Nie masz jeszcze konta? Zarejestruj się"
     }
+
+
 
     @Override
     public void onDestroyView() {
