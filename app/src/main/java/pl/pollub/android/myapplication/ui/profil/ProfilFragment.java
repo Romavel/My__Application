@@ -49,12 +49,13 @@ public class ProfilFragment extends Fragment {
         // Wylogowanie użytkownika za pomocą Firebase Authentication
         FirebaseAuth.getInstance().signOut();
 
-        // Jeśli korzystasz z nawigacji, możesz przekierować użytkownika na ekran logowania
-        // NavController navController = Navigation.findNavController(requireView());
-        // navController.navigate(R.id.action_profilFragment_to_loginFragment);
-
-        // Przejście do ekranu rejestracji po kliknięciu na "Nie masz jeszcze konta? Zarejestruj się"
+        // Przenieś użytkownika do LoginActivity
+        Intent intent = new Intent(requireContext(), LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        requireActivity().finish(); // Jeśli chcesz, aby użytkownik nie mógł wrócić do ProfilFragment przyciskiem "wstecz"
     }
+
 
 
 

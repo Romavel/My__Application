@@ -132,13 +132,13 @@
                 android:id="@+id/textInputLayoutBirthDate"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginTop="8dp">
 
                 <TextView
                     android:id="@+id/editTextBirthDate"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:hint="Data urodzenia"
                     android:inputType="none"
                     android:onClick="showDatePickerDialog" />
@@ -150,13 +150,13 @@
                 android:id="@+id/textInputLayoutCountry"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:layout_marginTop="8dp">
 
                 <Spinner
                     android:id="@+id/spinnerCountry"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:hint="Kraj" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -202,3 +202,5 @@
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
+
+
