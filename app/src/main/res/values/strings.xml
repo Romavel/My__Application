@@ -13,8 +13,6 @@
         <item>United States</item>
         <!-- Dodaj inne kraje, jeśli są potrzebne -->
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -25,4 +23,5 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="default_web_client_id">363463467060-tbcumt7vlo56kibts0becvgn812gu2ld.apps.googleusercontent.com</string>
+    <string name="hello_blank_fragment">Hello</string>
 </resources>
