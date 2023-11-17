@@ -94,6 +94,16 @@
                     android:inputType="textPassword"
                     android:textColor="@color/black"/>
 
+                <TextView
+                    android:id="@+id/textViewPasswordConditions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textColor="@android:color/holo_green_dark"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+
                 <!-- Potwierdzenie hasła -->
                 <EditText
                     android:layout_width="match_parent"
@@ -108,16 +118,6 @@
                     android:inputType="textPassword"
                     android:textColor="@color/black"/>
 
-                <TextView
-                    android:id="@+id/textViewPasswordConditions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text=""
-                    android:textColor="@android:color/holo_green_dark"
-                    android:textAlignment="center"
-                    android:textSize="14sp" />
-
                 <Button
                     android:id="@+id/buttonCancel"
                     android:layout_width="match_parent"
@@ -130,8 +130,7 @@
                     android:id="@+id/buttonNext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/editTextConfirmPassword"
-                    android:layout_toRightOf="@id/buttonCancel"
+                    android:layout_below="@id/buttonCancel"
                     android:backgroundTint="@color/colorRed"
                     android:text="Next" />
 

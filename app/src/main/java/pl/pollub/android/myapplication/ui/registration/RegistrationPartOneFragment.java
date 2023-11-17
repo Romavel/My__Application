@@ -68,7 +68,7 @@ public class RegistrationPartOneFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Przejdź do kolejnej części rejestracji po spełnieniu warunków
-                if (validateFields()) {
+                if (validateFields()){
                     // Dodaj kod do przejścia do drugiej części rejestracji
                     ((RegistrationActivity) requireActivity()).showRegistrationPartTwoFragment();
                 }
@@ -94,16 +94,6 @@ public class RegistrationPartOneFragment extends Fragment {
         Intent intent = new Intent(requireContext(), LoginActivity.class);
         startActivity(intent);
         requireActivity().finish(); // Opcjonalnie zakończ bieżącą aktywność, jeśli nie chcesz wracać do niej
-    }
-
-    // Dodaj nową metodę do przejścia do drugiej części rejestracji
-    private void loadNextFragment() {
-        // Przykładowe przejście do kolejnego fragmentu (RegistrationPartTwoFragment)
-        RegistrationPartTwoFragment fragment = new RegistrationPartTwoFragment();
-        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.registration_fragment_container, fragment);
-        transaction.addToBackStack(null); // Jeśli chcesz dodać do stosu cofania
-        transaction.commit();
     }
 
     // Metoda do sprawdzania warunków hasła

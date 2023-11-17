@@ -43,14 +43,13 @@ public class RegistrationActivity extends AppCompatActivity {
                 .commit();
     }
 
-    // Wywołanie metody showFragment z dodaną nazwą
-
 
 
     // Metoda do nawigacji do kolejnego fragmentu
     public void navigateToNextFragment() {
         showFragment(new RegistrationPartTwoFragment(),"RegistrationPartTwoFragment");
     }
+
 
     // Metoda do nawigacji do poprzedniego fragmentu
     public void navigateToPreviousFragment() {

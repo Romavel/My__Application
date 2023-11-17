@@ -137,18 +137,19 @@
                 </RadioGroup>
 
                 <Button
-                    android:id="@+id/buttonPrevoius"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/buttonPrivious"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Cancel" />
+                    android:layout_below="@+id/radioGroupGender"
+                    android:backgroundTint="@color/colorRed"
+                    android:text="Wróć" />
 
                 <Button
                     android:id="@+id/buttonRegister"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/editTextConfirmPassword"
-                    android:layout_toRightOf="@id/buttonPrevoius"
+                    android:layout_below="@id/buttonPrivious"
+                    android:backgroundTint="@color/colorRed"
                     android:text="Zarejestruj" />
 
             </LinearLayout>
