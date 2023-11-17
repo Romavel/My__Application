@@ -10,6 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <FrameLayout
+            android:id="@+id/registration_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+
         <!-- Define your UI elements here, such as EditText, Button, etc. -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewRegister"
