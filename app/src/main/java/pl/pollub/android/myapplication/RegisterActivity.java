@@ -1,6 +1,7 @@
 package pl.pollub.android.myapplication;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -43,6 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText editTextPassword;
     private EditText editTextConfirmPassword;
     private Button buttonRegister;
+    private Button buttonCancel;
+
 
     private TextView textViewPasswordConditions;
 
@@ -69,6 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
                 registerUser();
             }
         });
+
     }
 
     private void registerUser() {

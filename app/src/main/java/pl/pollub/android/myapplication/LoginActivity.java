@@ -3,8 +3,11 @@ package pl.pollub.android.myapplication;
 import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -42,11 +46,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button buttonLogin;
     private TextView textViewRegister;
-    private TextView textViewOr;
-    private ImageView imageViewPerson;
-    private ImageView imageViewLock;
     private CardView cardViewGoogleSignIn;
-
+    TextView forgotPassword;
     private FirebaseAuth firebaseAuth;
     private static final int RC_SIGN_IN = 9001;
 
@@ -67,11 +68,56 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         textViewRegister = findViewById(R.id.textViewRegister);
-        textViewOr = findViewById(R.id.textViewOr);
         cardViewGoogleSignIn = findViewById(R.id.cardViewGoogleSignIn);
+        forgotPassword = findViewById(R.id.forgot_password);
 
         // Inicjalizacja obiektu FirebaseAuth
         firebaseAuth = FirebaseAuth.getInstance();
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                View dialogView = getLayoutInflater().inflate(R.layout.dialog_forgot, null);
+                EditText emailBox = dialogView.findViewById(R.id.emailBox);
+                builder.setView(dialogView);
+                AlertDialog dialog = builder.create();
+                dialogView.findViewById(R.id.btnReset).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String userEmail = emailBox.getText().toString();
+                        if (TextUtils.isEmpty(userEmail) && !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()){
+                            Toast.makeText(LoginActivity.this, "Podaj swój adres email", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        firebaseAuth.sendPasswordResetEmail(userEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()){
+                                    Toast.makeText(LoginActivity.this, "Sprawdź swoje konto email", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Nie udało się wysłać, operacja nieudana", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });
+                dialogView.findViewById(R.id.btnCancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                if (dialog.getWindow() != null){
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+                }
+                dialog.show();
+            }
+        });
+
+
+
 
 
         // Inside onCreate() or another appropriate method
