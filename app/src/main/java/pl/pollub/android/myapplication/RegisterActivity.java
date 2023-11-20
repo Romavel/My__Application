@@ -30,24 +30,18 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-
-    private EditText editTextFirstName;
-    private EditText editTextLastName;
+public class RegisterActivity extends AppCompatActivity {
     private EditText editTextUsername;
     private EditText editTextEmail;
     private EditText editTextPassword;
     private EditText editTextConfirmPassword;
-    private TextView editTextBirthDate;
-    private Spinner spinnerCountry;
-    private EditText editTextPhoneNumber;
-    private RadioGroup radioGroupGender;
     private Button buttonRegister;
 
     private TextView textViewPasswordConditions;
@@ -61,27 +55,12 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         setContentView(R.layout.activity_register);
 
         // Inicjalizuj pola
-        editTextFirstName = findViewById(R.id.editTextFirstName);
-        editTextLastName = findViewById(R.id.editTextLastName);
         editTextUsername = findViewById(R.id.editTextUsername);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
-        editTextBirthDate = findViewById(R.id.editTextBirthDate);
-        spinnerCountry = findViewById(R.id.spinnerCountry);
-        editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
-        radioGroupGender = findViewById(R.id.radioGroupGender);
         buttonRegister = findViewById(R.id.buttonRegister);
         textViewPasswordConditions = findViewById(R.id.textViewPasswordConditions);
-
-        // Ustaw adapter dla spinnera (lista krajów)
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.countries_array,
-                android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCountry.setAdapter(adapter);
 
         // Ustaw nasłuchiwanie na przycisk rejestracji
         buttonRegister.setOnClickListener(new View.OnClickListener() {
@@ -94,15 +73,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     private void registerUser() {
         // Pobierz dane z pól
-        String firstName = editTextFirstName.getText().toString();
-        String lastName = editTextLastName.getText().toString();
         String username = editTextUsername.getText().toString();
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
         String confirmPassword = editTextConfirmPassword.getText().toString();
-        String phoneNumber = editTextPhoneNumber.getText().toString();
-        String birthDate = editTextBirthDate.getText().toString();
-        String country = spinnerCountry.getSelectedItem().toString();
 
         // Sprawdź, czy hasła są zgodne
         if (!password.equals(confirmPassword)) {
@@ -113,20 +87,75 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         // Dodatkowa walidacja hasła
         validatePassword(password);
 
-        // Pobierz zaznaczoną płcię
-        RadioButton selectedRadioButton = findViewById(radioGroupGender.getCheckedRadioButtonId());
-        String gender = selectedRadioButton.getText().toString();
+        // Sprawdź dostępność username i email
+        checkUsernameAndEmailAvailability(username, email);
+    }
+
+    private void checkUsernameAndEmailAvailability(final String username, final String email) {
+        // Sprawdź dostępność username
+        FirebaseFirestore.getInstance().collection("Users")
+                .whereEqualTo("username", username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (!task.getResult().isEmpty()) {
+                                // Username jest już zajęty
+                                Toast.makeText(RegisterActivity.this, "Username jest już zajęty", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // Username jest dostępny, sprawdź dostępność email
+                                checkEmailAvailability(email);
+                            }
+                        } else {
+                            Log.d("RegisterActivity", "Błąd podczas sprawdzania dostępności username: " + task.getException());
+                            Toast.makeText(RegisterActivity.this, "Błąd podczas sprawdzania dostępności username", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void checkEmailAvailability(final String email) {
+        // Sprawdź dostępność email
+        FirebaseFirestore.getInstance().collection("Users")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (!task.getResult().isEmpty()) {
+                                // Email jest już zajęty
+                                Toast.makeText(RegisterActivity.this, "Email jest już zajęty", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // Email jest dostępny, kontynuuj proces rejestracji
+                                proceedWithRegistration();
+                            }
+                        } else {
+                            Log.d("RegisterActivity", "Błąd podczas sprawdzania dostępności email: " + task.getException());
+                            Toast.makeText(RegisterActivity.this, "Błąd podczas sprawdzania dostępności email", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void proceedWithRegistration() {
+        // Kontynuuj proces rejestracji
+        String username = editTextUsername.getText().toString();
+        String email = editTextEmail.getText().toString();
+        String password = editTextPassword.getText().toString();
+        String confirmPassword = editTextConfirmPassword.getText().toString();
 
         // Utwórz obiekt User
         User user = new User();
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
+        user.setFirstName("");
+        user.setLastName("");
         user.setUsername(username);
         user.setEmail(email);
-        user.setPhoneNumber(phoneNumber);
-        user.setBirthDate(birthDate);
-        user.setCountry(country);
-        user.setGender(gender);
+        user.setPhoneNumber("");
+        user.setBirthDate("");
+        user.setCountry("");
+        user.setGender("");
 
         // Dodaj kod do rejestracji użytkownika w Firebase Authentication
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
@@ -168,21 +197,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                         return sdf.format(new Date());
                     }
                 });
-    }
-    // Metoda wywoływana po wyborze daty z kalendarza
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        // Aktualizacja pola z datą urodzenia
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, dayOfMonth);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        editTextBirthDate.setText(dateFormat.format(calendar.getTime()));
-    }
-
-    // Metoda do pokazania DatePickerDialog po kliknięciu w pole daty urodzenia
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     private void validatePassword(String password) {

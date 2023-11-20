@@ -13,7 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+
+import java.util.regex.Pattern;
 
 import pl.pollub.android.myapplication.LoginActivity;
 import pl.pollub.android.myapplication.R;
@@ -68,13 +69,15 @@ public class RegistrationPartOneFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Przejdź do kolejnej części rejestracji po spełnieniu warunków
-                if (validateFields()){
-                    // Dodaj kod do przejścia do drugiej części rejestracji
-                    ((RegistrationActivity) requireActivity()).showRegistrationPartTwoFragment();
+                if (validateFields()) {
+                    // Przechodzenie do drugiej części rejestracji
+                    ((RegistrationActivity) requireActivity()).showRegistrationPartTwoFragment(
+                            editTextUsername.getText().toString(),
+                            editTextEmail.getText().toString()
+                    );
                 }
             }
         });
-
 
         // Dodaj nasłuchiwanie na przycisk anuluj
         buttonCancel.setOnClickListener(new View.OnClickListener() {
@@ -86,14 +89,6 @@ public class RegistrationPartOneFragment extends Fragment {
         });
 
         return view;
-    }
-
-    // Dodaj nową metodę do przejścia do LoginActivity
-    private void loadLoginActivity() {
-        // Przykładowe przejście do LoginActivity
-        Intent intent = new Intent(requireContext(), LoginActivity.class);
-        startActivity(intent);
-        requireActivity().finish(); // Opcjonalnie zakończ bieżącą aktywność, jeśli nie chcesz wracać do niej
     }
 
     // Metoda do sprawdzania warunków hasła
@@ -146,7 +141,7 @@ public class RegistrationPartOneFragment extends Fragment {
         }
 
         // Sprawdź, czy adres email jest poprawny
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (email.isEmpty() || !Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,6}$").matcher(email).matches()) {
             Toast.makeText(requireContext(), "Podano nieprawidłowy adres email", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -158,5 +153,13 @@ public class RegistrationPartOneFragment extends Fragment {
         }
 
         return true;
+    }
+
+    // Dodaj nową metodę do przejścia do LoginActivity
+    private void loadLoginActivity() {
+        // Przykładowe przejście do LoginActivity
+        Intent intent = new Intent(requireContext(), LoginActivity.class);
+        startActivity(intent);
+        requireActivity().finish(); // Opcjonalnie zakończ bieżącą aktywność, jeśli nie chcesz wracać do niej
     }
 }

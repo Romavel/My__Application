@@ -137,7 +137,7 @@
                 </RadioGroup>
 
                 <Button
-                    android:id="@+id/buttonPrivious"
+                    android:id="@+id/buttonPrevious"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/radioGroupGender"
@@ -148,7 +148,7 @@
                     android:id="@+id/buttonRegister"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/buttonPrivious"
+                    android:layout_below="@id/buttonPrevious"
                     android:backgroundTint="@color/colorRed"
                     android:text="Zarejestruj" />
 

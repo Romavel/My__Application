@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         textViewRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
 
@@ -184,7 +184,8 @@ public class LoginActivity extends AppCompatActivity {
                             // Zalogowano pomyślnie za pomocą konta Google
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             Toast.makeText(LoginActivity.this, "Zalogowano za pomocą konta Google jako " + user.getEmail(), Toast.LENGTH_SHORT).show();
-                            // Tutaj możesz przekierować użytkownika na inny ekran po zalogowaniu
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
                         } else {
                             // Logowanie za pomocą konta Google nie powiodło się
                             Toast.makeText(LoginActivity.this, "Logowanie za pomocą konta Google nie powiodło się", Toast.LENGTH_SHORT).show();
