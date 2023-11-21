@@ -15,6 +15,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,7 +32,7 @@ public class InrMeasurementDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_inr_measurement, container, false);
+        View view = inflater.inflate(R.layout.fragment_inr_measurement_dialog, container, true);
 
         // Inicjalizacja pól i przycisków
         EditText inrBox = view.findViewById(R.id.INRBox);
@@ -44,10 +45,10 @@ public class InrMeasurementDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 // Pobierz wartość pomiaru INR
-                String inrValue = inrBox.getText().toString();
+                String value = inrBox.getText().toString();
 
                 // Sprawdź, czy wartość INR jest pusta
-                if (TextUtils.isEmpty(inrValue)) {
+                if (TextUtils.isEmpty(value)) {
                     Toast.makeText(getContext(), "Wprowadź wartość pomiaru INR", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -57,8 +58,8 @@ public class InrMeasurementDialogFragment extends DialogFragment {
 
                 // Utwórz nowy pomiar INR
                 InrMeasurement inrMeasurement = new InrMeasurement();
-                inrMeasurement.setInrValue(Double.parseDouble(inrValue));
-                inrMeasurement.setMeasurementTime(getCurrentDateTime());
+                inrMeasurement.setValue(Double.parseDouble(value));
+                inrMeasurement.setTime(Timestamp.now());
 
                 // Dodaj pomiar do kolekcji INR_Measurements w dokumencie zalogowanego użytkownika
                 FirebaseFirestore.getInstance().collection("Users")
@@ -89,11 +90,5 @@ public class InrMeasurementDialogFragment extends DialogFragment {
         });
 
         return view;
-    }
-
-    // Funkcja do pobierania aktualnej daty i czasu
-    private String getCurrentDateTime() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        return sdf.format(new Date());
     }
 }
