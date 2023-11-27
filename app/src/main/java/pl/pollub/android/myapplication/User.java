@@ -1,16 +1,19 @@
 package pl.pollub.android.myapplication;
+
+import com.google.firebase.Timestamp;
+
 public class User {
 
-    private String firstName;
-    private String lastName;
+    private String first_name;
+    private String last_name;
     private String username;
     private String email;
-    private String birthDate;
+    private String birth_date;
     private String country;
-    private String phoneNumber;
+    private String phone_number;
     private String gender;
-    private String userId; // UID z Firebase Authentication
-    private String registrationDate; // Aktualna data i czas rejestracji
+    //private String userId; // UID z Firebase Authentication
+    private Timestamp registration_date; // Aktualna data i czas rejestracji
 
     // Konstruktor bezargumentowy (domyślny)
     public User() {
@@ -18,34 +21,34 @@ public class User {
     }
 
     // Konstruktor z argumentami
-    public User(String firstName, String lastName, String username, String email,
-                String birthDate, String country, String phoneNumber, String gender) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String first_name, String last_name, String username, String email,
+                String birth_date, String country, String phone_number, String gender) {
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.username = username;
         this.email = email;
-        this.birthDate = birthDate;
+        this.birth_date = birth_date;
         this.country = country;
-        this.phoneNumber = phoneNumber;
+        this.phone_number = phone_number;
         this.gender = gender;
     }
 
     // Getter i setter dla firstName
-    public String getFirstName() {
-        return firstName;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
     // Getter i setter dla lastName
-    public String getLastName() {
-        return lastName;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     // Getter i setter dla username
@@ -67,12 +70,12 @@ public class User {
     }
 
     // Getter i setter dla birthDate
-    public String getBirthDate() {
-        return birthDate;
+    public String getBirth_date() {
+        return birth_date;
     }
 
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
+    public void setBirth_date(String birth_date) {
+        this.birth_date = birth_date;
     }
 
     // Getter i setter dla country
@@ -85,12 +88,12 @@ public class User {
     }
 
     // Getter i setter dla phoneNumber
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone_number() {
+        return phone_number;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
     }
 
     // Getter i setter dla gender
@@ -102,21 +105,12 @@ public class User {
         this.gender = gender;
     }
 
-    // Getter i setter dla userId
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     // Getter i setter dla registrationDate
-    public String getRegistrationDate() {
-        return registrationDate;
+    public Timestamp getRegistration_date() {
+        return registration_date;
     }
 
-    public void setRegistrationDate(String registrationDate) {
-        this.registrationDate = registrationDate;
+    public void setRegistration_date(Timestamp registration_date) {
+        this.registration_date = registration_date;
     }
 }

@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -152,12 +153,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Utwórz obiekt User
         User user = new User();
-        user.setFirstName("");
-        user.setLastName("");
+        user.setFirst_name("");
+        user.setLast_name("");
         user.setUsername(username);
         user.setEmail(email);
-        user.setPhoneNumber("");
-        user.setBirthDate("");
+        user.setPhone_number("");
+        user.setBirth_date("");
         user.setCountry("");
         user.setGender("");
 
@@ -171,8 +172,8 @@ public class RegisterActivity extends AppCompatActivity {
                             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                             // Ustaw UID i datę rejestracji w obiekcie User
-                            user.setUserId(userId);
-                            user.setRegistrationDate(getCurrentDateTime());
+                            //user.setUserId(userId);
+                            user.setRegistration_date(Timestamp.now());
 
                             // Zapisz pozostałe dane użytkownika do Firestore Database
                             FirebaseFirestore.getInstance().collection("Users").document(userId).set(user)

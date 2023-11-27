@@ -35,7 +35,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 
-import pl.pollub.android.myapplication.ui.registration.RegistrationActivity;
 
 
 public class LoginActivity extends AppCompatActivity {
