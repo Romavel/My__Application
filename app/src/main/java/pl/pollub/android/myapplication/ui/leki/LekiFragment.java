@@ -27,16 +27,6 @@ public class LekiFragment extends Fragment {
         binding = FragmentLekiBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final Button LoginButton = binding.buttonLogin;
-        LoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Przenieś użytkownika do RegisterActivity po kliknięciu przycisku
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
         final TextView textView = binding.textLeki;
         lekiViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;

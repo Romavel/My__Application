@@ -27,16 +27,6 @@ public class DietaFragment extends Fragment {
         binding = FragmentDietaBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final Button registerButton = binding.buttonRegister;
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Przenieś użytkownika do RegisterActivity po kliknięciu przycisku
-                Intent intent = new Intent(getActivity(), RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
-
 
 
 
