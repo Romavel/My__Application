@@ -11,6 +11,7 @@
         android:icon="@drawable/ic_leki"
         android:title="@string/title_leki" />
 
+
     <item
         android:id="@+id/navigation_dieta"
         android:icon="@drawable/ic_dieta_24"

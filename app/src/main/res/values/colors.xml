@@ -11,5 +11,7 @@
     <color name="colorRed">#FF0000</color>
     <color name="colorGray">#808080</color>
     <color name="colorRedLink">#9AFF0000</color>
+    <color name="colorBlue">#365FF4</color>
+    <color name="colorBlueLink">#3F51B5</color>
 
 </resources>
