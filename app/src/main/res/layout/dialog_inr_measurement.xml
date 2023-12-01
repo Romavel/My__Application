@@ -22,7 +22,7 @@
             android:text="Pomiar INR"
             android:padding="10dp"
             android:textSize="17sp"
-            android:background="@drawable/red_round"
+            android:background="@drawable/blue_round"
             android:textColor="@color/white"
             android:drawableLeft="@drawable/ic_inr_measurement"
             android:drawablePadding="8dp"

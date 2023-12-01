@@ -12,9 +12,7 @@
         android:title="@string/title_leki" />
 
     <item
-        android:id="@+id/fab"
-        android:title=""
-        android:enabled="false"/>
+        android:title="" />
 
     <item
         android:id="@+id/navigation_dieta"

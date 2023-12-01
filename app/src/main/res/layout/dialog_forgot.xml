@@ -22,7 +22,7 @@
             android:text="Forgot Password"
             android:padding="10dp"
             android:textSize="17sp"
-            android:background="@drawable/red_round"
+            android:background="@drawable/blue_round"
             android:textColor="@color/white"
             android:drawableLeft="@drawable/ic_baseline_lock_reset_24"
             android:drawablePadding="8dp"

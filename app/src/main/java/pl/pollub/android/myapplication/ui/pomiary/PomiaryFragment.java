@@ -87,7 +87,11 @@ public class PomiaryFragment extends Fragment {
         return root;
     }
 
-
+    // Przenieś kod obsługi FAB do publicznej metody
+    public void handleFabClick() {
+        // Obsługa kliknięcia FAB w zależności od aktualnie wybranego fragmentu
+        showMeasurementOptions();
+    }
 
     // Dodaj metodę do obsługi kliknięcia FAB
     private void showMeasurementOptions() {

@@ -22,7 +22,7 @@
             android:padding="10dp"
             android:text="Pomiar Ciśnienia"
             android:textSize="17sp"
-            android:background="@drawable/red_round"
+            android:background="@drawable/blue_round"
             android:textColor="@color/white"
             android:drawableLeft="@drawable/ic_blood_pressure"
             android:drawablePadding="8dp"

@@ -38,7 +38,7 @@
                 android:textSize="24sp"
                 android:textAlignment="center"
                 android:textStyle="bold"
-                android:textColor="@color/colorRed"/>
+                android:textColor="@color/colorBlueLink"/>
 
 
             <EditText
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/editTextPassword"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/colorRed"
+                android:backgroundTint="@color/colorBlue"
                 app:cornerRadius = "20dp"
                 android:text="Login" />
 
@@ -87,7 +87,7 @@
                 android:layout_marginTop="5dp"
                 android:padding="8dp"
                 android:text="Nie pamiętam hasła"
-                android:textColor="@color/colorRed"
+                android:textColor="@color/colorBlue"
                 android:textSize="16sp" />
 
             <TextView
@@ -99,7 +99,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_gravity="center"
                 android:text="Nie masz jeszcze konta? Zarejestruj się"
-                android:textColor="@color/colorRedLink" />
+                android:textColor="@color/colorBlueLink" />
 
 
             <TextView
