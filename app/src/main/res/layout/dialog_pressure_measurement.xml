@@ -37,7 +37,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="8dp"
             android:textSize="15sp"
-            android:textColor="@color/colorRed"
+            android:textColor="@color/colorBlue"
             app:layout_constraintTop_toBottomOf="@id/pressureTitle"
             app:layout_constraintBottom_toTopOf="@id/pressureSystolicBox"/>
 
@@ -45,14 +45,14 @@
             android:layout_width="290dp"
             android:layout_height="wrap_content"
             android:id="@+id/pressureSystolicBox"
-            android:textColor="@color/colorRed"
+            android:textColor="@color/colorBlue"
             android:textSize="16sp"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="0dp"
             android:maxLines="1"
             android:inputType="numberDecimal"
             android:hint="Ciśnienie skurczowe"
-            android:backgroundTint="@color/colorRed"
+            android:backgroundTint="@color/colorBlue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/pressureDiastolicBox"
             app:layout_constraintTop_toBottomOf="@id/pressureTitle"/>
@@ -61,14 +61,14 @@
             android:layout_width="290dp"
             android:layout_height="wrap_content"
             android:id="@+id/pressureDiastolicBox"
-            android:textColor="@color/colorRed"
+            android:textColor="@color/colorBlue"
             android:textSize="16sp"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="0dp"
             android:maxLines="1"
             android:inputType="numberDecimal"
             android:hint="Ciśnienie rozkurczowe"
-            android:backgroundTint="@color/colorRed"
+            android:backgroundTint="@color/colorBlue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/pulseBox"
             app:layout_constraintTop_toBottomOf="@id/pressureSystolicBox"/>
@@ -77,20 +77,20 @@
             android:layout_width="290dp"
             android:layout_height="wrap_content"
             android:id="@+id/pulseBox"
-            android:textColor="@color/colorRed"
+            android:textColor="@color/colorBlue"
             android:textSize="16sp"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="50dp"
             android:maxLines="1"
             android:inputType="number"
             android:hint="Puls"
-            android:backgroundTint="@color/colorRed"
+            android:backgroundTint="@color/colorBlue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pressureDiastolicBox"/>
 
         <Button
-            android:backgroundTint="@color/colorRed"
+            android:backgroundTint="@color/colorBlue"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:id="@+id/btnCancelPressure"
@@ -108,7 +108,7 @@
             app:layout_constraintEnd_toStartOf="@id/btnAddPressure"/>
 
         <Button
-            android:backgroundTint="@color/colorRed"
+            android:backgroundTint="@color/colorBlue"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:id="@+id/btnAddPressure"

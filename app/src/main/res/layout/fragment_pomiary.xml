@@ -37,26 +37,6 @@
             android:layout_height="200dp" />
     </LinearLayout>
 
-
-
-    <!-- Dodaj przewodnik (guideline) dla dolnego marginesu -->
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="542dp" />
-
-    <!-- Dodaj Floating Action Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddMeasurement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline_bottom"
-        app:srcCompat="@android:drawable/ic_input_add" />
-
     <!-- Dodaj inne widoki dla PomiaryFragment według potrzeb -->
 
 </FrameLayout>

@@ -71,16 +71,6 @@ public class PomiaryFragment extends Fragment {
 
         //final TextView textView = root.findViewById(R.id.text_pomiary);
 
-        // Dodaj Floating Action Button
-        FloatingActionButton fab = root.findViewById(R.id.fabAddMeasurement);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Obsługa kliknięcia FAB - otwórz listę opcji
-                showMeasurementOptions();
-            }
-        });
-
         // Wywołaj metodę do pobierania i rysowania wykresu
         getLatestInrMeasurements();
 
