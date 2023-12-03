@@ -121,6 +121,7 @@
             android:textSize="14sp"
             app:cornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pulseBox"
             app:layout_constraintBottom_toBottomOf="@id/dialogBoxPressure"
             app:layout_constraintStart_toEndOf="@id/btnCancelPressure"/>
 

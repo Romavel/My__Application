@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="viewStart"
-            android:text="Dodaj"
+            android:text="Wybierz opcję"
             android:padding="8dp"
             android:textColor="@color/colorBlue"
             android:layout_marginStart="12dp"

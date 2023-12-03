@@ -83,11 +83,32 @@ public class PomiaryFragment extends Fragment {
         showMeasurementOptions();
     }
 
+    private void showInrMeasurementList() {
+        // Otwórz nowy fragment z listą pomiarów INR
+        FragmentManager fragmentManager = getParentFragmentManager();
+        InrMeasurementListFragment inrListFragment = new InrMeasurementListFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, inrListFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void showPressureMeasurementList() {
+        // Otwórz nowy fragment z listą pomiarów ciśnienia
+        FragmentManager fragmentManager = getParentFragmentManager();
+        PressureMeasurementListFragment pressureListFragment = new PressureMeasurementListFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, pressureListFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+
     // Dodaj metodę do obsługi kliknięcia FAB
     private void showMeasurementOptions() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Wybierz opcję")
-                .setItems(new CharSequence[]{"Dodaj pomiar INR", "Dodaj pomiar ciśnienia"},
+                .setItems(new CharSequence[]{"Dodaj pomiar INR", "Dodaj pomiar ciśnienia", "Lista pomiarów INR", "Lista pomiarów ciśnienia"},
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Obsługa wybranej opcji
@@ -99,6 +120,14 @@ public class PomiaryFragment extends Fragment {
                                     case 1:
                                         // Dodaj pomiar ciśnienia
                                         showPressureMeasurementDialog();
+                                        break;
+                                    case 2:
+                                        // Lista pomiarów INR
+                                        showInrMeasurementList();
+                                        break;
+                                    case 3:
+                                        // Lista pomiarów ciśnienia
+                                        showPressureMeasurementList();
                                         break;
                                 }
                             }
@@ -165,7 +194,7 @@ public class PomiaryFragment extends Fragment {
     }
 
     // Metoda do formatowania daty bez czasu
-    private String formatDateWithoutTime(java.util.Date date) {
+    public static String formatDateWithoutTime(java.util.Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return sdf.format(date);
     }
