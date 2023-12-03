@@ -4,8 +4,7 @@ import com.google.firebase.Timestamp;
 
 public class InrMeasurement {
     private double value;
-    //private String time;
-
+    private String document_id;
     private Timestamp time;
 
     // Konstruktor bezargumentowy wymagany do korzystania z Firebase
@@ -13,13 +12,14 @@ public class InrMeasurement {
     }
 
     // Konstruktor z argumentami
-    public InrMeasurement(double value, Timestamp time) {
+    public InrMeasurement(double value, String document_id, Timestamp time) {
         this.value = value;
         this.time = time;
+        this.document_id = document_id;
+
     }
 
     // Gettery i settery
-
     public double getValue() {
         return value;
     }
@@ -28,7 +28,9 @@ public class InrMeasurement {
         this.value = value;
     }
 
+    public String getDocument_id() { return document_id; }
 
+    public void setDocument_id(String documentId) { this.document_id = documentId; }
 
     public Timestamp getTime() {
         return time;

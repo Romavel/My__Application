@@ -1,6 +1,5 @@
 package pl.pollub.android.myapplication.ui.pomiary;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,18 +8,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import pl.pollub.android.myapplication.R;
 
 public class InrMeasurementAdapter extends RecyclerView.Adapter<InrMeasurementAdapter.ViewHolder> {
 
     private List<InrMeasurement> inrMeasurements;
-    private Context context;
 
     public InrMeasurementAdapter(List<InrMeasurement> inrMeasurements) {
         this.inrMeasurements = inrMeasurements;
-        this.context = context;
     }
 
     @NonNull
@@ -33,8 +32,10 @@ public class InrMeasurementAdapter extends RecyclerView.Adapter<InrMeasurementAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         InrMeasurement measurement = inrMeasurements.get(position);
-        holder.valueTextView.setText("Wartość: " + String.valueOf(measurement.getValue()));
-        holder.dateTextView.setText("Data: " + formatDateWithoutTime(measurement.getTime().toDate()));
+
+        // Ustaw dane pomiaru w widoku ViewHolder
+        holder.dateTextView.setText(formatDateWithoutTime(measurement.getTime().toDate()));
+        holder.valueTextView.setText(String.valueOf(measurement.getValue()));
     }
 
     @Override
@@ -42,21 +43,23 @@ public class InrMeasurementAdapter extends RecyclerView.Adapter<InrMeasurementAd
         return inrMeasurements.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView valueTextView;
-        TextView dateTextView;
+    // Metoda do formatowania daty bez czasu
+    private String formatDateWithoutTime(java.util.Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return sdf.format(date);
+    }
+
+    // ViewHolder przechowujący widoki elementów listy
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView dateTextView;
+        public TextView valueTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            valueTextView = itemView.findViewById(R.id.valueTextView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
+            valueTextView = itemView.findViewById(R.id.valueTextView);
         }
-    }
-
-    private String formatDateWithoutTime(java.util.Date date) {
-        String formattedDate = PomiaryFragment.formatDateWithoutTime(date);
-
-        return formattedDate;
     }
 }
 

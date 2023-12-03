@@ -1,33 +1,17 @@
-<!-- res/layout/fragment_inr_measurement_list.xml -->
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="ui.pomiary.InrMeasurementListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="16dp"
-        android:scrollbars="vertical"
-        app:layoutManager="LinearLayoutManager" />
+        android:scrollbars="vertical" />
 
-    <TextView
-        android:id="@+id/loadMoreTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"
-        android:text="Wczytaj więcej"
-        android:textSize="18sp" />
-
-</RelativeLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

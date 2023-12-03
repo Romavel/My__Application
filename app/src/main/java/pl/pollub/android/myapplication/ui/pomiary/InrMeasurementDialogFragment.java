@@ -69,8 +69,27 @@ public class InrMeasurementDialogFragment extends DialogFragment {
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
+                                // Dodaj identyfikator dokumentu do pomiaru
+                                inrMeasurement.setDocument_id(documentReference.getId());
+
+                                // Logowanie do konsoli informacji o dodanym pomiarze
                                 Log.d("InrMeasurementDialog", "Pomiar dodany do Firestore: " + documentReference.getId());
                                 dismiss(); // Zamknij okno dialogowe po dodaniu pomiaru
+
+                                // Zapisz zaktualizowany pomiar z identyfikatorem dokumentu
+                                documentReference.set(inrMeasurement)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d("InrMeasurementDialog", "Identyfikator dokumentu zaktualizowany w bazie Firestore");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.e("InrMeasurementDialog", "Błąd podczas aktualizowania identyfikatora dokumentu w bazie Firestore", e);
+                                            }
+                                        });
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
