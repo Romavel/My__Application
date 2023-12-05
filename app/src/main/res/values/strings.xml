@@ -4,6 +4,37 @@
     <string name="title_leki">Leki</string>
     <string name="title_dieta">Dieta</string>
     <string name="title_profil">Profil</string>
+
+    <string-array name="formy_leku_array">
+        <item>Tabletka</item>
+        <item>Syrop</item>
+        <item>Zastrzyk</item>
+        <item>Inne</item>
+    </string-array>
+
+    <string-array name="dni_tygodnia_array">
+        <item>Poniedziałek</item>
+        <item>Wtorek</item>
+        <item>Środa</item>
+        <item>Czwartek</item>
+        <item>Piątek</item>
+        <item>Sobota</item>
+        <item>Niedziela</item>
+    </string-array>
+
+    <string-array name="razy_dziennie_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
     <string-array name="countries_array">
         <item>Australia</item>
         <item>Brasil</item>

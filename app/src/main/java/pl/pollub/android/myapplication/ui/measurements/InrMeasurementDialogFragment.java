@@ -1,4 +1,4 @@
-package pl.pollub.android.myapplication.ui.pomiary;
+package pl.pollub.android.myapplication.ui.measurements;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,10 +19,6 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import pl.pollub.android.myapplication.R;
 

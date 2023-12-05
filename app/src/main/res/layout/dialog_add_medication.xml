@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textViewNazwaLeku"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nazwa leku" />
+
+    <EditText
+        android:id="@+id/editTextNazwaLeku"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Wprowadź nazwę leku"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/textViewFormaLeku"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Forma leku" />
+
+    <Spinner
+        android:id="@+id/spinnerFormaLeku"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:entries="@array/formy_leku_array"/>
+
+    <TextView
+        android:id="@+id/textViewDawka"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dawka" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editTextDawka"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Wprowadź dawkę"
+            android:inputType="numberDecimal" />
+
+        <Button
+            android:id="@+id/buttonJednostka"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="mg" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewRazyDziennie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ile razy dziennie" />
+
+    <Spinner
+        android:id="@+id/spinnerRazyDziennie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/textViewDniTygodnia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dni tygodnia" />
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/spinnerDniTygodnia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dni tygodnia"
+        app:ms_multiselect="true"/>
+
+
+</LinearLayout>

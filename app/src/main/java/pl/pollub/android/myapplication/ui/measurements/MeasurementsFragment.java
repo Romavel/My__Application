@@ -1,68 +1,48 @@
-package pl.pollub.android.myapplication.ui.pomiary;
+package pl.pollub.android.myapplication.ui.measurements;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Collections;
 
 
 import pl.pollub.android.myapplication.R;
 
-public class PomiaryFragment extends Fragment {
+public class MeasurementsFragment extends Fragment {
 
-    private PomiaryViewModel pomiaryViewModel;
+    private MeasurementsViewModel measurementsViewModel;
     private LinearLayout chartLayout;
     private BarChart barChart;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        pomiaryViewModel =
-                new ViewModelProvider(this).get(PomiaryViewModel.class);
+        measurementsViewModel =
+                new ViewModelProvider(this).get(MeasurementsViewModel.class);
 
-        View root = inflater.inflate(R.layout.fragment_pomiary, container, false);
+        View root = inflater.inflate(R.layout.fragment_measurements, container, false);
 
         final TextView textView = root.findViewById(R.id.text_pomiary);
         chartLayout = root.findViewById(R.id.chartLayout);
@@ -172,7 +152,7 @@ public class PomiaryFragment extends Fragment {
                     drawInrChart(measurements);
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("PomiaryFragment", "Błąd podczas pobierania pomiarów INR", e);
+                    Log.e("MeasurementsFragment", "Błąd podczas pobierania pomiarów INR", e);
                 });
     }
 

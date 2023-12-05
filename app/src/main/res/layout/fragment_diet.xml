@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dieta.DietaFragment">
+    tools:context=".ui.diet.DietFragment">
 
 
-    <!-- Dodaj inne widoki dla DietaFragment według potrzeb -->
+    <!-- Dodaj inne widoki dla DietFragment według potrzeb -->
 </FrameLayout>

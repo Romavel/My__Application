@@ -1,6 +1,4 @@
-package pl.pollub.android.myapplication.ui.pomiary;
-
-import android.content.Context;
+package pl.pollub.android.myapplication.ui.measurements;
 
 import androidx.core.content.ContextCompat;
 

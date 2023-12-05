@@ -1,4 +1,4 @@
-package pl.pollub.android.myapplication.ui.pomiary;
+package pl.pollub.android.myapplication.ui.measurements;
 
 import android.view.LayoutInflater;
 import android.view.View;

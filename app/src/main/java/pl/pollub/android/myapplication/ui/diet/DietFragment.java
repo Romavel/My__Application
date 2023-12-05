@@ -1,30 +1,26 @@
-package pl.pollub.android.myapplication.ui.dieta;
+package pl.pollub.android.myapplication.ui.diet;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import pl.pollub.android.myapplication.LoginActivity;
-import pl.pollub.android.myapplication.databinding.FragmentDietaBinding;
-import pl.pollub.android.myapplication.RegisterActivity;
+import pl.pollub.android.myapplication.databinding.FragmentDietBinding;
 
-public class DietaFragment extends Fragment {
+public class DietFragment extends Fragment {
 
-    private FragmentDietaBinding binding;
+    private FragmentDietBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DietaViewModel dietaViewModel =
-                new ViewModelProvider(this).get(DietaViewModel.class);
+        DietViewModel dietViewModel =
+                new ViewModelProvider(this).get(DietViewModel.class);
 
-        binding = FragmentDietaBinding.inflate(inflater, container, false);
+        binding = FragmentDietBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
 

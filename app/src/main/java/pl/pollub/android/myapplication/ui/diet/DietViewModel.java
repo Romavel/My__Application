@@ -1,16 +1,16 @@
-package pl.pollub.android.myapplication.ui.leki;
+package pl.pollub.android.myapplication.ui.diet;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class LekiViewModel extends ViewModel {
+public class DietViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public LekiViewModel() {
+    public DietViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is Leki fragment");
+        mText.setValue("This is Dieta fragment");
     }
 
     public LiveData<String> getText() {

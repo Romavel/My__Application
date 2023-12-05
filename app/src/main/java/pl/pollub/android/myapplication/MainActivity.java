@@ -3,23 +3,16 @@ package pl.pollub.android.myapplication;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import pl.pollub.android.myapplication.databinding.ActivityMainBinding;
-import pl.pollub.android.myapplication.ui.dieta.DietaFragment;
-import pl.pollub.android.myapplication.ui.leki.LekiFragment;
-import pl.pollub.android.myapplication.ui.pomiary.PomiaryFragment;
-import pl.pollub.android.myapplication.ui.profil.ProfilFragment;
+import pl.pollub.android.myapplication.ui.measurements.MeasurementsFragment;
+import pl.pollub.android.myapplication.ui.diet.DietFragment;
+import pl.pollub.android.myapplication.ui.medications.MedicationsFragment;
+import pl.pollub.android.myapplication.ui.profile.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,21 +24,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        replaceFragment(new PomiaryFragment());
+        replaceFragment(new MeasurementsFragment());
         binding.bottomNavigationView.setBackground(null);
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.navigation_pomiary) {
-                replaceFragment(new PomiaryFragment());
+                replaceFragment(new MeasurementsFragment());
                 binding.fab.show();
             } else if (itemId == R.id.navigation_leki) {
-                replaceFragment(new LekiFragment());
+                replaceFragment(new MedicationsFragment());
                 binding.fab.show();
             } else if (itemId == R.id.navigation_dieta) {
-                replaceFragment(new DietaFragment());
+                replaceFragment(new DietFragment());
                 binding.fab.show();
             } else if (itemId == R.id.navigation_profil) {
-                replaceFragment(new ProfilFragment());
+                replaceFragment(new ProfileFragment());
                 binding.fab.hide();
             }
             return true;
@@ -64,18 +57,18 @@ public class MainActivity extends AppCompatActivity {
     // Metoda do obsługi FAB w zależności od aktualnie wybranego fragmentu
     private void handleFabClick() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
-        if (currentFragment instanceof PomiaryFragment) {
+        if (currentFragment instanceof MeasurementsFragment) {
             // Obsługa dodawania pomiarów INR i ciśnienia
-            ((PomiaryFragment) currentFragment).handleFabClick();
-        } else if (currentFragment instanceof LekiFragment) {
+            ((MeasurementsFragment) currentFragment).handleFabClick();
+        } else if (currentFragment instanceof MedicationsFragment) {
             // Obsługa dodawania leków i objawów
-            //((LekiFragment) currentFragment).showAddDialog();
-        } else if (currentFragment instanceof DietaFragment) {
+            //((MedicationsFragment) currentFragment).showAddDialog();
+        } else if (currentFragment instanceof DietFragment) {
             // Obsługa dodawania składników żywieniowych i używek
-            // Dodaj obsługę dla DietaFragment
-        } else if (currentFragment instanceof ProfilFragment) {
+            // Dodaj obsługę dla DietFragment
+        } else if (currentFragment instanceof ProfileFragment) {
             // Obsługa dodawania informacji do profilu
-            // Dodaj obsługę dla ProfilFragment
+            // Dodaj obsługę dla ProfileFragment
 
         }
     }

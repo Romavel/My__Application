@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.pomiary.PomiaryFragment">
+    tools:context=".ui.measurements.MeasurementsFragment">
 
     <TextView
         android:id="@+id/text_measurements"
@@ -37,6 +37,6 @@
             android:layout_height="200dp" />
     </LinearLayout>
 
-    <!-- Dodaj inne widoki dla PomiaryFragment według potrzeb -->
+    <!-- Dodaj inne widoki dla MeasurementsFragment według potrzeb -->
 
 </FrameLayout>
