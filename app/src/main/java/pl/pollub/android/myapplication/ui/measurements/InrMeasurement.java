@@ -2,7 +2,9 @@ package pl.pollub.android.myapplication.ui.measurements;
 
 import com.google.firebase.Timestamp;
 
-public class InrMeasurement {
+import java.io.Serializable;
+
+public class InrMeasurement implements Serializable {
     private double value;
     private String document_id;
     private Timestamp time;
@@ -39,5 +41,6 @@ public class InrMeasurement {
     public void setTime(Timestamp time) {
         this.time = time;
     }
+
 }
 

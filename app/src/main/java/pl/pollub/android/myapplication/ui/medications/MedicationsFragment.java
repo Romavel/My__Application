@@ -38,7 +38,7 @@ public class MedicationsFragment extends Fragment {
         medicationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
-
+    /*
     private void showAddDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Dodaj lek");
@@ -107,7 +107,7 @@ public class MedicationsFragment extends Fragment {
 
         // Wyświetl dialog
         builder.create().show();
-    }
+    }*/
 
 
     @Override

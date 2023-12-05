@@ -63,27 +63,6 @@ public class MeasurementsFragment extends Fragment {
         showMeasurementOptions();
     }
 
-    private void showInrMeasurementList() {
-        // Otwórz nowy fragment z listą pomiarów INR
-        FragmentManager fragmentManager = getParentFragmentManager();
-        InrMeasurementListFragment inrListFragment = new InrMeasurementListFragment();
-        fragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, inrListFragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    private void showPressureMeasurementList() {
-        // Otwórz nowy fragment z listą pomiarów ciśnienia
-        FragmentManager fragmentManager = getParentFragmentManager();
-        PressureMeasurementListFragment pressureListFragment = new PressureMeasurementListFragment();
-        fragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, pressureListFragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-
     // Dodaj metodę do obsługi kliknięcia FAB
     private void showMeasurementOptions() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
@@ -114,19 +93,35 @@ public class MeasurementsFragment extends Fragment {
                         });
         builder.create().show();
     }
-
     // Dodaj metodę do obsługi wyświetlania dialogu pomiaru INR
-    private void showInrMeasurementDialog() {
+    public void showInrMeasurementDialog() {
         FragmentManager fragmentManager = getParentFragmentManager();
         InrMeasurementDialogFragment inrDialogFragment = new InrMeasurementDialogFragment();
         inrDialogFragment.show(fragmentManager, "InrMeasurementDialog");
     }
-
     // Dodaj metodę do obsługi wyświetlania dialogu pomiaru ciśnienia
-    private void showPressureMeasurementDialog() {
+    public void showPressureMeasurementDialog() {
         FragmentManager fragmentManager = getParentFragmentManager();
         PressureMeasurementDialogFragment pressureDialogFragment = new PressureMeasurementDialogFragment();
         pressureDialogFragment.show(fragmentManager, "PressureMeasurementDialog");
+    }
+    public void showInrMeasurementList() {
+        // Otwórz nowy fragment z listą pomiarów INR
+        FragmentManager fragmentManager = getParentFragmentManager();
+        InrMeasurementListFragment inrListFragment = new InrMeasurementListFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, inrListFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+    public void showPressureMeasurementList() {
+        // Otwórz nowy fragment z listą pomiarów ciśnienia
+        FragmentManager fragmentManager = getParentFragmentManager();
+        PressureMeasurementListFragment pressureListFragment = new PressureMeasurementListFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, pressureListFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     // Dodaj metodę do pobierania najnowszych 5 pomiarów INR

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -118,7 +119,7 @@ public class InrMeasurementListFragment extends Fragment {
             }
             // Obsługa przesunięcia w prawo (edycja)
             else if (direction == ItemTouchHelper.RIGHT) {
-                //editInrMeasurement(position);
+                editInrMeasurement(position);
             }
         }
 
@@ -180,15 +181,38 @@ public class InrMeasurementListFragment extends Fragment {
     }
 
     // Metoda do edycji pomiaru (dostosuj do swoich potrzeb)
-    /*
+
     private void editInrMeasurement(int position) {
         // Pobierz dane pomiaru, który chcesz edytować
         InrMeasurement measurementToEdit = inrMeasurements.get(position);
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String measurementId = inrMeasurements.get(position).getDocument_id();
 
         // Otwórz nowy fragment do edycji, przekazując dane pomiaru
         FragmentManager fragmentManager = getParentFragmentManager();
         InrMeasurementEditFragment editFragment = InrMeasurementEditFragment.newInstance(measurementToEdit);
+        editFragment.setOnEditCompleteListener(new InrMeasurementEditFragment.OnEditCompleteListener() {
+            @Override
+            public void onEditComplete(InrMeasurement updatedMeasurement) {
+                FirebaseFirestore.getInstance()
+                        .collection("Users")
+                        .document(userId)
+                        .collection("INR_Measurements")
+                        .document(measurementId)
+                        .update("value", updatedMeasurement.getValue())
+                        .addOnSuccessListener(aVoid -> {
+                            // Zaktualizowano pomyślnie
+                            inrMeasurements.set(position, updatedMeasurement);
+                            adapter.notifyItemChanged(position);
+
+                            Log.d("MeasurementIdLog", "Zaktualizowano pomiar o id: " + measurementId);
+                        })
+                        .addOnFailureListener(e -> {
+                            Log.e("InrMeasurementList", "Błąd podczas aktualizacji pomiaru INR", e);
+                        });
+
+            }
+        });
         editFragment.show(fragmentManager, "EditInrMeasurement");
     }
-    */
 }

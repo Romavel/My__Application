@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_margin="20dp"
+android:id="@+id/dialogEditINR">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/dialogEditBox"
+    app:layout_constraintTop_toTopOf="parent"
+    android:background="@drawable/dialog_popup">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/INRTitle"
+        android:text="Edytuj pomiar INR"
+        android:padding="10dp"
+        android:textSize="17sp"
+        android:background="@drawable/blue_round"
+        android:textColor="@color/white"
+        android:drawableLeft="@drawable/ic_inr_measurement"
+        android:drawableTint="@color/white"
+        android:drawablePadding="8dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/descINR"
+        android:text="Zmień wartość swojego pomiaru INR:"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="20dp"
+        android:textSize="16sp"
+        android:textColor="@color/colorBlue"
+        app:layout_constraintTop_toBottomOf="@id/INRTitle"
+        app:layout_constraintBottom_toTopOf="@id/editTextValue"/>
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextValue"
+        android:textColor="@color/colorBlue"
+        android:textSize="16sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="30dp"
+        android:inputType="numberDecimal"
+        android:maxLines="1"
+        android:hint="Wartość INR"
+        android:backgroundTint="@color/colorBlue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/INRTitle"/>
+
+    <Button
+        android:backgroundTint="@color/colorBlue"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:id="@+id/buttonCancel"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        android:text="Anuluj"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:cornerRadius = "20dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextValue"
+        app:layout_constraintBottom_toBottomOf="@id/dialogEditBox"
+        app:layout_constraintEnd_toStartOf="@id/buttonSave"/>
+
+    <Button
+        android:backgroundTint="@color/colorBlue"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:id="@+id/buttonSave"
+        android:text="Dodaj"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:cornerRadius = "20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/dialogEditBox"
+        app:layout_constraintStart_toEndOf="@id/buttonCancel"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
