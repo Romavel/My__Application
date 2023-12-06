@@ -4,12 +4,12 @@
     <item
         android:id="@+id/navigation_measurements"
         android:icon="@drawable/ic_pomiary_24"
-        android:title="@string/title_pomiary" />
+        android:title="@string/title_measurements" />
 
     <item
         android:id="@+id/navigation_medications"
         android:icon="@drawable/ic_leki"
-        android:title="@string/title_leki" />
+        android:title="@string/title_medications" />
 
     <item
         android:title="" />
@@ -17,11 +17,11 @@
     <item
         android:id="@+id/navigation_diet"
         android:icon="@drawable/ic_dieta_24"
-        android:title="@string/title_dieta" />
+        android:title="@string/title_diet" />
 
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_profil_24"
-        android:title="@string/title_profil" />
+        android:title="@string/title_profile" />
 
 </menu>

@@ -7,26 +7,26 @@
 
     <fragment
         android:id="@+id/navigation_measurements"
-        android:name="pl.pollub.android.myapplication.ui.pomiary.PomiaryFragment"
-        android:label="@string/title_pomiary"
-        tools:layout="@layout/fragment_pomiary" />
+        android:name="pl.pollub.android.myapplication.ui.measurements.MeasurementsFragment"
+        android:label="@string/title_measurements"
+        tools:layout="@layout/fragment_measurements" />
 
     <fragment
         android:id="@+id/navigation_medications"
-        android:name="pl.pollub.android.myapplication.ui.leki.LekiFragment"
-        android:label="@string/title_leki"
-        tools:layout="@layout/fragment_leki" />
+        android:name="pl.pollub.android.myapplication.ui.medications.MedicationsFragment"
+        android:label="@string/title_medications"
+        tools:layout="@layout/fragment_medications" />
 
     <fragment
         android:id="@+id/navigation_diet"
-        android:name="pl.pollub.android.myapplication.ui.dieta.DietaFragment"
-        android:label="@string/title_dieta"
-        tools:layout="@layout/fragment_dieta" />
+        android:name="pl.pollub.android.myapplication.ui.diet.DietFragment"
+        android:label="@string/title_diet"
+        tools:layout="@layout/fragment_diet" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="pl.pollub.android.myapplication.ui.profil.ProfilFragment"
-        android:label="@string/title_profil"
-        tools:layout="@layout/fragment_profil" />
+        android:name="pl.pollub.android.myapplication.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>

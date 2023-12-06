@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Cardio Go!</string>
-    <string name="title_pomiary">Pomiary</string>
-    <string name="title_leki">Leki</string>
-    <string name="title_dieta">Dieta</string>
-    <string name="title_profil">Profil</string>
+    <string name="title_measurements">Pomiary</string>
+    <string name="title_medications">Leki</string>
+    <string name="title_diet">Dieta</string>
+    <string name="title_profile">Profil</string>
 
     <string-array name="formy_leku_array">
         <item>Tabletka</item>

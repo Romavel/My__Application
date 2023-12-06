@@ -44,7 +44,7 @@ public class MeasurementsFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_measurements, container, false);
 
-        final TextView textView = root.findViewById(R.id.text_pomiary);
+        final TextView textView = root.findViewById(R.id.text_measurements);
         chartLayout = root.findViewById(R.id.chartLayout);
         barChart = root.findViewById(R.id.barChart);
 
