@@ -8,7 +8,7 @@
     tools:context=".ui.pomiary.PomiaryFragment">
 
     <TextView
-        android:id="@+id/text_pomiary"
+        android:id="@+id/text_measurements"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/text_pomiary">
+        app:layout_constraintTop_toBottomOf="@+id/text_measurements">
 
         <!-- Tutaj możesz umieścić dodatkowe elementy związane z wykresem, jeśli to konieczne -->
 
