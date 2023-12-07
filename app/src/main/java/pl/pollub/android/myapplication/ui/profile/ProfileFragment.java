@@ -29,7 +29,7 @@ public class ProfileFragment extends Fragment {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textProfil;
+        final TextView textView = binding.textProfile;
         profilViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         Button buttonLogout = binding.buttonLogout;

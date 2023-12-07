@@ -43,16 +43,16 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigationView.setBackground(null);
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
-            if (itemId == R.id.navigation_pomiary) {
+            if (itemId == R.id.navigation_measurements) {
                 replaceFragment(new MeasurementsFragment());
                 binding.fab.show();
-            } else if (itemId == R.id.navigation_leki) {
+            } else if (itemId == R.id.navigation_medications) {
                 replaceFragment(new MedicationsFragment());
                 binding.fab.show();
-            } else if (itemId == R.id.navigation_dieta) {
+            } else if (itemId == R.id.navigation_diet) {
                 replaceFragment(new DietFragment());
                 binding.fab.show();
-            } else if (itemId == R.id.navigation_profil) {
+            } else if (itemId == R.id.navigation_profile) {
                 replaceFragment(new ProfileFragment());
                 binding.fab.hide();
             }

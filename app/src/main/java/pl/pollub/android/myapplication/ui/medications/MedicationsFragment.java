@@ -34,7 +34,7 @@ public class MedicationsFragment extends Fragment {
         binding = FragmentMedicationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textLeki;
+        final TextView textView = binding.textMedications;
         medicationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
