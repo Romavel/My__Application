@@ -29,4 +29,8 @@ public class PasswordValidationTest {
     public void hasSpecialChar(){
         assertTrue(this.pv.hasSpecialChar());
     }
+    @Test
+    public void isPasswordValid(){
+        assertTrue(this.pv.isPasswordValid());
+    }
 }

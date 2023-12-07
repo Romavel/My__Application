@@ -20,4 +20,9 @@ public class PasswordValidation {
     public boolean hasSpecialChar() {
         return !password.matches("[A-Za-z0-9 ]*");
     }
+    public boolean isPasswordValid() {
+        // Tutaj umieść kod sprawdzający, czy hasło spełnia warunki
+        // Zwróć true, jeśli spełnia, false w przeciwnym razie
+        return isLengthValid() && hasUpperCaseLetter() && hasDigit() && hasSpecialChar();
+    }
 }
