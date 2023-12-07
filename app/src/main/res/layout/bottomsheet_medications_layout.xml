@@ -41,7 +41,7 @@
 
 
     <LinearLayout
-        android:id="@+id/layout_INR"
+        android:id="@+id/layout_Medications"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,13 +51,14 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_inr_measurement"/>
+            android:src="@drawable/ic_medications"
+            android:color="@color/colorBlue"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="Dodaj pomiar INR"
+            android:text="Dodaj lek"
             android:textColor="@color/colorBlue"
             android:layout_marginLeft="30dp"
             android:textSize="16sp"/>
@@ -65,7 +66,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_Blood_Pressure"
+        android:id="@+id/layout_Symptoms"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,12 +76,12 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_blood_pressure"/>
+            android:src="@drawable/ic_symptoms"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dodaj pomiar ciśnienia"
+            android:text="Dodaj objaw"
             android:textColor="@color/colorBlue"
             android:layout_marginLeft="30dp"
             android:textSize="16sp"/>
@@ -88,7 +89,30 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_INR_List"
+        android:id="@+id/layout_Medications_List"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_prescriptions"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lista leków"
+            android:textColor="@color/colorBlue"
+            android:layout_marginLeft="30dp"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_Symptoms_List"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -103,30 +127,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lista pomiarów INR"
-            android:textColor="@color/colorBlue"
-            android:layout_marginLeft="30dp"
-            android:textSize="16sp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_Blood_Pressure_List"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
-
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_assignment"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lista pomiarów ciśnienia"
+            android:text="Lista objawów"
             android:textColor="@color/colorBlue"
             android:layout_marginLeft="30dp"
             android:textSize="16sp"/>

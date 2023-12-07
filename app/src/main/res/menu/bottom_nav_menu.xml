@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/navigation_measurements"
-        android:icon="@drawable/ic_pomiary_24"
+        android:icon="@drawable/ic_measurements_24"
         android:title="@string/title_measurements" />
 
     <item
         android:id="@+id/navigation_medications"
-        android:icon="@drawable/ic_leki"
+        android:icon="@drawable/ic_medications"
         android:title="@string/title_medications" />
 
     <item
@@ -16,12 +16,12 @@
 
     <item
         android:id="@+id/navigation_diet"
-        android:icon="@drawable/ic_dieta_24"
+        android:icon="@drawable/ic_diet_24"
         android:title="@string/title_diet" />
 
     <item
         android:id="@+id/navigation_profile"
-        android:icon="@drawable/ic_profil_24"
+        android:icon="@drawable/ic_profil3_24"
         android:title="@string/title_profile" />
 
 </menu>

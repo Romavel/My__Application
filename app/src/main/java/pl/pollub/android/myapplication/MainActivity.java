@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
             showMeasurementsBottomDialog();
         } else if (currentFragment instanceof MedicationsFragment) {
             // Obsługa dodawania leków i objawów
+
             //((MedicationsFragment) currentFragment).showAddDialog();
         } else if (currentFragment instanceof DietFragment) {
             // Obsługa dodawania składników żywieniowych i używek
@@ -154,6 +155,66 @@ public class MainActivity extends AppCompatActivity {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
+    private void showMedicationsBottomDialog() {
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottomsheet_medications_layout);
+
+        LinearLayout medicationsLayout = dialog.findViewById(R.id.layout_Medications);
+        LinearLayout symptomsLayout = dialog.findViewById(R.id.layout_Symptoms);
+        LinearLayout medidactionsList = dialog.findViewById(R.id.layout_Medications_List);
+        LinearLayout symptomsListList = dialog.findViewById(R.id.layout_Symptoms_List);
+        ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
+        medicationsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Wywołaj metodę handleMedicationDialog() w MedicationsFragment
+                handleMedicationDialog();
+                dialog.dismiss();
+            }
+        });
+
+        symptomsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Wywołaj metodę showPressureMeasurementDialog() w MedicationsFragment
+                handleSymptomDialog();
+                dialog.dismiss();
+            }
+        });
+
+        medidactionsList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Wywołaj metodę showInrMeasurementList() w MedicationsFragment
+                handleInrMeasurementList();
+                dialog.dismiss();
+            }
+        });
+
+        symptomsListList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Wywołaj metodę handleSymptomsList() w MedicationsFragment
+                handleSymptomsList();
+                dialog.dismiss();
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
+
     // Metody do obsługi akcji w MeasurementsFragment
     private void handleInrMeasurementDialog() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
@@ -182,5 +243,39 @@ public class MainActivity extends AppCompatActivity {
             ((MeasurementsFragment) currentFragment).showPressureMeasurementList();
         }
     }
+
+
+
+    // Metody do obsługi akcji w MedicationsFragment
+    private void handleMedicationDialog() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+        if (currentFragment instanceof MeasurementsFragment) {
+            ((MeasurementsFragment) currentFragment).showInrMeasurementDialog();
+        }
+    }
+
+    private void handleSymptomDialog() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+        if (currentFragment instanceof MeasurementsFragment) {
+            ((MeasurementsFragment) currentFragment).showPressureMeasurementDialog();
+        }
+    }
+
+    private void handleMedicationsList() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+        if (currentFragment instanceof MeasurementsFragment) {
+            ((MeasurementsFragment) currentFragment).showInrMeasurementList();
+        }
+    }
+
+    private void handleSymptomsList() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+        if (currentFragment instanceof MeasurementsFragment) {
+            ((MeasurementsFragment) currentFragment).showPressureMeasurementList();
+        }
+    }
+
+
+
 }
 
