@@ -66,10 +66,36 @@ public class RegisterActivity extends AppCompatActivity {
         buttonRegister = findViewById(R.id.buttonRegister);
         textViewPasswordConditions = findViewById(R.id.textViewPasswordConditions);
 
+
+        // Ustaw nasłuchiwanie na zmiany w polu hasła
+        editTextPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Niepotrzebna implementacja
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Niepotrzebna implementacja
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Wywołaj validatePassword za każdym razem, gdy zmieni się zawartość pola hasła
+                validatePassword(editable.toString());
+            }
+        });
+
+
+
         // Ustaw nasłuchiwanie na przycisk rejestracji
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String password = editTextPassword.getText().toString();
+                if (!isPasswordValid(password)) {
+                    return; // Jeśli hasło nie spełnia warunków, przerwij rejestrację
+                }
                 registerUser();
             }
         });
@@ -183,6 +209,9 @@ public class RegisterActivity extends AppCompatActivity {
                                             Log.d("RegisterActivity", "Pomyślnie zarejestrowano użytkownika");
                                             Toast.makeText(RegisterActivity.this, "Rejestracja udana", Toast.LENGTH_SHORT).show();
                                             finish();
+
+                                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                            startActivity(intent);
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -204,38 +233,67 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    private void validatePassword(String password) {
-        boolean isUpperCase = !password.equals(password.toLowerCase());
-        boolean hasDigit = password.matches(".*\\d.*");
-        boolean hasSpecialChar = !password.matches("[A-Za-z0-9 ]*");
-
+    public void validatePassword(String password) {
         String errorText = "";
 
-        if (password.length() < 8) {
+        if (!isLengthValid(password)) {
             errorText += "Co najmniej 8 znaków.\n";
         }
 
-        if (!isUpperCase) {
+        if (!hasUpperCaseLetter(password)) {
             errorText += "Przynajmniej 1 wielka litera.\n";
         }
 
-        if (!hasDigit) {
+        if (!hasDigit(password)) {
             errorText += "Przynajmniej 1 cyfra.\n";
         }
 
-        if (!hasSpecialChar) {
+        if (!hasSpecialChar(password)) {
             errorText += "Przynajmniej 1 znak specjalny.\n";
         }
 
+        displayResult(errorText);
+    }
+
+    // Dodaj nową metodę sprawdzającą, czy hasło spełnia warunki
+    private boolean isPasswordValid(String password) {
+        // Tutaj umieść kod sprawdzający, czy hasło spełnia warunki
+        // Zwróć true, jeśli spełnia, false w przeciwnym razie
+        return isLengthValid(password) && hasUpperCaseLetter(password) && hasDigit(password) && hasSpecialChar(password);
+    }
+
+    private boolean isLengthValid(String password) {
+        return password.length() >= 8;
+    }
+
+    private boolean hasUpperCaseLetter(String password) {
+        return !password.equals(password.toLowerCase());
+    }
+
+    private boolean hasDigit(String password) {
+        return password.matches(".*\\d.*");
+    }
+
+    private boolean hasSpecialChar(String password) {
+        return !password.matches("[A-Za-z0-9 ]*");
+    }
+
+    private void displayResult(String errorText) {
         if (errorText.isEmpty()) {
-            // Wszystkie warunki spełnione, zmień kolor tekstu na zielony
-            textViewPasswordConditions.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
-            textViewPasswordConditions.setText("Warunki hasła spełnione");
+            displaySuccess();
         } else {
-            // Warunki nie spełnione, zmień kolor tekstu na czerwony
-            textViewPasswordConditions.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-            textViewPasswordConditions.setText(errorText.trim());
+            displayFailure(errorText);
         }
+    }
+
+    private void displaySuccess() {
+        textViewPasswordConditions.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+        textViewPasswordConditions.setText("Warunki hasła spełnione");
+    }
+
+    private void displayFailure(String errorText) {
+        textViewPasswordConditions.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+        textViewPasswordConditions.setText(errorText.trim());
     }
 
 }
