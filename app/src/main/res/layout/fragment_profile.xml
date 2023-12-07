@@ -6,9 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/text_profil"
+        android:id="@+id/text_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -27,10 +30,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Wyloguj się"
-        app:layout_constraintTop_toBottomOf="@id/text_profil"
+        app:layout_constraintTop_toBottomOf="@id/text_profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <!-- Dodaj inne widoki dla ProfileFragment według potrzeb -->
 </FrameLayout>
