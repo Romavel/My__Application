@@ -5,10 +5,16 @@
       <entry key="EditINRMeasurementTest">
         <State />
       </entry>
+      <entry key="INRMethodTest">
+        <State />
+      </entry>
       <entry key="LoginActivityTest">
         <State />
       </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="forgotPasswordCase()">
         <State />
       </entry>
     </value>
