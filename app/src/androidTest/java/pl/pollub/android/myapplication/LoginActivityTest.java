@@ -188,4 +188,47 @@ public class LoginActivityTest {
         Espresso.onView(ViewMatchers.withId(R.id.recyclerView))
                 .check(ViewAssertions.matches(hasDescendant(withText("3.2"))));
     }
+
+    @Test
+    public void forgotPasswordCase() {
+        // Wprowadź dane do pól email i hasło, a następnie kliknij przycisk logowania
+        Espresso.onView(ViewMatchers.withId(R.id.forgot_password)).perform(ViewActions.click());
+
+        // Odczekaj 3 sekundy, aby poczekać na przejście do kolejnego widoku (opcjonalne)
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Sprawdź, czy użytkownik został pomyślnie zalogowany i widok MeasurementsFragment jest wyświetlany
+        Espresso.onView(ViewMatchers.withId(R.id.dialogBox))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Kliknij przycisk fab
+        Espresso.onView(ViewMatchers.withId(R.id.emailBox)).perform(ViewActions.typeText(EMAIL));
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Wybierz opcję "Lista pomiarów INR"
+        Espresso.onView(ViewMatchers.withId(R.id.btnReset)).perform(ViewActions.click());
+
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Espresso.onView(ViewMatchers.withId(R.id.login_fragment_container))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
 }
