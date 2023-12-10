@@ -47,6 +47,9 @@ public class RegisterActivity extends AppCompatActivity {
     private Button buttonRegister;
     private Button buttonCancel;
 
+    private PasswordValidation passwordValidation;
+
+
 
     private TextView textViewPasswordConditions;
 
@@ -58,12 +61,15 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_register);
 
+        passwordValidation = new PasswordValidation();
+
         // Inicjalizuj pola
         editTextUsername = findViewById(R.id.editTextUsername);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
         buttonRegister = findViewById(R.id.buttonRegister);
+        buttonCancel = findViewById(R.id.buttonRegister);
         textViewPasswordConditions = findViewById(R.id.textViewPasswordConditions);
 
 
@@ -93,7 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String password = editTextPassword.getText().toString();
-                if (!isPasswordValid(password)) {
+                if (!passwordValidation.isPasswordValid(password)) {
                     return; // Jeśli hasło nie spełnia warunków, przerwij rejestrację
                 }
                 registerUser();
@@ -236,19 +242,19 @@ public class RegisterActivity extends AppCompatActivity {
     public void validatePassword(String password) {
         String errorText = "";
 
-        if (!isLengthValid(password)) {
+        if (!passwordValidation.isLengthValid(password)) {
             errorText += "Co najmniej 8 znaków.\n";
         }
 
-        if (!hasUpperCaseLetter(password)) {
+        if (!passwordValidation.hasUpperCaseLetter(password)) {
             errorText += "Przynajmniej 1 wielka litera.\n";
         }
 
-        if (!hasDigit(password)) {
+        if (!passwordValidation.hasDigit(password)) {
             errorText += "Przynajmniej 1 cyfra.\n";
         }
 
-        if (!hasSpecialChar(password)) {
+        if (!passwordValidation.hasSpecialChar(password)) {
             errorText += "Przynajmniej 1 znak specjalny.\n";
         }
 
@@ -256,27 +262,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // Dodaj nową metodę sprawdzającą, czy hasło spełnia warunki
-    private boolean isPasswordValid(String password) {
-        // Tutaj umieść kod sprawdzający, czy hasło spełnia warunki
-        // Zwróć true, jeśli spełnia, false w przeciwnym razie
-        return isLengthValid(password) && hasUpperCaseLetter(password) && hasDigit(password) && hasSpecialChar(password);
-    }
 
-    private boolean isLengthValid(String password) {
-        return password.length() >= 8;
-    }
-
-    private boolean hasUpperCaseLetter(String password) {
-        return !password.equals(password.toLowerCase());
-    }
-
-    private boolean hasDigit(String password) {
-        return password.matches(".*\\d.*");
-    }
-
-    private boolean hasSpecialChar(String password) {
-        return !password.matches("[A-Za-z0-9 ]*");
-    }
 
     private void displayResult(String errorText) {
         if (errorText.isEmpty()) {
