@@ -59,36 +59,61 @@ public class PressureMeasurementDialogFragment extends DialogFragment {
                     return;
                 }
 
-                // Pobierz identyfikator zalogowanego użytkownika
-                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                // Zabezpieczenie przed NumberFormatException
+                try {
+                    // Pobierz identyfikator zalogowanego użytkownika
+                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                // Utwórz nowy pomiar ciśnienia
-                PressureMeasurement pressureMeasurement = new PressureMeasurement();
-                pressureMeasurement.setSystolic_pressure(Integer.parseInt(systolic_pressure));
-                pressureMeasurement.setDiastolic_pressure(Integer.parseInt(diastolic_pressure));
-                pressureMeasurement.setPulse(Integer.parseInt(pulse));
-                pressureMeasurement.setTime(Timestamp.now());
+                    // Utwórz nowy pomiar ciśnienia
+                    PressureMeasurement pressureMeasurement = new PressureMeasurement();
+                    pressureMeasurement.setSystolic_pressure(Integer.parseInt(systolic_pressure));
+                    pressureMeasurement.setDiastolic_pressure(Integer.parseInt(diastolic_pressure));
+                    pressureMeasurement.setPulse(Integer.parseInt(pulse));
+                    pressureMeasurement.setTime(Timestamp.now());
 
-                // Dodaj pomiar do kolekcji BloodPressureMeasurements w dokumencie zalogowanego użytkownika
-                Task<DocumentReference> documentReferenceTask = FirebaseFirestore.getInstance().collection("Users")
-                        .document(userId)
-                        .collection("BloodPressureMeasurements")
-                        .add(pressureMeasurement)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d("PressureMeasurementDialog", "Pomiar ciśnienia dodany do Firestore: " + documentReference.getId());
-                                dismiss(); // Zamknij okno dialogowe po dodaniu pomiaru
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.e("PressureMeasurementDialog", "Błąd podczas dodawania pomiaru ciśnienia do Firestore", e);
-                            }
-                        });
+                    // Dodaj pomiar do kolekcji BloodPressureMeasurements w dokumencie zalogowanego użytkownika
+                    Task<DocumentReference> documentReferenceTask = FirebaseFirestore.getInstance().collection("Users")
+                            .document(userId)
+                            .collection("BloodPressureMeasurements")
+                            .add(pressureMeasurement)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    pressureMeasurement.setDocument_id(documentReference.getId());
+
+                                    Log.d("PressureMeasurementDialog", "Pomiar ciśnienia dodany do Firestore: " + documentReference.getId());
+                                    dismiss(); // Zamknij okno dialogowe po dodaniu pomiaru
+
+                                    // Zapisz zaktualizowany pomiar z identyfikatorem dokumentu
+                                    documentReference.set(pressureMeasurement)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d("InrMeasurementDialog", "Identyfikator dokumentu zaktualizowany w bazie Firestore");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.e("InrMeasurementDialog", "Błąd podczas aktualizowania identyfikatora dokumentu w bazie Firestore", e);
+                                                }
+                                            });
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e("PressureMeasurementDialog", "Błąd podczas dodawania pomiaru ciśnienia do Firestore", e);
+                                }
+                            });
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    // Obsłuż błąd parsowania, na przykład poprzez wyświetlenie komunikatu użytkownikowi
+                    Toast.makeText(requireContext(), "Błąd parsowania wartości. Upewnij się, że wprowadzone dane są liczbami całkowitymi.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
 
         return view;
     }

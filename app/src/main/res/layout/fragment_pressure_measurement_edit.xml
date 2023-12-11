@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:padding="0dp"
+    android:id="@+id/dialogEditPressure">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dialogBoxEditPressure"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/dialog_popup"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:id="@+id/pressureEditTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blue_round"
+            android:drawableLeft="@drawable/ic_blood_pressure"
+            android:drawablePadding="8dp"
+            android:drawableTint="@color/white"
+            android:padding="10dp"
+            android:text="Edytuj pomiar Ciśnienia"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/descEditPressure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:paddingStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:text="Edytuj wartość swojego pomiaru ciśnienia:"
+            android:textColor="@color/colorBlue"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toTopOf="@id/pressureSystolicEditBox"
+            app:layout_constraintTop_toBottomOf="@id/pressureEditTitle" />
+
+        <EditText
+            android:id="@+id/pressureSystolicEditBox"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="0dp"
+            android:backgroundTint="@color/colorBlue"
+            android:hint="Ciśnienie skurczowe"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:textColor="@color/colorBlue"
+            android:textColorHint="@color/colorGray"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/pressureDiastolicEditBox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pressureEditTitle" />
+
+        <EditText
+            android:id="@+id/pressureDiastolicEditBox"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="0dp"
+            android:backgroundTint="@color/colorBlue"
+            android:hint="Ciśnienie rozkurczowe"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:textColor="@color/colorBlue"
+            android:textColorHint="@color/colorGray"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/pulseEditBox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pressureSystolicEditBox" />
+
+        <EditText
+            android:id="@+id/pulseEditBox"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="50dp"
+            android:backgroundTint="@color/colorBlue"
+            android:hint="Puls"
+            android:inputType="number"
+            android:maxLines="1"
+            android:textColor="@color/colorBlue"
+            android:textColorHint="@color/colorGray"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pressureDiastolicEditBox" />
+
+        <Button
+            android:id="@+id/buttonCancelEditPressure"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/colorBlue"
+            android:text="Anuluj"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:cornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/dialogBoxEditPressure"
+            app:layout_constraintEnd_toStartOf="@id/buttonSaveEditPressure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pulseEditBox" />
+
+        <Button
+            android:id="@+id/buttonSaveEditPressure"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/colorBlue"
+            android:text="Zmień"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:cornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/dialogBoxEditPressure"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/buttonCancelEditPressure"
+            app:layout_constraintTop_toBottomOf="@id/pulseEditBox" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -15,6 +15,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -58,7 +59,7 @@ public class InrMeasurementDialogFragment extends DialogFragment {
                 inrMeasurement.setTime(Timestamp.now());
 
                 // Dodaj pomiar do kolekcji INR_Measurements w dokumencie zalogowanego użytkownika
-                FirebaseFirestore.getInstance().collection("Users")
+                Task<DocumentReference> documentReferenceTask = FirebaseFirestore.getInstance().collection("Users")
                         .document(userId)
                         .collection("INR_Measurements")
                         .add(inrMeasurement)
