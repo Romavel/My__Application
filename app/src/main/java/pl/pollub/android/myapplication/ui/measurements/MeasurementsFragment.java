@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -35,6 +36,7 @@ public class MeasurementsFragment extends Fragment {
     private MeasurementsViewModel measurementsViewModel;
     private LinearLayout chartLayout;
     private BarChart barChart;
+    private LineChart lineChart;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -47,12 +49,17 @@ public class MeasurementsFragment extends Fragment {
         final TextView textView = root.findViewById(R.id.text_measurements);
         chartLayout = root.findViewById(R.id.chartLayout);
         barChart = root.findViewById(R.id.barChart);
+        lineChart = root.findViewById(R.id.lineChart);
 
 
         //final TextView textView = root.findViewById(R.id.text_pomiary);
 
         // Wywołaj metodę do pobierania i rysowania wykresu
         getLatestInrMeasurements();
+
+        // Wywołaj metodę do pobierania i rysowania wykresu
+        getLatestPressureMeasurements();
+
 
         return root;
     }
@@ -149,6 +156,53 @@ public class MeasurementsFragment extends Fragment {
                 .addOnFailureListener(e -> {
                     Log.e("MeasurementsFragment", "Błąd podczas pobierania pomiarów INR", e);
                 });
+    }
+
+    // Metoda do pobierania najnowszych 5 pomiarów ciśnienia
+    private void getLatestPressureMeasurements() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseFirestore.getInstance()
+                .collection("Users")
+                .document(userId)
+                .collection("BloodPressureMeasurements")
+                .orderBy("time", Query.Direction.DESCENDING)
+                .limit(5)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Integer> systolicValues = new ArrayList<>();
+                    List<Integer> diastolicValues = new ArrayList<>();
+                    List<Integer> pulseValues = new ArrayList<>();
+                    List<String> dates = new ArrayList<>();
+
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        PressureMeasurement measurement = document.toObject(PressureMeasurement.class);
+                        systolicValues.add(measurement.getSystolic_pressure());
+                        diastolicValues.add(measurement.getDiastolic_pressure());
+                        pulseValues.add(measurement.getPulse());
+                        dates.add(formatDateWithoutTime(measurement.getTime().toDate()));
+                    }
+
+                    Log.d("MeasurementsFragment", "systolicValues: " + systolicValues.toString());
+                    Log.d("MeasurementsFragment", "diastolicValues: " + diastolicValues.toString());
+                    Log.d("MeasurementsFragment", "pulseValues: " + pulseValues.toString());
+
+                    // Wywołaj metodę rysującą wykres ciśnienia
+                    drawPressureChart(systolicValues, diastolicValues, pulseValues, dates);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("MeasurementsFragment", "Błąd podczas pobierania pomiarów ciśnienia", e);
+                });
+    }
+
+
+    // Metoda do rysowania wykresu ciśnienia
+    private void drawPressureChart(List<Integer> systolicValues, List<Integer> diastolicValues, List<Integer> pulseValues, List<String> dates) {
+        Log.d("LineChartHelper", "systolicValues: " + systolicValues.toString());
+        Log.d("LineChartHelper", "diastolicValues: " + diastolicValues.toString());
+        Log.d("LineChartHelper", "pulseValues: " + pulseValues.toString());
+        LineChartHelper lineChartHelper = new LineChartHelper(lineChart);
+        lineChartHelper.displayLineChart(systolicValues, diastolicValues, pulseValues, dates, requireContext());
     }
 
     // Metoda do rysowania wykresu INR

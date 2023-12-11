@@ -29,10 +29,30 @@
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/text_measurements">
 
-        <!-- Tutaj możesz umieścić dodatkowe elementy związane z wykresem, jeśli to konieczne -->
-
+        <!-- Wykres Słupkowy (BarChart) -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wykres INR"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barChart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <!-- Wykres Liniowy (LineChart) -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wykres Ciśnienia"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"/>
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
     </LinearLayout>

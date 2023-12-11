@@ -11,6 +11,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BarChartHelper {
@@ -22,7 +23,15 @@ public class BarChartHelper {
     }
 
     public void displayBarChart(List<Float> values, List<String> dates) {
-        BarDataSet barDataSet = new BarDataSet(getData(values), "Wartości INR");
+        // Odwróć listy dat
+        List<String> reversedDates = new ArrayList<>(dates);
+        Collections.reverse(reversedDates);
+
+        // Odwróć listę wartości
+        List<Float> reversedValues = new ArrayList<>(values);
+        Collections.reverse(reversedValues);
+
+        BarDataSet barDataSet = new BarDataSet(getData(reversedValues), "Wartości INR");
         barDataSet.setColors(new int[]{android.R.color.holo_blue_light}, ContextCompat.getColor(barChart.getContext(), android.R.color.holo_blue_light));
         barDataSet.setValueTextColor(ContextCompat.getColor(barChart.getContext(), android.R.color.black));
         barDataSet.setValueTextSize(10f);
@@ -39,8 +48,8 @@ public class BarChartHelper {
             public String getAxisLabel(float value, AxisBase axis) {
                 // Sprawdź, czy indeks jest w granicach listy dat
                 int index = (int) value;
-                if (index >= 0 && index < dates.size()) {
-                    return dates.get(index);
+                if (index >= 0 && index < reversedDates.size()) {
+                    return reversedDates.get(index);
                 } else {
                     return "";
                 }
