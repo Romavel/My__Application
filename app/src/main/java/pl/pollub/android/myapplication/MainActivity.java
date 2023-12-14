@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             showMeasurementsBottomDialog();
         } else if (currentFragment instanceof MedicationsFragment) {
             // Obsługa dodawania leków i objawów
-
+            showMedicationsBottomDialog();
             //((MedicationsFragment) currentFragment).showAddDialog();
         } else if (currentFragment instanceof DietFragment) {
             // Obsługa dodawania składników żywieniowych i używek
@@ -249,8 +249,8 @@ public class MainActivity extends AppCompatActivity {
     // Metody do obsługi akcji w MedicationsFragment
     private void handleMedicationDialog() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
-        if (currentFragment instanceof MeasurementsFragment) {
-            ((MeasurementsFragment) currentFragment).showInrMeasurementDialog();
+        if (currentFragment instanceof MedicationsFragment) {
+            ((MedicationsFragment) currentFragment).showMedicationDialog();
         }
     }
 

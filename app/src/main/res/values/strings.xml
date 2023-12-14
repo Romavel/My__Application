@@ -5,14 +5,14 @@
     <string name="title_diet">Dieta</string>
     <string name="title_profile">Profil</string>
 
-    <string-array name="formy_leku_array">
+    <string-array name="medication_form_array">
         <item>Tabletka</item>
         <item>Syrop</item>
         <item>Zastrzyk</item>
         <item>Inne</item>
     </string-array>
 
-    <string-array name="dni_tygodnia_array">
+    <string-array name="days_of_week_array">
         <item>Poniedziałek</item>
         <item>Wtorek</item>
         <item>Środa</item>
@@ -22,18 +22,7 @@
         <item>Niedziela</item>
     </string-array>
 
-    <string-array name="razy_dziennie_array">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-    </string-array>
+
 
     <string-array name="countries_array">
         <item>Australia</item>
@@ -43,6 +32,10 @@
         <item>United Kingdom</item>
         <item>United States</item>
         <!-- Dodaj inne kraje, jeśli są potrzebne -->
+    </string-array>
+    <string-array name="unit_array">
+        <item>mg</item>
+        <item>ml</item>
     </string-array>
     <string name="default_web_client_id">363463467060-tbcumt7vlo56kibts0becvgn812gu2ld.apps.googleusercontent.com</string>
     <!-- TODO: Remove or change this placeholder text -->

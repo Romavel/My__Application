@@ -64,42 +64,6 @@ public class MeasurementsFragment extends Fragment {
         return root;
     }
 
-    // Przenieś kod obsługi FAB do publicznej metody
-    public void handleFabClick() {
-        // Obsługa kliknięcia FAB w zależności od aktualnie wybranego fragmentu
-        showMeasurementOptions();
-    }
-
-    // Dodaj metodę do obsługi kliknięcia FAB
-    private void showMeasurementOptions() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Wybierz opcję")
-                .setItems(new CharSequence[]{"Dodaj pomiar INR", "Dodaj pomiar ciśnienia", "Lista pomiarów INR", "Lista pomiarów ciśnienia"},
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Obsługa wybranej opcji
-                                switch (which) {
-                                    case 0:
-                                        // Dodaj pomiar INR
-                                        showInrMeasurementDialog();
-                                        break;
-                                    case 1:
-                                        // Dodaj pomiar ciśnienia
-                                        showPressureMeasurementDialog();
-                                        break;
-                                    case 2:
-                                        // Lista pomiarów INR
-                                        showInrMeasurementList();
-                                        break;
-                                    case 3:
-                                        // Lista pomiarów ciśnienia
-                                        showPressureMeasurementList();
-                                        break;
-                                }
-                            }
-                        });
-        builder.create().show();
-    }
     // Dodaj metodę do obsługi wyświetlania dialogu pomiaru INR
     public void showInrMeasurementDialog() {
         FragmentManager fragmentManager = getParentFragmentManager();

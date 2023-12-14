@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Arrays;
@@ -20,6 +21,10 @@ import java.util.List;
 
 import pl.pollub.android.myapplication.R;
 import pl.pollub.android.myapplication.databinding.FragmentMedicationsBinding;
+import pl.pollub.android.myapplication.ui.measurements.InrMeasurementDialogFragment;
+import pl.pollub.android.myapplication.ui.measurements.InrMeasurementListFragment;
+import pl.pollub.android.myapplication.ui.measurements.PressureMeasurementDialogFragment;
+import pl.pollub.android.myapplication.ui.measurements.PressureMeasurementListFragment;
 
 public class MedicationsFragment extends Fragment {
 
@@ -38,76 +43,36 @@ public class MedicationsFragment extends Fragment {
         medicationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
-    /*
-    private void showAddDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Dodaj lek");
-
-        // Inicjalizuj widok dialogu z layoutu
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_medication, null);
-        builder.setView(dialogView);
-
-        // Inicjalizuj elementy interfejsu użytkownika
-        EditText nazwaLekuEditText = dialogView.findViewById(R.id.editTextNazwaLeku);
-        Spinner formaLekuSpinner = dialogView.findViewById(R.id.spinnerFormaLeku);
-        Button jednostkaButton = dialogView.findViewById(R.id.buttonJednostka);
-        EditText dawkaEditText = dialogView.findViewById(R.id.editTextDawka);
-        Spinner razyDziennieSpinner = dialogView.findViewById(R.id.spinnerRazyDziennie);
-        MultiChoiceSpinner dniTygodniaSpinner = dialogView.findViewById(R.id.spinnerDniTygodnia);
-
-        // Inicjalizuj spinner z formami leku
-        ArrayAdapter<CharSequence> formaLekuAdapter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.formy_leku_array, android.R.layout.simple_spinner_item);
-        formaLekuAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        formaLekuSpinner.setAdapter(formaLekuAdapter);
-
-        // Ustawienie początkowej jednostki
-        String[] jednostki = {"mg", "ml"};
-        int[] currentIndex = {0};
-        jednostkaButton.setText(jednostki[currentIndex[0]]);
-        jednostkaButton.setOnClickListener(view -> {
-            currentIndex[0] = (currentIndex[0] + 1) % jednostki.length;
-            jednostkaButton.setText(jednostki[currentIndex[0]]);
-        });
-
-        // Inicjalizuj spinner z ilością razy dziennie
-        ArrayAdapter<CharSequence> razyDziennieAdapter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.razy_dziennie_array, android.R.layout.simple_spinner_item);
-        razyDziennieAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        razyDziennieSpinner.setAdapter(razyDziennieAdapter);
-
-        MultiChoiceSpinner multiChoiceSpinner = findViewById(R.id.spinnerDniTygodnia);
-
-    // Ustaw elementy Multiple Choice Spinner
-        List<String> items = Arrays.asList("Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela");
-        multiChoiceSpinner.setItems(items);
-
-
-        // Dodaj przycisk "Dodaj" do dialogu
-        builder.setPositiveButton("Dodaj", (dialog, which) -> {
-            // Tutaj dodaj kod do obsługi dodania leku na podstawie wprowadzonych danych
-            // np. pobierz wartości z EditText, Spinner, itp.
-            // i przekształć je na obiekt Lek do zapisania w bazie danych lub innego odpowiedniego miejsca
-            String nazwaLeku = nazwaLekuEditText.getText().toString();
-            String formaLeku = formaLekuSpinner.getSelectedItem().toString();
-            String jednostka = jednostki[currentIndex[0]];
-            String dawka = dawkaEditText.getText().toString();
-            int razyDziennie = Integer.parseInt(razyDziennieSpinner.getSelectedItem().toString());
-            List<String> dniTygodnia = dniTygodniaSpinner.getSelectedItems();
-
-            // Tutaj możesz użyć zebranych danych do utworzenia obiektu Lek i przekazania go dalej
-            // np. poprzez wywołanie metody w MedicationsViewModel lub innym miejscu, w zależności od architektury
-        });
-
-        // Dodaj przycisk "Anuluj" do dialogu
-        builder.setNegativeButton("Anuluj", (dialog, which) -> {
-            // Obsługa anulowania dodawania leku
-            dialog.dismiss();
-        });
-
-        // Wyświetl dialog
-        builder.create().show();
-    }*/
+    // Dodaj metodę do obsługi wyświetlania dialogu pomiaru INR
+    public void showMedicationDialog() {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        AddMedicationDialogFragment addMedicationDialogFragment = new AddMedicationDialogFragment();
+        addMedicationDialogFragment.show(fragmentManager, "AddMedicationDialogFragment");
+    }
+    // Dodaj metodę do obsługi wyświetlania dialogu pomiaru ciśnienia
+    public void showPressureMeasurementDialog() {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        PressureMeasurementDialogFragment pressureDialogFragment = new PressureMeasurementDialogFragment();
+        pressureDialogFragment.show(fragmentManager, "PressureMeasurementDialog");
+    }
+    public void showInrMeasurementList() {
+        // Otwórz nowy fragment z listą pomiarów INR
+        FragmentManager fragmentManager = getParentFragmentManager();
+        InrMeasurementListFragment inrListFragment = new InrMeasurementListFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, inrListFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+    public void showPressureMeasurementList() {
+        // Otwórz nowy fragment z listą pomiarów ciśnienia
+        FragmentManager fragmentManager = getParentFragmentManager();
+        PressureMeasurementListFragment pressureListFragment = new PressureMeasurementListFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, pressureListFragment)
+                .addToBackStack(null)
+                .commit();
+    }
 
 
     @Override
