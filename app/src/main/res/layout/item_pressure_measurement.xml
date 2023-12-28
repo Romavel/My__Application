@@ -13,56 +13,124 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:id="@+id/listImage"
-            android:src="@drawable/ic_blood_pressure"
-            android:scaleType="centerCrop"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"/>
 
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:id="@+id/systolicTextView"
-            android:text="Wartość"
-            android:textColor="@color/colorBlue"
-            android:textSize="20sp"
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/listImage"/>
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:id="@+id/diastolicTextView"
-            android:text="Wartość"
-            android:textColor="@color/colorBlue"
-            android:textSize="20sp"
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/systolicTextView"/>
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:id="@+id/pulseTextView"
-            android:text="Wartość"
-            android:textColor="@color/colorBlue"
-            android:textSize="20sp"
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/diastolicTextView"/>
-        <TextView
-            android:layout_width="120dp"
-            android:layout_height="30dp"
-            android:id="@+id/dateTextView"
-            android:text="Data"
-            android:textSize="20sp"
-            android:layout_toEndOf="@id/pulseTextView"
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="10dp"
-            android:textColor="@color/colorBlue"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:id="@+id/listImage"
+                android:src="@drawable/ic_blood_pressure"
+                android:scaleType="centerCrop"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"/>
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="30dp"
+                android:id="@+id/dateTextView"
+                android:text="Data"
+                android:textSize="20sp"
+                android:layout_marginTop="22dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/colorBlue"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="120dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/systolicPressure">
+
+                <TextView
+                    android:layout_width="125dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/systolicInfoTextView"
+                    android:text="Skurczowe"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="20sp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/systolicTextView"
+                    android:text="Wartość"
+                    android:gravity="end"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="20sp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="10dp"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/diastolicPressure">
+
+                <TextView
+                    android:layout_width="125dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/diastolicInfoTextView"
+                    android:text="Roskurczowe"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="20sp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/diastolicTextView"
+                    android:text="Wartość"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="20sp"
+                    android:gravity="end"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/pulsePressure">
+
+                <TextView
+                    android:layout_width="125dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/pulseInfoTextView"
+                    android:text="Puls"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="20sp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pulseTextView"
+                    android:text="Wartość"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="20sp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"/>
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
