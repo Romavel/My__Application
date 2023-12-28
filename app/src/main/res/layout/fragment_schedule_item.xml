@@ -60,12 +60,14 @@
                     android:textStyle="bold"/>
 
                 <!-- Spinner z dniami tygodnia -->
-                <Spinner
-                    android:id="@+id/spinnerDaysOfWeek"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:entries="@array/days_of_week_array"/>
+                    android:id="@+id/textViewDaysOfWeek"
+                    android:hint="Wybierz dni"
+                    android:drawablePadding="12dp"
+                    android:drawableEnd="@android:drawable/arrow_down_float"
+                    android:background="@android:drawable/editbox_background"/>
 
                 <!-- TextView z napisem "Wybierz godzinę powiadomienia" -->
                 <TextView
