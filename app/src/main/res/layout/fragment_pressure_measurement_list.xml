@@ -5,6 +5,8 @@
     android:id="@+id/swipeRefreshLayoutPressure"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="?attr/actionBarSize"
+    android:background="@android:color/transparent"
     tools:context=".ui.measurements.PressureMeasurementListFragment">
 
     <androidx.recyclerview.widget.RecyclerView

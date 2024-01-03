@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -53,12 +54,20 @@ public class MeasurementsFragment extends Fragment {
 
 
         //final TextView textView = root.findViewById(R.id.text_pomiary);
-
         // Wywołaj metodę do pobierania i rysowania wykresu
         getLatestInrMeasurements();
 
         // Wywołaj metodę do pobierania i rysowania wykresu
         getLatestPressureMeasurements();
+
+        // Ustaw Swipe to Refresh
+        SwipeRefreshLayout swipeRefreshLayout = root.findViewById(R.id.measurementSwipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            // Odśwież dane po przeciągnięciu
+            getLatestInrMeasurements();
+            getLatestPressureMeasurements();
+            swipeRefreshLayout.setRefreshing(false);
+        });
 
 
         return root;

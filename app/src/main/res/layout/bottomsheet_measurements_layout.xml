@@ -39,7 +39,6 @@
 
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/layout_INR"
         android:orientation="horizontal"
@@ -64,13 +63,13 @@
 
     </LinearLayout>
 
+
     <LinearLayout
         android:id="@+id/layout_Blood_Pressure"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
-
 
         <ImageView
             android:layout_width="wrap_content"
@@ -87,13 +86,14 @@
 
     </LinearLayout>
 
+
+
     <LinearLayout
         android:id="@+id/layout_INR_List"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
-
 
         <ImageView
             android:layout_width="wrap_content"
@@ -116,7 +116,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
-
 
         <ImageView
             android:layout_width="wrap_content"
