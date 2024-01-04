@@ -62,4 +62,3 @@ public class InrMeasurementAdapter extends RecyclerView.Adapter<InrMeasurementAd
         }
     }
 }
-

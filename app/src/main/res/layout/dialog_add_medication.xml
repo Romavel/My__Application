@@ -1,89 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <!--
-    <TextView
-        android:id="@+id/textViewNazwaLeku"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nazwa leku" />
-
-    <EditText
-        android:id="@+id/editTextNazwaLeku"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Wprowadź nazwę leku"
-        android:inputType="text" />
-
-    <TextView
-        android:id="@+id/textViewFormaLeku"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Forma leku" />
-
-    <Spinner
-        android:id="@+id/spinnerFormaLeku"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:entries="@array/formy_leku_array"/>
-
-    <TextView
-        android:id="@+id/textViewDawka"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dawka" />
+    android:layout_margin="20dp"
+    android:padding="0dp"
+    android:id="@+id/dialogPressure">
 
     <LinearLayout
+        android:id="@+id/dialogBoxPressure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:background="@drawable/dialog_popup">
 
-        <EditText
-            android:id="@+id/editTextDawka"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/pressureTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Wprowadź dawkę"
-            android:inputType="numberDecimal" />
+            android:background="@drawable/blue_round"
+            android:drawableLeft="@drawable/ic_blood_pressure"
+            android:drawablePadding="8dp"
+            android:drawableTint="@color/white"
+            android:padding="10dp"
+            android:text="Pomiar Ciśnienia"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/buttonJednostka"
-            android:layout_width="0dp"
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="mg" />
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/descPressure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:paddingStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="Podaj wartość swojego pomiaru ciśnienia:"
+                    android:textColor="@color/colorBlue"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="17sp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/pressureSystolicBox"
+                    android:layout_width="290dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="0dp"
+                    android:backgroundTint="@color/colorBlue"
+                    android:hint="Ciśnienie skurczowe"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textColor="@color/colorBlue"
+                    android:textColorHint="@color/colorGray"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="16sp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/pressureDiastolicBox"
+                    android:layout_width="290dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="0dp"
+                    android:backgroundTint="@color/colorBlue"
+                    android:hint="Ciśnienie rozkurczowe"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textColor="@color/colorBlue"
+                    android:textColorHint="@color/colorGray"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="16sp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/pulseBox"
+                    android:layout_width="290dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="0dp"
+                    android:backgroundTint="@color/colorBlue"
+                    android:hint="Puls"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textColor="@color/colorBlue"
+                    android:textColorHint="@color/colorGray"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="16sp"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnCancelPressure"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@color/colorBlue"
+                android:text="Anuluj"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:cornerRadius="20dp"/>
+
+            <Button
+                android:id="@+id/btnAddPressure"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@color/colorBlue"
+                android:text="Dodaj"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:cornerRadius="20dp"/>
+        </LinearLayout>
+
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textViewRazyDziennie"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ile razy dziennie" />
-
-    <Spinner
-        android:id="@+id/spinnerRazyDziennie"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
-
-    <TextView
-        android:id="@+id/textViewDniTygodnia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dni tygodnia" />
-
-    <com.jaredrummler.materialspinner.MaterialSpinner
-        android:id="@+id/spinnerDniTygodnia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Dni tygodnia"
-        app:ms_multiselect="true"/>
-        -->
-
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

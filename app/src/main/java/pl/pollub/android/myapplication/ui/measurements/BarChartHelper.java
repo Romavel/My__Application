@@ -10,6 +10,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +35,8 @@ public class BarChartHelper {
         BarDataSet barDataSet = new BarDataSet(getData(reversedValues), "Wartości INR");
         barDataSet.setColors(new int[]{android.R.color.holo_blue_light}, ContextCompat.getColor(barChart.getContext(), android.R.color.holo_blue_light));
         barDataSet.setValueTextColor(ContextCompat.getColor(barChart.getContext(), android.R.color.black));
-        barDataSet.setValueTextSize(10f);
+        barDataSet.setValueTextSize(12f);
+        barDataSet.setValueFormatter(new MyValueFormatter()); // Set custom ValueFormatter
 
         BarData barData = new BarData(barDataSet);
         barChart.setData(barData);
@@ -67,5 +69,19 @@ public class BarChartHelper {
         }
 
         return data;
+    }
+
+    // Custom ValueFormatter to limit decimal places
+    private static class MyValueFormatter extends ValueFormatter {
+        private final DecimalFormat format;
+
+        public MyValueFormatter() {
+            format = new DecimalFormat("0.00"); // Format to two decimal places
+        }
+
+        @Override
+        public String getBarLabel(BarEntry barEntry) {
+            return format.format(barEntry.getY());
+        }
     }
 }

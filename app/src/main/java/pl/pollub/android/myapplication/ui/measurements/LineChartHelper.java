@@ -51,18 +51,24 @@ public class LineChartHelper {
         systolicDataSet.setCircleColor(ContextCompat.getColor(context, R.color.colorSystolic));
         systolicDataSet.setLineWidth(2f);
         systolicDataSet.setCircleRadius(5f);
+        systolicDataSet.setValueTextSize(12f);
+        systolicDataSet.setValueFormatter(new MyValueFormatter());
 
         LineDataSet diastolicDataSet = new LineDataSet(getLineData(reversedDiastolicValues), "Ciśnienie rozkurczowe");
         diastolicDataSet.setColor(ContextCompat.getColor(context, R.color.colorDiastolic)); // Kolor dla ciśnienia rozkurczowego
         diastolicDataSet.setCircleColor(ContextCompat.getColor(context, R.color.colorDiastolic));
         diastolicDataSet.setLineWidth(2f);
         diastolicDataSet.setCircleRadius(5f);
+        diastolicDataSet.setValueTextSize(12f);
+        diastolicDataSet.setValueFormatter(new MyValueFormatter());
 
         LineDataSet pulseDataSet = new LineDataSet(getLineData(reversedPulseValues), "Puls");
         pulseDataSet.setColor(ContextCompat.getColor(context, R.color.colorPulse)); // Kolor dla pulsu
         pulseDataSet.setCircleColor(ContextCompat.getColor(context, R.color.colorPulse));
         pulseDataSet.setLineWidth(2f);
         pulseDataSet.setCircleRadius(5f);
+        pulseDataSet.setValueTextSize(12f);
+        pulseDataSet.setValueFormatter(new MyValueFormatter());
 
         List<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(systolicDataSet);
@@ -85,6 +91,16 @@ public class LineChartHelper {
             }
         });
 
+        // Definiuj format dla wartości punktów na osi Y
+        ValueFormatter valueFormatter = new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                return String.valueOf((int) value); // Formatuj wartość na całkowitą
+            }
+        };
+
+
+
         // Dodaj marginesy na początku i na końcu osi X
         xAxis.setAxisMinimum(-0.5f);  // Początkowy margines
         xAxis.setAxisMaximum(dates.size() - 0.5f);  // Końcowy margines
@@ -94,9 +110,18 @@ public class LineChartHelper {
         YAxis leftAxis = lineChart.getAxisLeft();
         leftAxis.setAxisMinimum(0f); // Możesz dostosować minimalną wartość na osi Y
         leftAxis.setGranularity(1f);
+        leftAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                // Formatuj wartość jako całkowitą
+                return String.valueOf((int) value);
+            }
+        });
 
         YAxis rightAxis = lineChart.getAxisRight();
-        rightAxis.setEnabled(false);
+        rightAxis.setEnabled(true);
+        rightAxis.setAxisMinimum(0f); // Możesz dostosować minimalną wartość na osi Y
+        rightAxis.setGranularity(1f);
 
         Legend legend = lineChart.getLegend();
         legend.setForm(Legend.LegendForm.LINE);
@@ -114,5 +139,13 @@ public class LineChartHelper {
         }
 
         return data;
+    }
+
+    public class MyValueFormatter extends ValueFormatter {
+
+        @Override
+        public String getFormattedValue(float value) {
+            return String.valueOf((int) value);
+        }
     }
 }

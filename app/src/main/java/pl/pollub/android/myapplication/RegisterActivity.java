@@ -44,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private EditText editTextPassword;
     private EditText editTextConfirmPassword;
+    private Spinner spinnerMainMedication;
     private Button buttonRegister;
     private Button buttonCancel;
 
@@ -65,6 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
         buttonRegister = findViewById(R.id.buttonRegister);
         textViewPasswordConditions = findViewById(R.id.textViewPasswordConditions);
+        spinnerMainMedication =findViewById(R.id.spinnerMainMedication);
 
         // Ustaw nasłuchiwanie na przycisk rejestracji
         buttonRegister.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +152,7 @@ public class RegisterActivity extends AppCompatActivity {
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
         String confirmPassword = editTextConfirmPassword.getText().toString();
+        String medication = spinnerMainMedication.getSelectedItem().toString();
 
         // Utwórz obiekt User
         User user = new User();

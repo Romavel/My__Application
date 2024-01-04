@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Wywołaj metodę showInrMeasurementList() w MeasurementsFragment
                 handleInrMeasurementList();
+                binding.fab.hide();
                 dialog.dismiss();
             }
         });
@@ -138,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Wywołaj metodę showPressureMeasurementList() w MeasurementsFragment
                 handlePressureMeasurementList();
+                binding.fab.hide();
                 dialog.dismiss();
             }
         });
@@ -164,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout medicationsLayout = dialog.findViewById(R.id.layout_Medications);
         LinearLayout symptomsLayout = dialog.findViewById(R.id.layout_Symptoms);
         LinearLayout medidactionsList = dialog.findViewById(R.id.layout_Medications_List);
-        LinearLayout symptomsListList = dialog.findViewById(R.id.layout_Symptoms_List);
+        LinearLayout symptomsList = dialog.findViewById(R.id.layout_Symptoms_List);
         ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
         medicationsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        symptomsListList.setOnClickListener(new View.OnClickListener() {
+        symptomsList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Wywołaj metodę handleSymptomsList() w MedicationsFragment

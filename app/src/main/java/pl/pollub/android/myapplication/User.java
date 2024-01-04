@@ -10,6 +10,11 @@ public class User {
     private String email;
     private String birth_date;
     private String country;
+
+    private String illness;
+
+    private String role;
+    private String medication;
     private String phone_number;
     private String gender;
     //private String userId; // UID z Firebase Authentication
@@ -20,9 +25,12 @@ public class User {
         // Pusty konstruktor potrzebny do używania Firebase Firestore
     }
 
+
+
     // Konstruktor z argumentami
     public User(String first_name, String last_name, String username, String email,
-                String birth_date, String country, String phone_number, String gender) {
+                String birth_date, String country, String phone_number, String gender,
+                String medication, String role, String illness) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
@@ -31,6 +39,9 @@ public class User {
         this.country = country;
         this.phone_number = phone_number;
         this.gender = gender;
+        this.illness = illness;
+        this.role = role;
+        this.medication = medication;
     }
 
     // Getter i setter dla firstName
@@ -112,5 +123,32 @@ public class User {
 
     public void setRegistration_date(Timestamp registration_date) {
         this.registration_date = registration_date;
+    }
+
+    // Getter i setter dla illness
+    public String getIllness() {
+        return illness;
+    }
+
+    public void setIllness(String illness) {
+        this.illness = illness;
+    }
+
+    // Getter i setter dla role
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    // Getter i setter dla medication
+    public String getMedication() {
+        return medication;
+    }
+
+    public void setMedication(String medication) {
+        this.medication = medication;
     }
 }

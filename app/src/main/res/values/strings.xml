@@ -12,6 +12,11 @@
         <item>Inne</item>
     </string-array>
 
+    <string-array name="main_medication_array">
+        <item>Warfin</item>
+        <item>Sintrom</item>
+    </string-array>
+
     <string-array name="days_of_week_array">
         <item>Poniedziałek</item>
         <item>Wtorek</item>

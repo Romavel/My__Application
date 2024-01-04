@@ -5,10 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="?attr/actionBarSize"
+    android:layout_marginBottom="80dp"
     android:background="@android:color/transparent"
     tools:context=".ui.diet.DietFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewDiet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
 
     <!-- Dodaj inne widoki dla DietFragment według potrzeb -->
 </FrameLayout>

@@ -26,15 +26,19 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 
 import pl.pollub.android.myapplication.R;
+import pl.pollub.android.myapplication.databinding.FragmentMeasurementsBinding;
+import pl.pollub.android.myapplication.databinding.FragmentProfileBinding;
 
 public class MeasurementsFragment extends Fragment {
 
     private MeasurementsViewModel measurementsViewModel;
+    private FragmentMeasurementsBinding binding;
     private LinearLayout chartLayout;
     private BarChart barChart;
     private LineChart lineChart;
@@ -52,6 +56,11 @@ public class MeasurementsFragment extends Fragment {
         barChart = root.findViewById(R.id.barChart);
         lineChart = root.findViewById(R.id.lineChart);
 
+        // Uzyskaj bieżący dzień tygodnia i datę
+        String currentDayAndDate = getCurrentDayAndDate();
+
+        // Ustaw wartość w polu text_measurements
+        textView.setText(currentDayAndDate);
 
         //final TextView textView = root.findViewById(R.id.text_pomiary);
         // Wywołaj metodę do pobierania i rysowania wykresu
@@ -199,5 +208,22 @@ public class MeasurementsFragment extends Fragment {
     public static String formatDateWithoutTime(java.util.Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return sdf.format(date);
+    }
+
+    private String getCurrentDayAndDate() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.getDefault());
+        String dayOfWeek = dayFormat.format(calendar.getTime());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM", Locale.getDefault());
+        String formattedDate = dateFormat.format(calendar.getTime());
+
+        return dayOfWeek + ", " + formattedDate;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

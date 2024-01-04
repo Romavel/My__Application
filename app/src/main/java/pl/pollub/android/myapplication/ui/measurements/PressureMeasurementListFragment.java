@@ -1,6 +1,7 @@
 package pl.pollub.android.myapplication.ui.measurements;
 
 import android.content.DialogInterface;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -24,6 +26,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import pl.pollub.android.myapplication.R;
 
 public class PressureMeasurementListFragment extends Fragment {
@@ -110,6 +113,7 @@ public class PressureMeasurementListFragment extends Fragment {
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
+
             // Obsługa przesunięcia w lewo (usunięcie)
             if (direction == ItemTouchHelper.LEFT) {
                 showDeleteConfirmation(position);
@@ -118,6 +122,24 @@ public class PressureMeasurementListFragment extends Fragment {
             else if (direction == ItemTouchHelper.RIGHT) {
                 editPressureMeasurement(position);
             }
+        }
+
+        // ...
+
+        @Override
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
+                                @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                                int actionState, boolean isCurrentlyActive) {
+
+            new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorSwipeDelete))
+                    .addSwipeLeftActionIcon(R.drawable.ic_delete)
+                    .addSwipeRightBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorSwipeEdit))
+                    .addSwipeRightActionIcon(R.drawable.ic_edit)
+                    .create()
+                    .decorate();
+
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
 
         private void showDeleteConfirmation(int position) {

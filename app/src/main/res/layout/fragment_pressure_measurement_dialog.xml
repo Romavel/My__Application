@@ -8,12 +8,12 @@
     android:padding="0dp"
     android:id="@+id/dialogPressure">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/dialogBoxPressure"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/dialog_popup"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/dialog_popup">
 
         <TextView
             android:id="@+id/pressureTitle"
@@ -29,107 +29,128 @@
             android:textSize="17sp"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/descPressure"
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:paddingStart="20dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
-            android:text="Podaj wartość swojego pomiaru ciśnienia:"
-            android:textColor="@color/colorBlue"
-            android:textSize="17sp"
-            app:layout_constraintBottom_toTopOf="@id/pressureSystolicBox"
-            app:layout_constraintTop_toBottomOf="@id/pressureTitle" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/pressureSystolicBox"
-            android:layout_width="290dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/descPressure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:paddingStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="Podaj wartość swojego pomiaru ciśnienia:"
+                    android:textColor="@color/colorBlue"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="17sp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/pressureSystolicBox"
+                    android:layout_width="290dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:backgroundTint="@color/colorBlue"
+                    android:hint="Ciśnienie skurczowe"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textColor="@color/colorBlue"
+                    android:textColorHint="@color/colorGray"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="16sp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/pressureDiastolicBox"
+                    android:layout_width="290dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:backgroundTint="@color/colorBlue"
+                    android:hint="Ciśnienie rozkurczowe"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textColor="@color/colorBlue"
+                    android:textColorHint="@color/colorGray"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="16sp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/pulseBox"
+                    android:layout_width="290dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="0dp"
+                    android:backgroundTint="@color/colorBlue"
+                    android:hint="Puls"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textColor="@color/colorBlue"
+                    android:textColorHint="@color/colorGray"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="16sp"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="0dp"
-            android:backgroundTint="@color/colorBlue"
-            android:hint="Ciśnienie skurczowe"
-            android:inputType="number"
-            android:maxLines="1"
-            android:textColor="@color/colorBlue"
-            android:textColorHint="@color/colorGray"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@id/pressureDiastolicBox"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pressureTitle" />
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnCancelPressure"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@color/colorBlue"
+                android:text="Anuluj"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:cornerRadius="20dp"/>
 
-        <EditText
-            android:id="@+id/pressureDiastolicBox"
-            android:layout_width="290dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="0dp"
-            android:backgroundTint="@color/colorBlue"
-            android:hint="Ciśnienie rozkurczowe"
-            android:inputType="number"
-            android:maxLines="1"
-            android:textColor="@color/colorBlue"
-            android:textColorHint="@color/colorGray"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@id/pulseBox"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pressureSystolicBox" />
+            <Button
+                android:id="@+id/btnAddPressure"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@color/colorBlue"
+                android:text="Dodaj"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:cornerRadius="20dp"/>
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/pulseBox"
-            android:layout_width="290dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="50dp"
-            android:backgroundTint="@color/colorBlue"
-            android:hint="Puls"
-            android:inputType="number"
-            android:maxLines="1"
-            android:textColor="@color/colorBlue"
-            android:textColorHint="@color/colorGray"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pressureDiastolicBox" />
-
-        <Button
-            android:id="@+id/btnCancelPressure"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="@color/colorBlue"
-            android:text="Anuluj"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            app:cornerRadius="20dp"
-            app:layout_constraintBottom_toBottomOf="@id/dialogBoxPressure"
-            app:layout_constraintEnd_toStartOf="@id/btnAddPressure"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pulseBox" />
-
-        <Button
-            android:id="@+id/btnAddPressure"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="@color/colorBlue"
-            android:text="Dodaj"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            app:cornerRadius="20dp"
-            app:layout_constraintBottom_toBottomOf="@id/dialogBoxPressure"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnCancelPressure"
-            app:layout_constraintTop_toBottomOf="@id/pulseBox" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
