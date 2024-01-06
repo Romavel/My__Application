@@ -123,33 +123,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <Button
-                android:id="@+id/btnCancelPressure"
-                android:layout_width="120dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="8dp"
-                android:backgroundTint="@color/colorBlue"
-                android:text="Anuluj"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                app:cornerRadius="20dp"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/btnCancelPressure"
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="8dp"
+                    android:backgroundTint="@color/colorBlue"
+                    android:text="Anuluj"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:cornerRadius="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/btnAddPressure"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <Button
-                android:id="@+id/btnAddPressure"
-                android:layout_width="120dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginBottom="8dp"
-                android:backgroundTint="@color/colorBlue"
-                android:text="Dodaj"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                app:cornerRadius="20dp"/>
+                <Button
+                    android:id="@+id/btnAddPressure"
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:backgroundTint="@color/colorBlue"
+                    android:text="Dodaj"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:cornerRadius="20dp"
+                    app:layout_constraintStart_toEndOf="@id/btnCancelPressure"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
 
     </LinearLayout>

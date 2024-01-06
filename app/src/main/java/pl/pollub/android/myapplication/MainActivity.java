@@ -81,13 +81,14 @@ public class MainActivity extends AppCompatActivity {
             //((MedicationsFragment) currentFragment).showAddDialog();
         } else if (currentFragment instanceof DietFragment) {
             // Obsługa dodawania składników żywieniowych i używek
-            // Dodaj obsługę dla DietFragment
+            handleDietDialog();
         } else if (currentFragment instanceof ProfileFragment) {
             // Obsługa dodawania informacji do profilu
             // Dodaj obsługę dla ProfileFragment
 
         }
     }
+
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -277,7 +278,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    private void handleDietDialog() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+        if (currentFragment instanceof DietFragment) {
+            ((DietFragment) currentFragment).showDietDialog();
+        }
+    }
 
 }
 

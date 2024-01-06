@@ -7,9 +7,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import pl.pollub.android.myapplication.R;
 import pl.pollub.android.myapplication.databinding.FragmentDietBinding;
+import pl.pollub.android.myapplication.ui.measurements.InrMeasurementDialogFragment;
+import pl.pollub.android.myapplication.ui.measurements.PressureMeasurementListFragment;
 
 public class DietFragment extends Fragment {
 
@@ -23,9 +29,6 @@ public class DietFragment extends Fragment {
         binding = FragmentDietBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-
-
-
         return root;
     }
 
@@ -33,5 +36,15 @@ public class DietFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+
+    public void showDietDialog() {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        DietDialogFragment dietDialogFragment = new DietDialogFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, dietDialogFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
