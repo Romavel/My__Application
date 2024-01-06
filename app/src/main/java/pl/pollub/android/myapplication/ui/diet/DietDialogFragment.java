@@ -45,6 +45,8 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -63,7 +65,9 @@ public class DietDialogFragment extends DialogFragment {
     private Map<String, View> layoutMap = new HashMap<>();
     private Set<String> selectedButtons = new HashSet<>();
 
-    FirebaseFirestore db;
+    private static NewDiet newDiet;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,7 +89,7 @@ public class DietDialogFragment extends DialogFragment {
         setupButton(btnCaffeine, "Caffeine");
         setupButton(btnNicotine, "Nicotine");
         setupButton(btnAlcohol, "Alcohol");
-        // setupButton(btnSugar, "Sugar");
+       // setupButton(btnSugar, "Sugar");
         setupButton(btnVegetables, "Vegetables");
         setupButton(btnOther, "Other");
 
@@ -189,10 +193,15 @@ public class DietDialogFragment extends DialogFragment {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // Utwórz kolekcję "Intakes" wewnątrz kolekcji "Users"
-        final CollectionReference intakesCollection = db.getInstance().collection("Users").document(userId).collection("Intakes");
+        final CollectionReference intakesCollection = db.collection("Users").document(userId).collection("Intakes");
 
-        // Utwórz zapytanie, aby pobrać dokumenty z dzisiejszą datą
-        Query query = intakesCollection.whereEqualTo("day", getTodayDateString());
+        // Pobierz dzisiejszą datę
+        Date today = Calendar.getInstance().getTime();
+
+        // Utwórz zapytanie, aby pobrać dokumenty z datą nie wcześniejszą niż dzisiaj
+        Query query = intakesCollection.whereGreaterThanOrEqualTo("day", today)
+                .orderBy("day", Query.Direction.DESCENDING)
+                .limit(1);
 
         query.get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -204,8 +213,11 @@ public class DietDialogFragment extends DialogFragment {
                         // Jeśli istnieje więcej niż jeden, musisz dostosować to odpowiednio
                         DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
 
-                        Map<String, Object> data = documentSnapshot.getData();
-                        handleExistingData(data);
+                        newDiet = documentSnapshot.toObject(NewDiet.class);
+                        if (newDiet != null) {
+                            newDiet.setDocumentId(documentSnapshot.getId());
+                            handleExistingData(newDiet);
+                        }
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -225,35 +237,37 @@ public class DietDialogFragment extends DialogFragment {
                 cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
     }
 
-    private void handleExistingData(Map<String, Object> data) {
+
+    private void handleExistingData(NewDiet newDiet) {
+        Timestamp day = newDiet.getDay();
         // Iteruj przez zaznaczone przyciski
-        for (String buttonTag : selectedButtons) {
-            View layout = layoutMap.get(buttonTag);
+        for (Map<String, Object> intakeEntry : newDiet.getIntakeArr()) {
+            String name = (String) intakeEntry.get("name");
+            View layout = layoutMap.get(name);
             if (layout instanceof CaffeineLayout) {
-                // Jeśli to jest CaffeineLayout, pobierz dane
                 CaffeineLayout caffeineLayout = (CaffeineLayout) layout;
-                caffeineLayout.setFormDataFromDatabase(data);
+                caffeineLayout.setFormDataFromDatabase(intakeEntry);
             }
             if (layout instanceof NicotineLayout) {
                 // Jeśli to jest NicotineLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
                 NicotineLayout nicotineLayout = (NicotineLayout) layout;
-                nicotineLayout.setFormDataFromDatabase(data);
+                nicotineLayout.setFormDataFromDatabase(intakeEntry);
             }
             if (layout instanceof AlcoholLayout) {
                 // Jeśli to jest AlcoholLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
                 AlcoholLayout alcoholLayout = (AlcoholLayout) layout;
-                alcoholLayout.setFormDataFromDatabase(data);
+                alcoholLayout.setFormDataFromDatabase(intakeEntry);
             }
             if (layout instanceof VegetableLayout) {
                 // Jeśli to jest VegetableLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
                 VegetableLayout vegetableLayout = (VegetableLayout) layout;
-                vegetableLayout.setFormDataFromDatabase(data);
+                vegetableLayout.setFormDataFromDatabase(intakeEntry);
             }
             /*
             if (layout instanceof SugarLayout) {
                 // Jeśli to jest SugarLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
                 SugarLayout sugarLayout = (SugarLayout) layout;
-                sugarLayout.setFormDataFromDatabase(data);
+                sugarLayout.setFormDataFromDatabase(intakeEntry);
             }
             */
             if (layout instanceof OtherLayout) {
@@ -264,6 +278,8 @@ public class DietDialogFragment extends DialogFragment {
         }
     }
 
+
+
     private String getTodayDateString() {
         // Pobierz aktualną datę w formacie "YYYY-MM-DD"
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -271,6 +287,86 @@ public class DietDialogFragment extends DialogFragment {
         return dateFormat.format(today);
     }
 
+    private void saveDataToDatabase() {
+        // Pobierz instancję bazy danych Firebase
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Pobierz ID aktualnie zalogowanego użytkownika
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // Utwórz kolekcję "Intakes" wewnątrz kolekcji "Users"
+        Map<String, Object> intakeData = new HashMap<>();
+        intakeData.put("day", FieldValue.serverTimestamp()); // Dodaj timestamp dla dnia
+
+        List<Map<String, Object>> intakeArr = new ArrayList<>();
+
+        // Iteruj przez zaznaczone przyciski
+        for (String buttonTag : selectedButtons) {
+            View layout = layoutMap.get(buttonTag);
+            if (layout instanceof CaffeineLayout) {
+                // Jeśli to jest CaffeineLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
+                CaffeineLayout caffeineLayout = (CaffeineLayout) layout;
+                Map<String, Object> formData = caffeineLayout.getFormData();
+
+                // Dodaj dane do mapy
+                Map<String, Object> intakeEntry = new HashMap<>();
+                intakeEntry.put("amount", formData.get("amount"));
+                intakeEntry.put("name", formData.get("name"));
+                intakeArr.add(intakeEntry);
+            }
+            // Dodaj przypadki dla innych używek, jeśli istnieją
+        }
+
+        // Dodaj kolekcję "IntakeArr" do dokumentu
+        intakeData.put("intake_arr", intakeArr);
+
+        // Sprawdź, czy to jest aktualizacja czy nowy dokument
+        if (isUpdate) {
+            // Jeśli to jest aktualizacja, zaktualizuj istniejący dokument
+            db.collection("Users").document(userId).collection("Intakes").document(newDiet.getDocumentId())
+                    .update(intakeData)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Obsłuż sukces aktualizacji
+                            Toast.makeText(getContext(), "Dane zaktualizowane w bazie danych.", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Obsłuż błąd aktualizacji
+                            Toast.makeText(getContext(), "Błąd podczas aktualizacji danych w bazie danych.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            // Jeśli to nie jest aktualizacja, dodaj nowy dokument
+            db.collection("Users").document(userId).collection("Intakes").add(intakeData)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            // Obsłuż sukces dodania nowego dokumentu
+                            Toast.makeText(getContext(), "Dane zapisane do bazy danych.", Toast.LENGTH_SHORT).show();
+
+                            // Aktualizuj dokumentId w obiekcie NewDiet
+                            newDiet.setDocumentId(documentReference.getId());
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Obsłuż błąd dodawania nowego dokumentu
+                            Toast.makeText(getContext(), "Błąd podczas zapisywania danych do bazy danych.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
+
+
+
+
+    /*
     private void saveDataToDatabase() {
         // Pobierz instancję bazy danych Firebase
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -331,6 +427,7 @@ public class DietDialogFragment extends DialogFragment {
                 intakeEntry.put("name", formData.get("name"));     // do tych, które używasz w VegetableLayout
                 intakeArr.add(intakeEntry);
             }
+     */
             /*
             if (layout instanceof SugarLayout) {
                 // Jeśli to jest SugarLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
@@ -344,6 +441,7 @@ public class DietDialogFragment extends DialogFragment {
                 intakeArr.add(intakeEntry);
             }
             */
+    /*
             if (layout instanceof OtherLayout) {
                 // Jeśli to jest CaffeineLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
                 OtherLayout otherLayout = (OtherLayout) layout;
@@ -400,4 +498,6 @@ public class DietDialogFragment extends DialogFragment {
                     });
         }
     }
+    */
 }
+
