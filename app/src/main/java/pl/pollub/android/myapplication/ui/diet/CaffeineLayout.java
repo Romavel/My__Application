@@ -69,9 +69,9 @@ public class CaffeineLayout extends LinearLayout {
         textCaffeineComparison.setText(caffeineComparisonText);
     }
 
-    public void setFormDataFromDatabase(Map<String, Object> formData) {
+    public void setFormDataFromDatabase(DietEntry formData) {
         // Ustaw wartość NumberPicker na podstawie danych z bazy danych
-        int amount = ((Long) formData.get("amount")).intValue();
+        int amount = (formData.getAmount());
         numberPickerCaffeine.setValue(amount / 10);
     }
 

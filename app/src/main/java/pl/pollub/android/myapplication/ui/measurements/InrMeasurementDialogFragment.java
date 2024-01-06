@@ -67,7 +67,7 @@ public class InrMeasurementDialogFragment extends DialogFragment {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 // Dodaj identyfikator dokumentu do pomiaru
-                                inrMeasurement.setDocument_id(documentReference.getId());
+                                //inrMeasurement.setDocument_id(documentReference.getId());
 
                                 // Logowanie do konsoli informacji o dodanym pomiarze
                                 Log.d("InrMeasurementDialog", "Pomiar dodany do Firestore: " + documentReference.getId());

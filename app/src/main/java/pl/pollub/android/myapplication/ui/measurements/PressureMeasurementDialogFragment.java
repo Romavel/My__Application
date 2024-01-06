@@ -79,7 +79,7 @@ public class PressureMeasurementDialogFragment extends DialogFragment {
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
-                                    pressureMeasurement.setDocument_id(documentReference.getId());
+                                   //pressureMeasurement.setDocument_id(documentReference.getId());
 
                                     Log.d("PressureMeasurementDialog", "Pomiar ciśnienia dodany do Firestore: " + documentReference.getId());
                                     dismiss(); // Zamknij okno dialogowe po dodaniu pomiaru

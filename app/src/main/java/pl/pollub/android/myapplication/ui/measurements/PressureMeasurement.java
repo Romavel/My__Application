@@ -1,14 +1,17 @@
 package pl.pollub.android.myapplication.ui.measurements;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentId;
 
 import java.io.Serializable;
 
 public class PressureMeasurement implements Serializable {
+    @DocumentId
+    private String document_id;
     private int systolic_pressure;
     private int diastolic_pressure;
     private int pulse;
-    private String document_id;
+
     private Timestamp time;
 
     public PressureMeasurement() {

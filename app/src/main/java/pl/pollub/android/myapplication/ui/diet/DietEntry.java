@@ -1,8 +1,9 @@
 package pl.pollub.android.myapplication.ui.diet;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class DietEntry {
+public class DietEntry implements Serializable {
     private String name;
     private int amount;
 

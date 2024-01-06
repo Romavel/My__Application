@@ -1,12 +1,14 @@
 package pl.pollub.android.myapplication.ui.measurements;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentId;
 
 import java.io.Serializable;
 
 public class InrMeasurement implements Serializable {
-    private double value;
+    @DocumentId
     private String document_id;
+    private double value;
     private Timestamp time;
 
     // Konstruktor bezargumentowy wymagany do korzystania z Firebase
