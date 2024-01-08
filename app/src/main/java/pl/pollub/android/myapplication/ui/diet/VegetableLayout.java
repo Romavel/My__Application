@@ -68,9 +68,9 @@ public class VegetableLayout extends LinearLayout {
         textVegetableComparison.setText(vegetableComparisonText);
     }
 
-    public void setFormDataFromDatabase(Map<String, Object> formData) {
+    public void setFormDataFromDatabase(DietEntry formData) {
         // Ustaw wartość NumberPicker na podstawie danych z bazy danych
-        int amount = ((Long) formData.get("amount")).intValue();
+        int amount = (formData.getAmount());
         numberPickerVegetable.setValue(amount / 10);
     }
 

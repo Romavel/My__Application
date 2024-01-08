@@ -13,16 +13,16 @@ public class NewDiet implements Serializable  {
     @DocumentId
     String documentId;
     private Timestamp day;
-    private List<DietEntry> intakeArr;
+    private List<DietEntry> intake_arr;
 
     public NewDiet() {
         // Pusty konstruktor potrzebny do deserializacji Firestore
     }
 
-    public NewDiet(String documentId, Timestamp day, List<DietEntry> intakeArr) {
+    public NewDiet(String documentId, Timestamp day, List<DietEntry> intake_arr) {
         this.documentId = documentId;
         this.day = day;
-        this.intakeArr = intakeArr;
+        this.intake_arr = intake_arr;
     }
 
     // Dodaj odpowiednie gettery i settery
@@ -42,11 +42,11 @@ public class NewDiet implements Serializable  {
         this.day = day;
     }
 
-    public List<DietEntry> getIntakeArr() {
-        return intakeArr;
+    public List<DietEntry> getIntake_arr() {
+        return intake_arr;
     }
 
-    public void setIntakeArr(List<DietEntry> intakeArr) {
-        this.intakeArr = intakeArr;
+    public void setIntake_arr(List<DietEntry> intake_arr) {
+        this.intake_arr = intake_arr;
     }
 }

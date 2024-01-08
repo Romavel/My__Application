@@ -1,10 +1,14 @@
 package pl.pollub.android.myapplication.ui.medications;
 
+import com.google.firebase.firestore.DocumentId;
+
 import java.util.List;
 import java.util.Map;
 
 public class Medication {
 
+    @DocumentId
+    private String document_id;
     private String name;
     private String form;
     private List<ScheduleItem> plans;

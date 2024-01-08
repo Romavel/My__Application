@@ -56,7 +56,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-// DietDialogFragment.java
 public class DietDialogFragment extends DialogFragment {
 
     private Button btnCaffeine, btnNicotine, btnAlcohol, btnSugar, btnVegetables, btnOther, btnAddDiet, btnCancelDiet;
@@ -216,7 +215,7 @@ public class DietDialogFragment extends DialogFragment {
                         Log.d("DietDialogFragment", "DocumentSnapshot: " + documentSnapshot);
                         newDiet = documentSnapshot.toObject(NewDiet.class);
                         if (newDiet != null) {
-                            Log.d("DietDialogFragment", "NewDiet intakeArray: " + newDiet.getIntakeArr() + "NewDiet documentId: " + newDiet.getDocumentId() + "NewDiet day: " + newDiet.getDay());
+                            Log.d("DietDialogFragment", "NewDiet intakeArray: " + newDiet.getIntake_arr() + "NewDiet documentId: " + newDiet.getDocumentId() + "NewDiet day: " + newDiet.getDay());
                             handleExistingData(newDiet);
                         }
                     }
@@ -241,17 +240,17 @@ public class DietDialogFragment extends DialogFragment {
 
     private void handleExistingData(NewDiet newDiet) {
         Timestamp day = newDiet.getDay();
-        Log.d("DietDialogFragment", "GetIntakeArray: "+ newDiet.getIntakeArr());
+        Log.d("DietDialogFragment", "GetIntakeArray: "+ newDiet.getIntake_arr());
         // Iteruj przez zaznaczone przyciski
-        if(newDiet.getIntakeArr()!= null) {
-            for (DietEntry intakeEntry : newDiet.getIntakeArr()) {
+        if(newDiet.getIntake_arr()!= null) {
+            for (DietEntry intakeEntry : newDiet.getIntake_arr()) {
                 String name = (String) intakeEntry.getName();
                 View layout = layoutMap.get(name);
                 if (layout instanceof CaffeineLayout) {
                     CaffeineLayout caffeineLayout = (CaffeineLayout) layout;
                     caffeineLayout.setFormDataFromDatabase(intakeEntry);
                 }
-                /*
+
                 if (layout instanceof NicotineLayout) {
                     // Jeśli to jest NicotineLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
                     NicotineLayout nicotineLayout = (NicotineLayout) layout;
@@ -267,7 +266,6 @@ public class DietDialogFragment extends DialogFragment {
                     VegetableLayout vegetableLayout = (VegetableLayout) layout;
                     vegetableLayout.setFormDataFromDatabase(intakeEntry);
                 }
-                */
                 /*
                 if (layout instanceof SugarLayout) {
                     // Jeśli to jest SugarLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
@@ -303,12 +301,24 @@ public class DietDialogFragment extends DialogFragment {
 
         // Pobierz ID aktualnie zalogowanego użytkownika
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Log.d("DietDialogFragment","Timestamp: "+ Timestamp.now());
 
         // Utwórz kolekcję "Intakes" wewnątrz kolekcji "Users"
-        NewDiet intakeData = newDiet;
-        intakeData.setDay(Timestamp.now()); // Dodaj timestamp dla dnia
+        NewDiet intakeData;
 
-        List<DietEntry> intakeArr = new ArrayList<>();
+        if (newDiet != null) {
+            intakeData = newDiet;
+            intakeData.setDay(Timestamp.now()); // Dodaj timestamp dla dnia
+            // reszta kodu...
+        } else {
+            // Jeśli newDiet jest nullem, utwórz nowy obiekt intakeData
+            intakeData = new NewDiet();
+            intakeData.setDay(Timestamp.now()); // Dodaj timestamp dla dnia
+            // reszta kodu...
+        }
+
+
+        List<DietEntry> intake_arr = new ArrayList<>();
 
         // Iteruj przez zaznaczone przyciski
         for (String buttonTag : selectedButtons) {
@@ -323,12 +333,48 @@ public class DietDialogFragment extends DialogFragment {
                 intakeEntry.setAmount((Integer) formData.get("amount"));
                 intakeEntry.setName((String) formData.get("name"));
                 Log.d("Intakes","IntakeEntry: "+ intakeEntry);
-                intakeArr.add(intakeEntry);
+                intake_arr.add(intakeEntry);
+            }
+            if (layout instanceof NicotineLayout) {
+                // Jeśli to jest NicotineLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
+                NicotineLayout nicotineLayout = (NicotineLayout) layout;
+                Map<String, Object> formData = nicotineLayout.getFormData();
+
+                // Dodaj dane do mapy
+                DietEntry intakeEntry = new DietEntry();
+                intakeEntry.setAmount((Integer) formData.get("amount"));
+                intakeEntry.setName((String) formData.get("name"));
+                Log.d("Intakes","IntakeEntry: "+ intakeEntry);
+                intake_arr.add(intakeEntry);
+            }
+            if (layout instanceof AlcoholLayout) {
+                // Jeśli to jest AlcoholLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
+                AlcoholLayout alcoholLayout = (AlcoholLayout) layout;
+                Map<String, Object> formData = alcoholLayout.getFormData();
+
+                // Dodaj dane do mapy
+                DietEntry intakeEntry = new DietEntry();
+                intakeEntry.setAmount((Integer) formData.get("amount"));
+                intakeEntry.setName((String) formData.get("name"));
+                Log.d("Intakes","IntakeEntry: "+ intakeEntry);
+                intake_arr.add(intakeEntry);
+            }
+            if (layout instanceof VegetableLayout) {
+                // Jeśli to jest VegetableLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
+                VegetableLayout vegetableLayout = (VegetableLayout) layout;
+                Map<String, Object> formData = vegetableLayout.getFormData();
+
+                // Dodaj dane do mapy
+                DietEntry intakeEntry = new DietEntry();
+                intakeEntry.setAmount((Integer) formData.get("amount"));
+                intakeEntry.setName((String) formData.get("name"));
+                Log.d("Intakes","IntakeEntry: "+ intakeEntry);
+                intake_arr.add(intakeEntry);
             }
             // Dodaj przypadki dla innych używek, jeśli istnieją
         }
         // Dodaj kolekcję "IntakeArr" do dokumentu
-        intakeData.setIntakeArr(intakeArr);
+        intakeData.setIntake_arr(intake_arr);
 
         // Sprawdź, czy to jest aktualizacja czy nowy dokument
         if (isUpdate) {
@@ -359,7 +405,7 @@ public class DietDialogFragment extends DialogFragment {
                             Toast.makeText(getContext(), "Dane zapisane do bazy danych.", Toast.LENGTH_SHORT).show();
 
                             // Aktualizuj dokumentId w obiekcie NewDiet
-                            newDiet.setDocumentId(documentReference.getId());
+                            intakeData.setDocumentId(documentReference.getId());
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -371,143 +417,5 @@ public class DietDialogFragment extends DialogFragment {
                     });
         }
     }
-
-
-
-
-
-    /*
-    private void saveDataToDatabase() {
-        // Pobierz instancję bazy danych Firebase
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        // Pobierz ID aktualnie zalogowanego użytkownika
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        // Utwórz kolekcję "Intakes" wewnątrz kolekcji "Users"
-        Map<String, Object> intakeData = new HashMap<>();
-        intakeData.put("day", FieldValue.serverTimestamp()); // Dodaj timestamp dla dnia
-
-        List<Map<String, Object>> intakeArr = new ArrayList<>();
-
-        // Iteruj przez zaznaczone przyciski
-        for (String buttonTag : selectedButtons) {
-            View layout = layoutMap.get(buttonTag);
-            if (layout instanceof CaffeineLayout) {
-                // Jeśli to jest CaffeineLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
-                CaffeineLayout caffeineLayout = (CaffeineLayout) layout;
-                Map<String, Object> formData = caffeineLayout.getFormData();
-
-                // Dodaj dane do mapy
-                Map<String, Object> intakeEntry = new HashMap<>();
-                intakeEntry.put("amount", formData.get("amount")); // Tutaj możesz dostosować nazwy kluczy
-                intakeEntry.put("name", formData.get("name"));     // do tych, które używasz w CaffeineLayout
-                intakeArr.add(intakeEntry);
-            }
-            if (layout instanceof NicotineLayout) {
-                // Jeśli to jest NicotineLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
-                NicotineLayout nicotineLayout = (NicotineLayout) layout;
-                Map<String, Object> formData = nicotineLayout.getFormData();
-
-                // Dodaj dane do mapy
-                Map<String, Object> intakeEntry = new HashMap<>();
-                intakeEntry.put("amount", formData.get("amount")); // Tutaj możesz dostosować nazwy kluczy
-                intakeEntry.put("name", formData.get("name"));     // do tych, które używasz w NicotineLayout
-                intakeArr.add(intakeEntry);
-            }
-            if (layout instanceof AlcoholLayout) {
-                // Jeśli to jest AlcoholLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
-                AlcoholLayout alcoholLayout = (AlcoholLayout) layout;
-                Map<String, Object> formData = alcoholLayout.getFormData();
-
-                // Dodaj dane do mapy
-                Map<String, Object> intakeEntry = new HashMap<>();
-                intakeEntry.put("amount", formData.get("amount")); // Tutaj możesz dostosować nazwy kluczy
-                intakeEntry.put("name", formData.get("name"));     // do tych, które używasz w AlcoholLayout
-                intakeArr.add(intakeEntry);
-            }
-            if (layout instanceof VegetableLayout) {
-                // Jeśli to jest VegetableLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
-                VegetableLayout vegetableLayout = (VegetableLayout) layout;
-                Map<String, Object> formData = vegetableLayout.getFormData();
-
-                // Dodaj dane do mapy
-                Map<String, Object> intakeEntry = new HashMap<>();
-                intakeEntry.put("amount", formData.get("amount")); // Tutaj możesz dostosować nazwy kluczy
-                intakeEntry.put("name", formData.get("name"));     // do tych, które używasz w VegetableLayout
-                intakeArr.add(intakeEntry);
-            }
-     */
-            /*
-            if (layout instanceof SugarLayout) {
-                // Jeśli to jest SugarLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
-                SugarLayout sugarLayout = (SugarLayout) layout;
-                Map<String, Object> formData = sugarLayout.getFormData();
-
-                // Dodaj dane do mapy
-                Map<String, Object> intakeEntry = new HashMap<>();
-                intakeEntry.put("amount", formData.get("amount")); // Tutaj możesz dostosować nazwy kluczy
-                intakeEntry.put("name", formData.get("name"));     // do tych, które używasz w SugarLayout
-                intakeArr.add(intakeEntry);
-            }
-            */
-    /*
-            if (layout instanceof OtherLayout) {
-                // Jeśli to jest CaffeineLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
-                OtherLayout otherLayout = (OtherLayout) layout;
-                Map<String, Object> formData = otherLayout.getFormData();
-
-                // Dodaj dane do mapy
-                Map<String, Object> intakeEntry = new HashMap<>();
-                //intakeEntry.put("desc", formData.get("desc")); // Tutaj możesz dostosować nazwy kluczy
-                intakeEntry.put("name", formData.get("name"));     // do tych, które używasz w OtherLayout
-                intakeArr.add(intakeEntry);
-            }
-            // Dodaj przypadki dla innych używek, jeśli istnieją
-        }
-
-        // Dodaj kolekcję "IntakeArr" do dokumentu
-        intakeData.put("intake_arr", intakeArr);
-
-        // Sprawdź, czy to jest aktualizacja czy nowy dokument
-        if (isUpdate) {
-            // Jeśli to jest aktualizacja, zaktualizuj istniejący dokument
-            db.collection("Users").document(userId).collection("Intakes").document(getTodayDateString())
-                    .update(intakeData)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            // Obsłuż sukces aktualizacji
-                            Toast.makeText(getContext(), "Dane zaktualizowane w bazie danych.", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            // Obsłuż błąd aktualizacji
-                            Toast.makeText(getContext(), "Błąd podczas aktualizacji danych w bazie danych.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        } else {
-            // Jeśli to nie jest aktualizacja, dodaj nowy dokument
-            db.collection("Users").document(userId).collection("Intakes").document(getTodayDateString())
-                    .set(intakeData)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            // Obsłuż sukces dodania nowego dokumentu
-                            Toast.makeText(getContext(), "Dane zapisane do bazy danych.", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            // Obsłuż błąd dodawania nowego dokumentu
-                            Toast.makeText(getContext(), "Błąd podczas zapisywania danych do bazy danych.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
-    */
 }
 

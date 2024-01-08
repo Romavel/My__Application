@@ -68,9 +68,9 @@ public class AlcoholLayout extends LinearLayout {
         textAlcoholComparison.setText(alcoholComparisonText);
     }
 
-    public void setFormDataFromDatabase(Map<String, Object> formData) {
+    public void setFormDataFromDatabase(DietEntry formData) {
         // Ustaw wartość NumberPicker na podstawie danych z bazy danych
-        int amount = ((Long) formData.get("amount")).intValue();
+        int amount = (formData.getAmount());
         numberPickerAlcohol.setValue(amount / 10);
     }
 
