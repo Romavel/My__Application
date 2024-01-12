@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -13,8 +12,8 @@ import java.util.Map;
 import pl.pollub.android.myapplication.R;
 
 public class OtherLayout extends LinearLayout {
-    private TextView textOther;
-    private EditText editTextOther;
+    private final TextView textOther;
+    private final EditText editTextOther;
 
     public OtherLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -22,7 +21,6 @@ public class OtherLayout extends LinearLayout {
 
         textOther = findViewById(R.id.textOther);
         editTextOther = findViewById(R.id.editTextOther);
-
 
 
         // Dodaj te dwie linie poniżej, aby sprawdzić, czy to rozwiązuje problem

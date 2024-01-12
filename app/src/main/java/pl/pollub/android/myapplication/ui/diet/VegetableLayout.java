@@ -17,7 +17,7 @@ public class VegetableLayout extends LinearLayout {
     private TextView textVegetableUnit;
     private TextView textVegetableComparison;
 
-    public VegetableLayout(Context context, AttributeSet attrs) {
+    public VegetableLayout(Context context, AttributeSet attrs, int value) {
         super(context, attrs);
         inflate(context, R.layout.layout_vegetable, this);
 
@@ -33,7 +33,16 @@ public class VegetableLayout extends LinearLayout {
         numberPickerVegetable.setWrapSelectorWheel(false);
         numberPickerVegetable.setDisplayedValues(displayedValues);
         numberPickerVegetable.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        numberPickerVegetable.setValue(0); // Domyślna wartość
+        if (value!=0)
+        {
+            int amount = value/10;
+            numberPickerVegetable.setValue(amount);
+            updateComparisonText(amount);
+        }
+        else
+        {
+            numberPickerVegetable.setValue(0); // Domyślna wartość
+        }
 
         // Dodaj te dwie linie poniżej, aby sprawdzić, czy to rozwiązuje problem
         textVegetable.setText("Dzisiejsze spożycie warzyw zielonych: ");

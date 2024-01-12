@@ -1,25 +1,50 @@
 package pl.pollub.android.myapplication.ui.diet;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import androidx.recyclerview.widget.RecyclerView;
 
 import pl.pollub.android.myapplication.R;
 import pl.pollub.android.myapplication.databinding.FragmentDietBinding;
-import pl.pollub.android.myapplication.ui.measurements.InrMeasurementDialogFragment;
-import pl.pollub.android.myapplication.ui.measurements.PressureMeasurementListFragment;
 
 public class DietFragment extends Fragment {
 
     private FragmentDietBinding binding;
+    private boolean todayDocument = false;
+    private boolean matchingDate = false;
+    private static NewDiet newDiet;
+    private RecyclerView recyclerView;
+    private DietAdapter dietAdapter;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -29,7 +54,80 @@ public class DietFragment extends Fragment {
         binding = FragmentDietBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        container = root.findViewById(R.id.recyclerView_diet);
+
+
+        // Ustaw Swipe to Refresh
+        SwipeRefreshLayout swipeRefreshLayout = root.findViewById(R.id.dietSwipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            // Odśwież dane po przeciągnięciu
+            checkExistingDocument();
+            swipeRefreshLayout.setRefreshing(false);
+        });
+
+
         return root;
+    }
+
+    private void checkExistingDocument() {
+        // Pobierz ID aktualnie zalogowanego użytkownika
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // Utwórz kolekcję "Intakes" wewnątrz kolekcji "Users"
+        final CollectionReference intakesCollection = db.collection("Users").document(userId).collection("Intakes");
+
+
+        // Utwórz zapytanie, aby pobrać dokumenty z datą nie wcześniejszą niż dzisiaj
+        Query query = intakesCollection
+                .orderBy("day", Query.Direction.DESCENDING)
+                .limit(1);
+
+        Log.d("DietFragment", "Query: " + query);
+        query.get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        // Załóżmy, że zakładamy, że istnieje tylko jeden dokument z dzisiejszą datą,
+                        // Jeśli istnieje więcej niż jeden, musisz dostosować to odpowiednio
+                        DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                        newDiet = documentSnapshot.toObject(NewDiet.class);
+                        // Pobierz dzisiejszą datę
+                        Date todayDate = Calendar.getInstance().getTime();
+                        // Pobierz datę z ostatniego dokumentu
+                        Date documentDate = newDiet.getDay().toDate();
+                        Log.d("DietFragment", "Before MatchingDate: " + matchingDate);
+                        if (isSameDay(documentDate,todayDate)){
+                            Log.d("DietFragment", "MatchingDate changed to True");
+                            matchingDate=true;
+                        }
+
+                        Log.d("DietFragment", "After MatchingDate: " + matchingDate);
+                        if (newDiet != null && matchingDate) {
+                            // Jeśli istnieją dokumenty z dzisiejszą datą, to jest to aktualizacja
+                            todayDocument = true;
+                            Log.d("DietFragment", "NewDiet intakeArray: " + newDiet.getIntake_arr() + " NewDiet documentId: " + newDiet.getDocumentId() + " NewDiet day: " + newDiet.getDay());
+
+                            // Wypełnij RecyclerView danymi
+                            if (recyclerView != null) {
+                                dietAdapter = new DietAdapter(newDiet.getIntake_arr());
+                                recyclerView.setAdapter(dietAdapter);
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Intakes", "Błąd podczas sprawdzania istnienia dokumentu", e);
+                });
+    }
+
+    // Metoda do porównywania dat i sprawdzania, czy są z tego samego dnia
+    private boolean isSameDay(Date date1, Date date2) {
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date2);
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
+                cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
     }
 
     @Override
@@ -38,12 +136,19 @@ public class DietFragment extends Fragment {
         binding = null;
     }
 
-
     public void showDietDialog() {
         FragmentManager fragmentManager = getParentFragmentManager();
         DietDialogFragment dietDialogFragment = new DietDialogFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, dietDialogFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+    public void showDietHistory() {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        DietDialogFragment dietHistoryFragment = new DietDialogFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, dietHistoryFragment)
                 .addToBackStack(null)
                 .commit();
     }

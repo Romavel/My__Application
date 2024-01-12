@@ -56,11 +56,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import org.checkerframework.checker.units.qual.A;
+
 public class DietDialogFragment extends DialogFragment {
 
     private Button btnCaffeine, btnNicotine, btnAlcohol, btnSugar, btnVegetables, btnOther, btnAddDiet, btnCancelDiet;
     private LinearLayout container;
     private boolean isUpdate = false;
+    private boolean matchingDate = false;
+    private int value;
     private Map<String, View> layoutMap = new HashMap<>();
     private Set<String> selectedButtons = new HashSet<>();
 
@@ -137,32 +141,32 @@ public class DietDialogFragment extends DialogFragment {
                     // Jeżeli przycisk nie był zaznaczony, zaznacz go
                     v.setBackgroundColor(Color.parseColor("#0A900A"));
                     selectedButtons.add(layoutTag);
-                    addLayout(layoutTag);
+                    addLayout(layoutTag,value);
                 }
             }
         });
     }
 
-    private void addLayout(String layoutTag) {
+    private void addLayout(String layoutTag,int value) {
         View layout;
         switch (layoutTag) {
             case "Caffeine":
-                layout = new CaffeineLayout(getContext(), null);
+                layout = new CaffeineLayout(getContext(), null,value);
                 break;
             case "Nicotine":
-                layout = new NicotineLayout(getContext(), null);
+                layout = new NicotineLayout(getContext(), null,value);
                 break;
             case "Alcohol":
-                layout = new AlcoholLayout(getContext(), null);
+                layout = new AlcoholLayout(getContext(), null,value);
+                break;
+            case "Vegetables":
+                layout = new VegetableLayout(getContext(), null,value);
                 break;
                 /*
             case "Sugar":
-                layout = new SugarLayout(getContext(), null);
+                layout = new SugarLayout(getContext(), null,value);
                 break;
                  */
-            case "Vegetables":
-                layout = new VegetableLayout(getContext(), null);
-                break;
             case "Other":
                 layout = new OtherLayout(getContext(), null);
                 break;
@@ -194,8 +198,6 @@ public class DietDialogFragment extends DialogFragment {
         // Utwórz kolekcję "Intakes" wewnątrz kolekcji "Users"
         final CollectionReference intakesCollection = db.collection("Users").document(userId).collection("Intakes");
 
-        // Pobierz dzisiejszą datę
-        Date today = Calendar.getInstance().getTime();
 
         // Utwórz zapytanie, aby pobrać dokumenty z datą nie wcześniejszą niż dzisiaj
         Query query = intakesCollection
@@ -206,37 +208,44 @@ public class DietDialogFragment extends DialogFragment {
         query.get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
-                        // Jeśli istnieją dokumenty z dzisiejszą datą, to jest to aktualizacja
-                        isUpdate = true;
                         // Załóżmy, że zakładamy, że istnieje tylko jeden dokument z dzisiejszą datą,
                         // Jeśli istnieje więcej niż jeden, musisz dostosować to odpowiednio
                         DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
 
                         Log.d("DietDialogFragment", "DocumentSnapshot: " + documentSnapshot);
                         newDiet = documentSnapshot.toObject(NewDiet.class);
-                        if (newDiet != null) {
-                            Log.d("DietDialogFragment", "NewDiet intakeArray: " + newDiet.getIntake_arr() + "NewDiet documentId: " + newDiet.getDocumentId() + "NewDiet day: " + newDiet.getDay());
+                        // Pobierz dzisiejszą datę
+                        Date todayDate = Calendar.getInstance().getTime();
+                        String today = formatDateWithoutTime(todayDate);
+
+                        Log.d("DietDialogFragment", "Today's date: " + today);
+                        // Pobierz datę z ostatniego dokumentu
+                        Date documentDate = newDiet.getDay().toDate();
+                        String document = formatDateWithoutTime(documentDate);
+                        Log.d("DietDialogFragment", "CheckDate's date: " + document);
+                        Log.d("DietDialogFragment", "Before MatchingDate" + matchingDate);
+                        if (isSameDay(documentDate,todayDate)){
+                            Log.d("DietDialogFragment", "MatchingDate changed to True");
+                            matchingDate=true;
+                        }
+
+                        Log.d("DietDialogFragment", "After MatchingDate" + matchingDate);
+                        if (newDiet != null && matchingDate == true) {
+                            // Jeśli istnieją dokumenty z dzisiejszą datą, to jest to aktualizacja
+                            isUpdate = true;
+                            Log.d("DietDialogFragment", "NewDiet intakeArray: " + newDiet.getIntake_arr() + " NewDiet documentId: " + newDiet.getDocumentId() + " NewDiet day: " + newDiet.getDay());
                             handleExistingData(newDiet);
                         }
+                    }
+                    else
+                    {
+                        value = 0;
                     }
                 })
                 .addOnFailureListener(e -> {
                     Log.e("Intakes", "Błąd podczas sprawdzania istnienia dokumentu", e);
                 });
     }
-
-
-    // Metoda do porównywania dat i sprawdzania, czy są z tego samego dnia
-    private boolean isSameDay(Date date1, Date date2) {
-        Calendar cal1 = Calendar.getInstance();
-        cal1.setTime(date1);
-        Calendar cal2 = Calendar.getInstance();
-        cal2.setTime(date2);
-        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
-                cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
-    }
-
 
     private void handleExistingData(NewDiet newDiet) {
         Timestamp day = newDiet.getDay();
@@ -245,54 +254,84 @@ public class DietDialogFragment extends DialogFragment {
         if(newDiet.getIntake_arr()!= null) {
             for (DietEntry intakeEntry : newDiet.getIntake_arr()) {
                 String name = (String) intakeEntry.getName();
+                Log.d("DietDialogFragment","IntakeEntry name: " + intakeEntry.getName());
                 View layout = layoutMap.get(name);
-                if (layout instanceof CaffeineLayout) {
-                    CaffeineLayout caffeineLayout = (CaffeineLayout) layout;
-                    caffeineLayout.setFormDataFromDatabase(intakeEntry);
-                }
 
-                if (layout instanceof NicotineLayout) {
-                    // Jeśli to jest NicotineLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
-                    NicotineLayout nicotineLayout = (NicotineLayout) layout;
-                    nicotineLayout.setFormDataFromDatabase(intakeEntry);
-                }
-                if (layout instanceof AlcoholLayout) {
-                    // Jeśli to jest AlcoholLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
-                    AlcoholLayout alcoholLayout = (AlcoholLayout) layout;
-                    alcoholLayout.setFormDataFromDatabase(intakeEntry);
-                }
-                if (layout instanceof VegetableLayout) {
-                    // Jeśli to jest VegetableLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
-                    VegetableLayout vegetableLayout = (VegetableLayout) layout;
-                    vegetableLayout.setFormDataFromDatabase(intakeEntry);
-                }
+                    //Log.d("DietDialogFragment","layoutMap: " +layoutMap.get(name));
+                    if ("Caffeine".equals(name)) {
+                        int value = intakeEntry.getAmount();
+                        Log.d("DietDialogFragment","Value Caffine: " + value);
+                        //CaffeineLayout caffeineLayout = new CaffeineLayout(getContext(),null, value);
+                        Log.d("DietDialogFragment","Powinno dodać Caffeine");
+
+                        // Oznacz przycisk "Caffeine" jako zaznaczony
+                        btnCaffeine.setBackgroundColor(Color.parseColor("#0A900A"));
+                        selectedButtons.add("Caffeine");
+                        addLayout("Caffeine",value);
+
+                    }
+                    if ("Nicotine".equals(name)) {
+                        // Jeśli to jest NicotineLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
+                        int value = intakeEntry.getAmount();
+                        Log.d("DietDialogFragment","Value Nicotine: " + value);
+                        //NicotineLayout nicotineLayout = new NicotineLayout(getContext(),null, value);
+                        Log.d("DietDialogFragment","Powinno dodać Nicotine");
+
+                        // Oznacz przycisk "Nicotine" jako zaznaczony
+                        btnNicotine.setBackgroundColor(Color.parseColor("#0A900A"));
+                        selectedButtons.add("Nicotine");
+                        addLayout("Nicotine",value);
+                    }
+                    if ("Alcohol".equals(name)) {
+                        // Jeśli to jest AlcoholLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
+                        int value = intakeEntry.getAmount();
+                        Log.d("DietDialogFragment","Value Alcohol: " + value);
+                        //AlcoholLayout alcoholLayout = new AlcoholLayout(getContext(),null, value);
+                        Log.d("DietDialogFragment","Powinno dodać Alcohol");
+
+                        // Oznacz przycisk "Alcohol" jako zaznaczony
+                        btnAlcohol.setBackgroundColor(Color.parseColor("#0A900A"));
+                        selectedButtons.add("Alcohol");
+                        addLayout("Alcohol",value);
+                    }
+                    if ("Green_vegetables".equals(name)) {
+                        // Jeśli to jest VegetableLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
+                        int value = intakeEntry.getAmount();
+                        Log.d("DietDialogFragment","Value Vegetable: " + value);
+                        //VegetableLayout vegetableLayout = new VegetableLayout(getContext(),null, value);
+                        Log.d("DietDialogFragment","Powinno dodać Vegetable");
+                        // Oznacz przycisk "Vegetable" jako zaznaczony
+                        btnVegetables.setBackgroundColor(Color.parseColor("#0A900A"));
+                        selectedButtons.add("Vegetables");
+                        addLayout("Vegetables",value);
+                    }
                 /*
-                if (layout instanceof SugarLayout) {
+                if ("Sugar".equals(name)) {
                     // Jeśli to jest SugarLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
-                    SugarLayout sugarLayout = (SugarLayout) layout;
-                    sugarLayout.setFormDataFromDatabase(intakeEntry);
+                    int value = intakeEntry.getAmount();
+                    SugarLayout sugarLayout = new SugarLayout(getContext(),null, value);
+
+                    // Oznacz przycisk "Sugar" jako zaznaczony
+                        btnCaffeine.setBackgroundColor(Color.parseColor("#0A900A"));
+                        selectedButtons.add("Caffeine");
+                        addLayout("Caffeine",value);
                 }
                 */
-                if (layout instanceof OtherLayout) {
-                    // Jeśli to jest CaffeineLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
-                    OtherLayout otherLayout = (OtherLayout) layout;
-                }
-                // Dodaj przypadki dla innych używek, jeśli istnieją
+                    if ("Other".equals(name)) {
+                        // Jeśli to jest CaffeineLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
+                        //OtherLayout otherLayout = new OtherLayout(getContext(),null);
+                        Log.d("DietDialogFragment","Powinno dodać Other");
+                        // Oznacz przycisk "Other" jako zaznaczony
+                        btnOther.setBackgroundColor(Color.parseColor("#0A900A"));
+                        selectedButtons.add("Other");
+                        addLayout("Other",value);
+                    }
             }
         }
         else
         {
             Log.d("Intakes","layout_arr jest pusty");
         }
-    }
-
-
-
-    private String getTodayDateString() {
-        // Pobierz aktualną datę w formacie "YYYY-MM-DD"
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        Date today = Calendar.getInstance().getTime();
-        return dateFormat.format(today);
     }
 
     private void saveDataToDatabase() {
@@ -309,12 +348,10 @@ public class DietDialogFragment extends DialogFragment {
         if (newDiet != null) {
             intakeData = newDiet;
             intakeData.setDay(Timestamp.now()); // Dodaj timestamp dla dnia
-            // reszta kodu...
         } else {
             // Jeśli newDiet jest nullem, utwórz nowy obiekt intakeData
             intakeData = new NewDiet();
             intakeData.setDay(Timestamp.now()); // Dodaj timestamp dla dnia
-            // reszta kodu...
         }
 
 
@@ -416,6 +453,23 @@ public class DietDialogFragment extends DialogFragment {
                         }
                     });
         }
+    }
+
+    // Metoda do porównywania dat i sprawdzania, czy są z tego samego dnia
+    private boolean isSameDay(Date date1, Date date2) {
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date2);
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
+                cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
+    }
+
+    // Metoda do formatowania daty bez czasu
+    public static String formatDateWithoutTime(java.util.Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return sdf.format(date);
     }
 }
 

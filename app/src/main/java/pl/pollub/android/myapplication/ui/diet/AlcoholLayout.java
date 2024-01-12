@@ -17,7 +17,7 @@ public class AlcoholLayout extends LinearLayout {
     private TextView textAlcoholUnit;
     private TextView textAlcoholComparison;
 
-    public AlcoholLayout(Context context, AttributeSet attrs) {
+    public AlcoholLayout(Context context, AttributeSet attrs, int value) {
         super(context, attrs);
         inflate(context, R.layout.layout_alcohol, this);
 
@@ -33,7 +33,16 @@ public class AlcoholLayout extends LinearLayout {
         numberPickerAlcohol.setWrapSelectorWheel(false);
         numberPickerAlcohol.setDisplayedValues(displayedValues);
         numberPickerAlcohol.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        numberPickerAlcohol.setValue(0); // Domyślna wartość
+        if (value!=0)
+        {
+            int amount = value/10;
+            numberPickerAlcohol.setValue(amount);
+            updateComparisonText(amount);
+        }
+        else
+        {
+            numberPickerAlcohol.setValue(0); // Domyślna wartość
+        }
 
         // Dodaj te dwie linie poniżej, aby sprawdzić, czy to rozwiązuje problem
         textAlcohol.setText("Dzisiejsze spożycie alkoholu: ");

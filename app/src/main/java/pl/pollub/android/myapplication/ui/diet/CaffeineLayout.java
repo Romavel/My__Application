@@ -2,6 +2,7 @@ package pl.pollub.android.myapplication.ui.diet;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -18,7 +19,7 @@ public class CaffeineLayout extends LinearLayout {
     private TextView textCaffeineUnit;
     private TextView textCaffeineComparison;
 
-    public CaffeineLayout(Context context, AttributeSet attrs) {
+    public CaffeineLayout(Context context, AttributeSet attrs, int value) {
         super(context, attrs);
         inflate(context, R.layout.layout_caffeine, this);
 
@@ -27,6 +28,8 @@ public class CaffeineLayout extends LinearLayout {
         textCaffeineUnit = findViewById(R.id.textCaffeineUnit);
         textCaffeineComparison = findViewById(R.id.textCaffeineComparison);
 
+
+        Log.d("DietDialogFragment","Value w CaffineLayout: " + value);
         // Konfiguracja NumberPicker
         final String[] displayedValues = getDisplayedValues(); // Pobierz wartości do wyświetlenia
         numberPickerCaffeine.setMinValue(0);
@@ -34,7 +37,18 @@ public class CaffeineLayout extends LinearLayout {
         numberPickerCaffeine.setWrapSelectorWheel(false);
         numberPickerCaffeine.setDisplayedValues(displayedValues);
         numberPickerCaffeine.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        numberPickerCaffeine.setValue(0); // Domyślna wartość
+        //numberPickerCaffeine.setValue(value/10); // Domyślna wartość
+        if (value!=0)
+        {
+            int amount = value/10;
+            numberPickerCaffeine.setValue(amount);
+            updateComparisonText(amount);
+        }
+        else
+        {
+            numberPickerCaffeine.setValue(0); // Domyślna wartość
+        }
+
 
         // Dodaj te dwie linie poniżej, aby sprawdzić, czy to rozwiązuje problem
         textCaffeine.setText("Dzisiejsze spożycie kofeiny: ");
@@ -67,12 +81,6 @@ public class CaffeineLayout extends LinearLayout {
         String caffeineComparisonText = String.format("To w przybliżeniu %.0f ml kawy, %.0f ml espresso lub %.0f ml napoju energetycznego", coffeeAmount, espressoAmount, energyDrinkAmount);
 
         textCaffeineComparison.setText(caffeineComparisonText);
-    }
-
-    public void setFormDataFromDatabase(DietEntry formData) {
-        // Ustaw wartość NumberPicker na podstawie danych z bazy danych
-        int amount = (formData.getAmount());
-        numberPickerCaffeine.setValue(amount / 10);
     }
 
     // Metoda do pobierania danych wprowadzonych przez użytkownika

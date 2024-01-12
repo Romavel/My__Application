@@ -16,7 +16,7 @@ public class SugarLayout extends LinearLayout {
     private NumberPicker numberPickerSugar;
     private TextView textSugarUnit;
 
-    public SugarLayout(Context context, AttributeSet attrs) {
+    public SugarLayout(Context context, AttributeSet attrs, int value) {
         super(context, attrs);
         inflate(context, R.layout.layout_sugar, this);
 
@@ -31,7 +31,15 @@ public class SugarLayout extends LinearLayout {
         numberPickerSugar.setWrapSelectorWheel(false);
         numberPickerSugar.setDisplayedValues(displayedValues);
         numberPickerSugar.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        numberPickerSugar.setValue(0); // Domyślna wartość
+        if (value!=0)
+        {
+            int amount = value/10;
+            numberPickerSugar.setValue(amount);
+        }
+        else
+        {
+            numberPickerSugar.setValue(0); // Domyślna wartość
+        }
 
         // Dodaj te dwie linie poniżej, aby sprawdzić, czy to rozwiązuje problem
         textSugar.setText("Dzisiejsze spożycie cukru: ");

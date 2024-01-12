@@ -17,7 +17,7 @@ public class NicotineLayout extends LinearLayout {
     private TextView textNicotineUnit;
     private TextView textNicotineComparison;
 
-    public NicotineLayout(Context context, AttributeSet attrs) {
+    public NicotineLayout(Context context, AttributeSet attrs, int value) {
         super(context, attrs);
         inflate(context, R.layout.layout_nicotine, this);
 
@@ -33,7 +33,19 @@ public class NicotineLayout extends LinearLayout {
         numberPickerNicotine.setWrapSelectorWheel(false);
         numberPickerNicotine.setDisplayedValues(displayedValues);
         numberPickerNicotine.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        numberPickerNicotine.setValue(0); // Domyślna wartość
+        //numberPickerNicotine.setValue(0); // Domyślna wartość
+
+        if (value!=0)
+        {
+            int amount = value/10;
+            numberPickerNicotine.setValue(amount);
+            updateComparisonText(amount);
+        }
+        else
+        {
+            numberPickerNicotine.setValue(0); // Domyślna wartość
+        }
+
 
         // Dodaj te dwie linie poniżej, aby sprawdzić, czy to rozwiązuje problem
         textNicotine.setText("Dzisiejsze spożycie nikotyny: ");

@@ -81,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
             //((MedicationsFragment) currentFragment).showAddDialog();
         } else if (currentFragment instanceof DietFragment) {
             // Obsługa dodawania składników żywieniowych i używek
-            handleDietDialog();
+            //handleDietDialog();
+            showDietBottomDialog();
         } else if (currentFragment instanceof ProfileFragment) {
             // Obsługa dodawania informacji do profilu
             // Dodaj obsługę dla ProfileFragment
@@ -218,6 +219,47 @@ public class MainActivity extends AppCompatActivity {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
+    private void showDietBottomDialog() {
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottomsheet_diet_layout);
+
+        LinearLayout dietDialog = dialog.findViewById(R.id.layout_Diet_Dialog);
+        LinearLayout dietHistory = dialog.findViewById(R.id.layout_Diet_History);
+        ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
+        dietDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Wywołaj metodę showInrMeasurementDialog() w MeasurementsFragment
+                handleDietDialog();
+                dialog.dismiss();
+            }
+        });
+        dietHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Wywołaj metodę showPressureMeasurementList() w MeasurementsFragment
+                handleDietHistory();
+                binding.fab.hide();
+                dialog.dismiss();
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
+
+
     // Metody do obsługi akcji w MeasurementsFragment
     private void handleInrMeasurementDialog() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
@@ -282,6 +324,13 @@ public class MainActivity extends AppCompatActivity {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
         if (currentFragment instanceof DietFragment) {
             ((DietFragment) currentFragment).showDietDialog();
+        }
+    }
+
+    private void handleDietHistory() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+        if (currentFragment instanceof DietFragment) {
+            ((DietFragment) currentFragment).showDietHistory();
         }
     }
 
