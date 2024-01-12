@@ -1,36 +1,28 @@
 package pl.pollub.android.myapplication.ui.diet;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import androidx.recyclerview.widget.RecyclerView;
 
 import pl.pollub.android.myapplication.R;
 import pl.pollub.android.myapplication.databinding.FragmentDietBinding;
@@ -56,7 +48,10 @@ public class DietFragment extends Fragment {
 
         container = root.findViewById(R.id.recyclerView_diet);
 
+        // Inicjalizuj recyclerView tutaj
+        recyclerView = root.findViewById(R.id.recyclerView_diet);
 
+        checkExistingDocument();
         // Ustaw Swipe to Refresh
         SwipeRefreshLayout swipeRefreshLayout = root.findViewById(R.id.dietSwipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -95,28 +90,31 @@ public class DietFragment extends Fragment {
                         // Pobierz datę z ostatniego dokumentu
                         Date documentDate = newDiet.getDay().toDate();
                         Log.d("DietFragment", "Before MatchingDate: " + matchingDate);
-                        if (isSameDay(documentDate,todayDate)){
+                        if (isSameDay(documentDate, todayDate)) {
                             Log.d("DietFragment", "MatchingDate changed to True");
-                            matchingDate=true;
+                            matchingDate = true;
                         }
 
-                        Log.d("DietFragment", "After MatchingDate: " + matchingDate);
                         if (newDiet != null && matchingDate) {
-                            // Jeśli istnieją dokumenty z dzisiejszą datą, to jest to aktualizacja
-                            todayDocument = true;
-                            Log.d("DietFragment", "NewDiet intakeArray: " + newDiet.getIntake_arr() + " NewDiet documentId: " + newDiet.getDocumentId() + " NewDiet day: " + newDiet.getDay());
-
-                            // Wypełnij RecyclerView danymi
-                            if (recyclerView != null) {
-                                dietAdapter = new DietAdapter(newDiet.getIntake_arr());
-                                recyclerView.setAdapter(dietAdapter);
-                            }
+                            // Wyświetl item_diet
+                            setupRecyclerView(newDiet);
                         }
+                        Log.d("DietFragment", "After MatchingDate: " + matchingDate);
                     }
                 })
                 .addOnFailureListener(e -> {
                     Log.e("Intakes", "Błąd podczas sprawdzania istnienia dokumentu", e);
                 });
+    }
+
+    private void setupRecyclerView(NewDiet newDiet) {
+        // Skonfiguruj RecyclerView
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        // Skonfiguruj adapter i przekaż dane
+        DietAdapter dietAdapter = new DietAdapter(newDiet);
+        recyclerView.setAdapter(dietAdapter);
     }
 
     // Metoda do porównywania dat i sprawdzania, czy są z tego samego dnia
@@ -144,6 +142,7 @@ public class DietFragment extends Fragment {
                 .addToBackStack(null)
                 .commit();
     }
+
     public void showDietHistory() {
         FragmentManager fragmentManager = getParentFragmentManager();
         DietDialogFragment dietHistoryFragment = new DietDialogFragment();

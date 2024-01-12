@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 // NewDiet.java
-public class NewDiet implements Serializable  {
+public class NewDiet implements Serializable {
     @DocumentId
     String documentId;
     private Timestamp day;

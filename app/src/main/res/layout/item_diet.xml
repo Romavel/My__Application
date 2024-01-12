@@ -1,363 +1,389 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-    <FrameLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <androidx.cardview.widget.CardView
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:paddingBottom="40dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:paddingBottom="40dp"
-            app:cardCornerRadius="30dp"
-            app:cardElevation="20dp">
-            <LinearLayout
+            android:orientation="vertical">
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:textAlignment="center"
-                    android:textSize="20sp"
-                    android:text="Dzisiejsze spożycie"/>
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Dzisiejsze spożycie"
+                android:textAlignment="center"
+                android:textSize="20sp" />
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewCaffeineShow"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewCaffeineShow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:paddingBottom="20dp"
+                android:visibility="gone"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="20dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:paddingBottom="20dp"
-                    app:cardCornerRadius="30dp"
-                    app:cardElevation="20dp"
-                    android:visibility="visible">
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:id="@+id/textCaffeineShow"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginStart="10dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:textSize="16sp"
-                                    tools:text="Dzisiejsze spożycie kofeiny"
-                                    android:textColor="@color/black"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintEnd_toStartOf="@id/textCaffeineValueShow"/>
-
-                                <TextView
-                                    android:id="@+id/textCaffeineValueShow"
-                                    android:layout_width="60dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginBottom="16dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:textSize="20sp"
-                                    android:textAlignment="textEnd"
-                                    android:text="2500"
-                                    app:layout_constraintStart_toEndOf="@id/textCaffeineShow"
-                                    app:layout_constraintEnd_toStartOf="@id/textCaffeineUnitShow"
-                                    app:layout_constraintTop_toTopOf="parent"/>
-
-                                <TextView
-                                    android:id="@+id/textCaffeineUnitShow"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginEnd="20dp"
-                                    android:textSize="20sp"
-                                    tools:text="mg"
-                                    android:textColor="@color/black"
-                                    app:layout_constraintStart_toEndOf="@id/textCaffeineValueShow"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"/>
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-                        </LinearLayout>
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textCaffeineComparisonShow"
+                            android:id="@+id/textCaffeineShow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="1dp"
+                            android:layout_marginBottom="8dp"
+                            android:textSize="20sp"
+                            app:layout_constraintEnd_toStartOf="@id/textCaffeineValueShow"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Kofeina: " />
+
+                        <TextView
+                            android:id="@+id/textCaffeineValueShow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginBottom="16dp"
-                            android:textSize="16sp"
-                            tools:text="To w przybliżeniu 435 ml kawy, 100ml espresso lub 400ml napoju energatycznego"
-                            android:textColor="@color/black"/>
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="2500"
+                            android:textAlignment="textEnd"
+                            android:textSize="20sp"
+                            app:layout_constraintEnd_toStartOf="@id/textCaffeineUnitShow"
+                            app:layout_constraintStart_toEndOf="@id/textCaffeineShow"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textCaffeineUnitShow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="8dp"
+                            android:textSize="20sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/textCaffeineValueShow"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="mg" />
 
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewAlcoholShow"
+                    <TextView
+                        android:id="@+id/textCaffeineComparisonShow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:textSize="16sp"
+                        tools:text="To w przybliżeniu 435 ml kawy, 100ml espresso lub 400ml napoju energatycznego" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewAlcoholShow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:paddingBottom="40dp"
+                android:visibility="gone"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="20dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:paddingBottom="40dp"
-                    app:cardCornerRadius="30dp"
-                    app:cardElevation="20dp"
-                    android:visibility="gone">
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:id="@+id/textAlcoholShow"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginStart="10dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:textSize="16sp"
-                                    tools:text="Dzisiejsze spożycie alkoholu"
-                                    android:textColor="@color/black"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintEnd_toStartOf="@id/textAlcoholValueShow"/>
-
-                                <TextView
-                                    android:id="@+id/textAlcoholValueShow"
-                                    android:layout_width="60dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginBottom="16dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:textSize="20sp"
-                                    android:textAlignment="textEnd"
-                                    android:text="2500"
-                                    app:layout_constraintStart_toEndOf="@id/textAlcoholShow"
-                                    app:layout_constraintEnd_toStartOf="@id/textAlcoholUnitShow"
-                                    app:layout_constraintTop_toTopOf="parent"/>
-
-                                <TextView
-                                    android:id="@+id/textAlcoholUnitShow"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginEnd="20dp"
-                                    android:textSize="20sp"
-                                    tools:text="mg"
-                                    android:textColor="@color/black"
-                                    app:layout_constraintStart_toEndOf="@id/textAlcoholValueShow"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"/>
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-                        </LinearLayout>
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textAlcoholComparisonShow"
+                            android:id="@+id/textAlcoholShow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginBottom="8dp"
+                            android:textSize="20sp"
+                            tools:text="Alkohol: " />
+
+                        <TextView
+                            android:id="@+id/textAlcoholValueShow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginBottom="16dp"
-                            android:textSize="16sp"
-                            tools:text="To w przybliżeniu 435 ml kawy, 100ml espresso lub 400ml napoju energatycznego"
-                            android:textColor="@color/black"/>
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="2500"
+                            android:textAlignment="textEnd"
+                            android:textSize="20sp"
+                            app:layout_constraintEnd_toStartOf="@id/textAlcoholUnitShow"
+                            app:layout_constraintStart_toEndOf="@id/textAlcoholShow"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textAlcoholUnitShow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginBottom="8dp"
+                            android:textSize="20sp"
+                            tools:text="mg" />
 
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewNicotineShow"
+                    <TextView
+                        android:id="@+id/textAlcoholComparisonShow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:textSize="16sp"
+                        tools:text="To w przybliżeniu 435 ml kawy, 100ml espresso lub 400ml napoju energatycznego" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewNicotineShow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:paddingBottom="40dp"
+                android:visibility="gone"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="20dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:paddingBottom="40dp"
-                    app:cardCornerRadius="30dp"
-                    app:cardElevation="20dp"
-                    android:visibility="gone">
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:id="@+id/textNicotineShow"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginStart="10dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:textSize="16sp"
-                                    tools:text="Dzisiejsze spożycie nikotyny "
-                                    android:textColor="@color/black"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintEnd_toStartOf="@id/textNicotineValueShow"/>
-
-                                <TextView
-                                    android:id="@+id/textNicotineValueShow"
-                                    android:layout_width="60dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginBottom="16dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:textSize="20sp"
-                                    android:textAlignment="textEnd"
-                                    android:text="2500"
-                                    app:layout_constraintStart_toEndOf="@id/textNicotineShow"
-                                    app:layout_constraintEnd_toStartOf="@id/textNicotineUnitShow"
-                                    app:layout_constraintTop_toTopOf="parent"/>
-
-                                <TextView
-                                    android:id="@+id/textNicotineUnitShow"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginEnd="20dp"
-                                    android:textSize="20sp"
-                                    tools:text="mg"
-                                    android:textColor="@color/black"
-                                    app:layout_constraintStart_toEndOf="@id/textNicotineValueShow"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"/>
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-                        </LinearLayout>
 
                         <TextView
-                            android:id="@+id/textNicotineComparisonShow"
+                            android:id="@+id/textNicotineShow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginBottom="8dp"
+                            android:textSize="20sp"
+                            tools:text="Nikotyna: " />
+
+                        <TextView
+                            android:id="@+id/textNicotineValueShow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginBottom="16dp"
-                            android:textSize="16sp"
-                            tools:text="To w przybliżeniu 435 ml kawy, 100ml espresso lub 400ml napoju energatycznego"
-                            android:textColor="@color/black"/>
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="2500"
+                            android:textAlignment="textEnd"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/textNicotineUnitShow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginBottom="8dp"
+                            android:textSize="20sp"
+                            tools:text="mg" />
 
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewVegetableShow"
+                    <TextView
+                        android:id="@+id/textNicotineComparisonShow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:textSize="16sp"
+                        tools:text="To w przybliżeniu 435 ml kawy, 100ml espresso lub 400ml napoju energatycznego" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewVegetableShow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:paddingBottom="40dp"
+                android:visibility="gone"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="20dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:paddingBottom="40dp"
-                    app:cardCornerRadius="30dp"
-                    app:cardElevation="20dp"
-                    android:visibility="gone">
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:id="@+id/textVegetableShow"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginStart="10dp"
-                                    android:layout_marginEnd="2dp"
-                                    android:textSize="16sp"
-                                    tools:text="Dzisiejsze spożycie warzyw zielonych"
-                                    android:textColor="@color/black"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintEnd_toStartOf="@id/textVegetableValueShow"/>
-
-                                <TextView
-                                    android:id="@+id/textVegetableValueShow"
-                                    android:layout_width="50dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginBottom="16dp"
-                                    android:layout_marginEnd="2dp"
-                                    android:textSize="16sp"
-                                    android:textAlignment="textEnd"
-                                    android:text="2500"
-                                    app:layout_constraintStart_toEndOf="@id/textVegetableShow"
-                                    app:layout_constraintEnd_toStartOf="@id/textVegetableUnitShow"
-                                    app:layout_constraintTop_toTopOf="parent"/>
-
-                                <TextView
-                                    android:id="@+id/textVegetableUnitShow"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginEnd="20dp"
-                                    android:textSize="16sp"
-                                    tools:text="μg"
-                                    android:textColor="@color/black"
-                                    app:layout_constraintStart_toEndOf="@id/textVegetableValueShow"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"/>
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-                        </LinearLayout>
 
                         <TextView
-                            android:id="@+id/textVegetableComparisonShow"
+                            android:id="@+id/textVegetableShow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginBottom="8dp"
+                            android:textSize="20sp"
+                            tools:text="Warzywa zielone: " />
+
+                        <TextView
+                            android:id="@+id/textVegetableValueShow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginBottom="16dp"
-                            android:textSize="16sp"
-                            tools:text="To w przybliżeniu 435 ml kawy, 100ml espresso lub 400ml napoju energatycznego"
-                            android:textColor="@color/black"/>
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="2500"
+                            android:textAlignment="textEnd"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/textVegetableUnitShow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginBottom="8dp"
+                            android:textSize="20sp"
+                            tools:text="μg" />
 
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/textVegetableComparisonShow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:textSize="16sp"
+                        tools:text="To w przybliżeniu 435 ml kawy, 100ml espresso lub 400ml napoju energatycznego" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/containerCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:paddingBottom="40dp"
+                android:visibility="visible"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </FrameLayout>
+                        <TextView
+                            android:id="@+id/itemName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginBottom="8dp"
+                            android:textSize="20sp"
+                            tools:text="Name: " />
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                        <TextView
+                            android:id="@+id/itemValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="2500"
+                            android:textAlignment="textEnd"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/itemUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginBottom="8dp"
+                            android:textSize="20sp"
+                            tools:text="μg" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/itemComparison"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:textSize="16sp"
+                        tools:text="To w przybliżeniu 435 ml kawy, 100ml espresso lub 400ml napoju energatycznego" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
