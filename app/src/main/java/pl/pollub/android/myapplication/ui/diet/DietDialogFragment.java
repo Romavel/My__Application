@@ -94,7 +94,7 @@ public class DietDialogFragment extends DialogFragment {
         setupButton(btnAlcohol, "Alcohol");
        // setupButton(btnSugar, "Sugar");
         setupButton(btnVegetables, "Vegetables");
-        setupButton(btnOther, "Other");
+        //setupButton(btnOther, "Other");
 
         setupAddButton();
         setupCancelButton();
@@ -166,10 +166,10 @@ public class DietDialogFragment extends DialogFragment {
             case "Sugar":
                 layout = new SugarLayout(getContext(), null,value);
                 break;
-                 */
             case "Other":
                 layout = new OtherLayout(getContext(), null);
                 break;
+                 */
             // Dodaj inne przypadki dla innych używek
             default:
                 return;
@@ -316,7 +316,7 @@ public class DietDialogFragment extends DialogFragment {
                         selectedButtons.add("Caffeine");
                         addLayout("Caffeine",value);
                 }
-                */
+
                     if ("Other".equals(name)) {
                         // Jeśli to jest CaffeineLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
                         //OtherLayout otherLayout = new OtherLayout(getContext(),null);
@@ -326,6 +326,7 @@ public class DietDialogFragment extends DialogFragment {
                         selectedButtons.add("Other");
                         addLayout("Other",value);
                     }
+                 */
             }
         }
         else
