@@ -25,8 +25,6 @@ import pl.pollub.android.myapplication.R;
 
 public class InrMeasurementDialogFragment extends DialogFragment {
 
-    // ... inne pola
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inr_measurement_dialog, container, true);

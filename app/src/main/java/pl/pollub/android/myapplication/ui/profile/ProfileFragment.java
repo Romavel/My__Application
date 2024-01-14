@@ -37,7 +37,65 @@ public class ProfileFragment extends Fragment {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
+
+        // Inicjalizacja widoków
+        TextView accessibilitySettings = binding.accessibilitySettings;
+        TextView notificationSettings = binding.notificationSettings;
+        TextView therapeuticRangeSettings = binding.therapeuticRangeSettings;
+        TextView editPersonalData = binding.editPersonalData;
+        TextView editMainMedication = binding.editMainMedication;
         Button buttonLogout = binding.buttonLogout;
+
+        //Wypisanie tekstu
+        accessibilitySettings.setText("Ustawienia dostępności");
+        notificationSettings.setText("Ustawienia powiadomień");
+        therapeuticRangeSettings.setText("Ustaw przedział terapeutyczny");
+        editPersonalData.setText("Edytuj dane");
+        editMainMedication.setText("Zmień lek główny");
+
+
+        // Dodanie click listenerów do TextViews
+        accessibilitySettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obsługa kliknięcia w ustawienia dostępności
+                // Dodaj tutaj kod, który ma zostać wykonany po kliknięciu
+            }
+        });
+
+        notificationSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obsługa kliknięcia w ustawienia powiadomień
+                // Dodaj tutaj kod, który ma zostać wykonany po kliknięciu
+            }
+        });
+
+        therapeuticRangeSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obsługa kliknięcia w ustaw przediał terapeutyczny
+                // Dodaj tutaj kod, który ma zostać wykonany po kliknięciu
+            }
+        });
+
+        editPersonalData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obsługa kliknięcia w edytuj dane
+                // Dodaj tutaj kod, który ma zostać wykonany po kliknięciu
+            }
+        });
+
+        editMainMedication.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obsługa kliknięcia w zmień lek główny
+                // Dodaj tutaj kod, który ma zostać wykonany po kliknięciu
+            }
+        });
+
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
