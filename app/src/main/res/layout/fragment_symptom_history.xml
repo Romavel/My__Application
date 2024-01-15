@@ -1,40 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipeRefreshLayoutPressure"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="?attr/actionBarSize"
     android:background="@android:color/transparent"
-    tools:context=".ui.measurements.PressureMeasurementListFragment">
+    tools:context=".ui.medications.SymptomHistoryFragment">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:cardCornerRadius="30dp"
-                app:cardElevation="20dp">
+                android:scrollbars="vertical" />
 
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewPressure"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:scrollbars="vertical" />
-
-
-            </androidx.cardview.widget.CardView>
 
             <Button
                 android:id="@+id/loadMoreButton"
@@ -43,9 +35,9 @@
                 android:layout_gravity="bottom"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="90dp"
+                android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/colorBlue"
-                android:text="Załaduj kolejne pomiary"
+                android:text="Załaduj kolejne symptomy"
                 android:textSize="14sp"
                 app:cornerRadius="8dp" />
         </LinearLayout>

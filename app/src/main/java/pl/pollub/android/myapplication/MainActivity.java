@@ -167,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayout medicationsLayout = dialog.findViewById(R.id.layout_Medications);
         LinearLayout symptomsLayout = dialog.findViewById(R.id.layout_Symptoms);
-        LinearLayout medidactionsList = dialog.findViewById(R.id.layout_Medications_List);
         LinearLayout symptomsList = dialog.findViewById(R.id.layout_Symptoms_List);
         ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
         medicationsLayout.setOnClickListener(new View.OnClickListener() {
@@ -188,14 +187,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        medidactionsList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Wywołaj metodę showInrMeasurementList() w MedicationsFragment
-                handleInrMeasurementList();
-                dialog.dismiss();
-            }
-        });
 
         symptomsList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -306,17 +297,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void handleMedicationsList() {
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
-        if (currentFragment instanceof MeasurementsFragment) {
-            ((MeasurementsFragment) currentFragment).showInrMeasurementList();
-        }
-    }
-
     private void handleSymptomsList() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
-        if (currentFragment instanceof MeasurementsFragment) {
-            ((MeasurementsFragment) currentFragment).showPressureMeasurementList();
+        if (currentFragment instanceof MedicationsFragment) {
+            ((MedicationsFragment) currentFragment).showSymptomList();
         }
     }
 

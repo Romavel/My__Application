@@ -196,13 +196,13 @@ public class MedicationsFragment extends Fragment {
                 .addToBackStack(null)
                 .commit();
     }
-    public void showInrMeasurementList() {
+    public void showSymptomList() {
         // Otwórz nowy fragment z listą pomiarów INR
         FragmentManager fragmentManager = getParentFragmentManager();
-        InrMeasurementListFragment inrListFragment = new InrMeasurementListFragment();
+        SymptomHistoryFragment symptomHistoryFragment = new SymptomHistoryFragment();
         fragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, inrListFragment)
-                //.addToBackStack(null)
+                .replace(R.id.frame_layout, symptomHistoryFragment)
+                .addToBackStack(null)
                 .commit();
     }
     public void showPressureMeasurementList() {
