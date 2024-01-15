@@ -4,9 +4,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentId;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 // NewDiet.java
 public class NewDiet implements Serializable {

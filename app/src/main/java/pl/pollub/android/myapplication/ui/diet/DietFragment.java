@@ -35,7 +35,6 @@ public class DietFragment extends Fragment {
     private static NewDiet newDiet;
     private RecyclerView recyclerView;
     private DietAdapter dietAdapter;
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -139,7 +138,7 @@ public class DietFragment extends Fragment {
         DietDialogFragment dietDialogFragment = new DietDialogFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, dietDialogFragment)
-                .addToBackStack(null)
+                .addToBackStack("DietFragment")
                 .commit();
     }
 
@@ -148,7 +147,7 @@ public class DietFragment extends Fragment {
         DietDialogFragment dietHistoryFragment = new DietDialogFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, dietHistoryFragment)
-                .addToBackStack(null)
+                .addToBackStack("DietFragment")
                 .commit();
     }
 }

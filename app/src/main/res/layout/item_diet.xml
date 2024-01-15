@@ -11,7 +11,7 @@
         android:layout_margin="16dp"
         android:paddingBottom="40dp"
         app:cardCornerRadius="30dp"
-        app:cardElevation="20dp">
+        app:cardElevation="3dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -338,7 +338,7 @@
 
 
                         <TextView
-                            android:id="@+id/itemName"
+                            android:id="@+id/textName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
@@ -349,7 +349,7 @@
                             tools:text="Name: " />
 
                         <TextView
-                            android:id="@+id/itemValue"
+                            android:id="@+id/textAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
@@ -360,7 +360,7 @@
                             android:textSize="20sp" />
 
                         <TextView
-                            android:id="@+id/itemUnit"
+                            android:id="@+id/textUnit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
@@ -372,7 +372,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/itemComparison"
+                        android:id="@+id/textComparison"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"

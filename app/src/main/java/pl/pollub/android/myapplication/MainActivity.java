@@ -301,8 +301,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleSymptomDialog() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
-        if (currentFragment instanceof MeasurementsFragment) {
-            ((MeasurementsFragment) currentFragment).showPressureMeasurementDialog();
+        if (currentFragment instanceof MedicationsFragment) {
+            ((MedicationsFragment) currentFragment).showSymptomDialog();
         }
     }
 

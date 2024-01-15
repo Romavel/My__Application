@@ -346,6 +346,7 @@ public class DietDialogFragment extends DialogFragment {
         NewDiet intakeData;
 
         if (newDiet != null) {
+            Log.d("DietDialogFragment", "NewDiet intakeArray: " + newDiet.getIntake_arr() + " NewDiet w saveData documentId: " + newDiet.getDocumentId() + " NewDiet day: " + newDiet.getDay());
             intakeData = newDiet;
             intakeData.setDay(Timestamp.now()); // Dodaj timestamp dla dnia
         } else {
