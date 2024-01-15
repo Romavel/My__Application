@@ -1,250 +1,266 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardViewHistory"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/caffeineContainer">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="10dp"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="8dp">
 
-    <androidx.cardview.widget.CardView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginVertical="10dp"
-        android:layout_marginHorizontal="10dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp">
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewHistoryDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="16dp"
+            android:text="02.11.2023"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textViewHistoryDate"
-                android:textAlignment="center"
-                android:text="02.11.2023"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:textSize="20sp"
-                android:textColor="@color/black"/>
+            android:orientation="vertical"
+            android:id="@+id/linearLayoutCaffeine"
+            android:visibility="gone">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/textCaffeineHistory"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="Kofeina: " />
 
-                    <TextView
-                        android:id="@+id/textCaffeineHistory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:textSize="20sp"
-                        tools:text="Kofeina: "
-                        android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/textCaffeineValueHistory"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="2500"
+                    android:textAlignment="textEnd"
+                    android:textSize="20sp" />
 
-                    <TextView
-                        android:id="@+id/textCaffeineValueHistory"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginEnd="10dp"
-                        android:textSize="20sp"
-                        android:textAlignment="textEnd"
-                        android:text="2500"/>
+                <TextView
+                    android:id="@+id/textCaffeineUnitHistory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="mg" />
 
-                    <TextView
-                        android:id="@+id/textCaffeineUnitHistory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="20dp"
-                        android:textSize="20sp"
-                        tools:text="mg"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
             </LinearLayout>
             <View
                 android:id="@+id/divider1"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_margin="2dp"
-                android:background="?android:attr/listDivider"/>
+                android:background="?android:attr/listDivider" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/linearLayoutNicotine"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/textNicotineHistory"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="Nikotyna: " />
 
-                    <TextView
-                        android:id="@+id/textNicotineHistory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:textSize="20sp"
-                        tools:text="Nikotyna: "
-                        android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/textNicotineValueHistory"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="2500"
+                    android:textAlignment="textEnd"
+                    android:textSize="20sp" />
 
-                    <TextView
-                        android:id="@+id/textNicotineValueHistory"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginEnd="10dp"
-                        android:textSize="20sp"
-                        android:textAlignment="textEnd"
-                        android:text="2500"/>
+                <TextView
+                    android:id="@+id/textNicotineUnitHistory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="mg" />
 
-                    <TextView
-                        android:id="@+id/textNicotineUnitHistory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="20dp"
-                        android:textSize="20sp"
-                        tools:text="mg"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
             </LinearLayout>
-
             <View
                 android:id="@+id/divider2"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_margin="2dp"
-                android:background="?android:attr/listDivider"/>
+                android:background="?android:attr/listDivider" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/linearLayoutAlcohol"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/textAlcoholHistory"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="Alkohol: " />
 
-                    <TextView
-                        android:id="@+id/textAlcoholHistory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:textSize="20sp"
-                        tools:text="Alkohol: "
-                        android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/textAlcoholValueHistory"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="2500"
+                    android:textAlignment="textEnd"
+                    android:textSize="20sp" />
 
-                    <TextView
-                        android:id="@+id/textAlcoholValueHistory"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginEnd="10dp"
-                        android:textSize="20sp"
-                        android:textAlignment="textEnd"
-                        android:text="2500"/>
+                <TextView
+                    android:id="@+id/textAlcoholUnitHistory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="mg" />
 
-                    <TextView
-                        android:id="@+id/textAlcoholUnitHistory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="20dp"
-                        android:textSize="20sp"
-                        tools:text="mg"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
             </LinearLayout>
-
             <View
                 android:id="@+id/divider3"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_margin="2dp"
-                android:background="?android:attr/listDivider"/>
+                android:background="?android:attr/listDivider" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/linearLayoutVegetables"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/textVegetableHistory"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="Warzywa zielone: " />
 
-                    <TextView
-                        android:id="@+id/textVegetableHistory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:textSize="20sp"
-                        tools:text="Warzywa zielone: "
-                        android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/textVegetableValueHistory"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="2500"
+                    android:textAlignment="textEnd"
+                    android:textSize="20sp" />
 
-                    <TextView
-                        android:id="@+id/textVegetableValueHistory"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginEnd="10dp"
-                        android:textSize="20sp"
-                        android:textAlignment="textEnd"
-                        android:text="2500"/>
+                <TextView
+                    android:id="@+id/textVegetableUnitHistory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="μg" />
 
-                    <TextView
-                        android:id="@+id/textVegetableUnitHistory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="20dp"
-                        android:textSize="20sp"
-                        tools:text="μg"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
             </LinearLayout>
-
-            <Button
+            <View
+                android:id="@+id/divider4"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:backgroundTint="@color/colorRed"
-                android:text="Usuń"
-                android:textSize="14sp"
-                app:cornerRadius="8dp"/>
-
+                android:layout_height="2dp"
+                android:layout_margin="2dp"
+                android:background="?android:attr/listDivider" />
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
-</FrameLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/colorRed"
+            android:id="@+id/btnDeleteHistory"
+            android:text="Usuń"
+            android:textSize="14sp"
+            app:cornerRadius="8dp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+

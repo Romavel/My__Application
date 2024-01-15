@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -34,6 +35,10 @@ public class PressureMeasurementListFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<PressureMeasurement> pressureMeasurements;
     private PressureMeasurementAdapter adapter;
+
+    private Button loadMoreButton;
+
+    private int limit = 5;
     FirebaseFirestore db;
 
     @Override
@@ -64,8 +69,18 @@ public class PressureMeasurementListFragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback());
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
+        // Dodaj OnClickListener do przycisku loadMoreButton
+        loadMoreButton = view.findViewById(R.id.loadMoreButton);
+        loadMoreButton.setOnClickListener(v -> {
+            // Tutaj dodaj kod do obsługi kliknięcia na przycisk "Załaduj kolejne pomiary"
+            // Na przykład, możesz zwiększyć limit i ponownie pobrać dane
+            limit += 5; // Przykład: Zwiększ limit o 10
+            fetchInitialData(); // Ponownie pobierz dane z nowym limitem
+        });
+
         return view;
     }
+
 
     // Metoda do pobierania początkowych danych
     private void fetchInitialData() {
@@ -83,7 +98,7 @@ public class PressureMeasurementListFragment extends Fragment {
                 .document(userId)
                 .collection("BloodPressureMeasurements")
                 .orderBy("time", Query.Direction.DESCENDING)
-                .limit(10)
+                .limit(limit)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     pressureMeasurements.clear();

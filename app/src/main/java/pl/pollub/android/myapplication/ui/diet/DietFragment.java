@@ -145,7 +145,7 @@ public class DietFragment extends Fragment {
 
     public void showDietHistory() {
         FragmentManager fragmentManager = getParentFragmentManager();
-        DietDialogFragment dietHistoryFragment = new DietDialogFragment();
+        DietHistoryFragment dietHistoryFragment = new DietHistoryFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, dietHistoryFragment)
                 .addToBackStack(null)
