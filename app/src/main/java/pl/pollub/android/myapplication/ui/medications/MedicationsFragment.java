@@ -202,7 +202,7 @@ public class MedicationsFragment extends Fragment {
         InrMeasurementListFragment inrListFragment = new InrMeasurementListFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, inrListFragment)
-                .addToBackStack(null)
+                //.addToBackStack(null)
                 .commit();
     }
     public void showPressureMeasurementList() {
@@ -211,7 +211,7 @@ public class MedicationsFragment extends Fragment {
         PressureMeasurementListFragment pressureListFragment = new PressureMeasurementListFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, pressureListFragment)
-                .addToBackStack(null)
+                //.addToBackStack(null)
                 .commit();
     }
 

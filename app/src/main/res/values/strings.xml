@@ -17,6 +17,12 @@
         <item>Sintrom</item>
     </string-array>
 
+    <string-array name="gender_array">
+        <item>Wybierz płeć</item>
+        <item>Mężczyzna</item>
+        <item>Kobieta</item>
+    </string-array>
+
     <string-array name="days_of_week_array">
         <item>Poniedziałek</item>
         <item>Wtorek</item>
@@ -29,6 +35,7 @@
 
 
     <string-array name="countries_array">
+        <item>Wybierz kraj</item>
         <item>Australia</item>
         <item>Brasil</item>
         <item>Germany</item>

@@ -69,7 +69,6 @@ public class DietDialogFragment extends DialogFragment {
     private Set<String> selectedButtons = new HashSet<>();
 
     private static NewDiet newDiet;
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
