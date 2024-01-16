@@ -137,6 +137,14 @@
                 android:layout_centerHorizontal="true"
                 app:cardCornerRadius="8dp">
 
+                <Button
+                    android:id="@+id/buttonGoogleSignIn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sign In with Google"
+                    android:onClick="onGoogleSignInClick" />
+
+
                 <!-- Content inside the CardView, such as TextViews, ImageViews, etc. -->
 
             </androidx.cardview.widget.CardView>

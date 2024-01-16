@@ -1,25 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="400dp"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_marginBottom="80dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.medications.MainMedicationDialogFragment">
 
     <FrameLayout
         android:id="@+id/cardViewMedication"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="8dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/addMedicationBox">
 
             <LinearLayout
                 android:id="@+id/addMedication"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="16dp"
                 app:layout_constraintTop_toTopOf="parent">
@@ -32,13 +36,13 @@
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 
-                <EditText
-                    android:id="@+id/editTextMedicationName"
+                <TextView
+                    android:id="@+id/textViewMainMedicationName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:padding="8dp"
-                    android:hint="Wprowadź nazwę leku"/>
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/textViewSelectMedicationForm"
@@ -55,6 +59,27 @@
                     android:padding="8dp"
                     android:entries="@array/medication_form_array"/>
 
+                <TextView
+                    android:id="@+id/textViewSelectMedicationUnit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Jednostka przyjmowanego leku"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+                <!-- Spinner z jednostkami -->
+                <Spinner
+                    android:id="@+id/spinnerUnit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:entries="@array/unit_array"/>
+
+
+                <LinearLayout
+                    android:id="@+id/container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"/>
 
                 <LinearLayout
                     android:id="@+id/linearLayoutSchedules"
@@ -79,6 +104,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="20dp"
+                        android:backgroundTint="@color/colorBlue"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         app:cornerRadius = "20dp"
@@ -86,6 +112,39 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/btnCancelMainMedication"
+                        android:layout_width="160dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="8dp"
+                        android:backgroundTint="@color/colorBlue"
+                        android:text="Anuluj"
+                        android:textSize="14sp"
+                        app:cornerRadius="20dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/btnAddMainMedication"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <Button
+                        android:id="@+id/btnAddMainMedication"
+                        android:layout_width="160dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="8dp"
+                        android:backgroundTint="@color/colorBlue"
+                        android:text="Dodaj"
+                        android:textSize="14sp"
+                        app:cornerRadius="20dp"
+                        app:layout_constraintStart_toEndOf="@id/btnCancelMainMedication"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

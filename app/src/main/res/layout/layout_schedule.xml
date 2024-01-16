@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- CardView z danymi leku -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/custom_edittext"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- TextView z dawką -->
+            <TextView
+                android:id="@+id/textViewDose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dawka"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <!-- EditText z dawką -->
+            <EditText
+                android:id="@+id/editTextDose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:padding="8dp"/>
+
+
+
+            <!-- TextView z napisem "Wybierz dni tygodnia" -->
+            <TextView
+                android:id="@+id/textViewSelectDaysOfWeek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wybierz dni tygodnia"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <!-- Spinner z dniami tygodnia -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewDaysOfWeek"
+                android:hint="Wybierz dni"
+                android:drawablePadding="12dp"
+                android:drawableEnd="@android:drawable/arrow_down_float"
+                android:background="@android:drawable/editbox_background"/>
+
+            <!-- TextView z napisem "Wybierz godzinę powiadomienia" -->
+            <TextView
+                android:id="@+id/textViewSelectNotificationTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wybierz godzinę powiadomienia"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <!-- TextView do wyświetlania wybranej godziny -->
+            <TextView
+                android:id="@+id/textViewNotificationTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Przycisk otwierający TimePickerFragment -->
+                <Button
+                    android:id="@+id/buttonOpenTimePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wybierz godzinę"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_margin="8dp"
+                android:background="?android:attr/listDivider"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@color/colorRed"
+                android:id="@+id/btnDeleteSchedule"
+                android:text="Usuń"
+                android:textSize="14sp"
+                app:cornerRadius="8dp" />
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_margin="8dp"
+                android:background="?android:attr/listDivider"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

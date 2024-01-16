@@ -182,10 +182,21 @@ public class MedicationsFragment extends Fragment {
         Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
     }
 
+    public void showMainMedicationDialog() {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        MainMedicationDialogFragment mainMedicationDialogFragment = new MainMedicationDialogFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, mainMedicationDialogFragment)
+                .addToBackStack(null)
+                .commit();
+    }
     public void showMedicationDialog() {
         FragmentManager fragmentManager = getParentFragmentManager();
-        AddMedicationDialogFragment addMedicationDialogFragment = new AddMedicationDialogFragment();
-        addMedicationDialogFragment.show(fragmentManager, "AddMedicationDialogFragment");
+        OtherMedicationDialogFragment otherMedicationDialogFragment = new OtherMedicationDialogFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, otherMedicationDialogFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     public void showSymptomDialog() {

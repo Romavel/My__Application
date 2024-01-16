@@ -6,19 +6,19 @@ import com.google.firebase.firestore.DocumentId;
 import java.io.Serializable;
 import java.util.List;
 
-public class Medication implements Serializable {
+public class OtherMedication implements Serializable {
     @DocumentId
     String documentId;
     String form;
     String name;
     String unit;
-    List<ScheduleItem> plans;
+    List<OtherScheduleItem> plans;
 
-    public Medication() {
+    public OtherMedication() {
         // Empty constructor needed for Firestore deserialization
     }
 
-    public Medication(String documentId, String form, String name, String unit, List<ScheduleItem> plans) {
+    public OtherMedication(String documentId, String form, String name, String unit, List<OtherScheduleItem> plans) {
         this.documentId = documentId;
         this.form = form;
         this.name = name;
@@ -59,11 +59,11 @@ public class Medication implements Serializable {
         this.unit = unit;
     }
 
-    public List<ScheduleItem> getPlans() {
+    public List<OtherScheduleItem> getPlans() {
         return plans;
     }
 
-    public void setPlans(List<ScheduleItem> plans) {
+    public void setPlans(List<OtherScheduleItem> plans) {
         this.plans = plans;
     }
 }

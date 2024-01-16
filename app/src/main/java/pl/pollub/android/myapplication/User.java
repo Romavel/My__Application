@@ -10,9 +10,7 @@ public class User {
     private String email;
     private String birth_date;
     private String country;
-
     private String illness;
-
     private String role;
     private String medication;
     private String phone_number;

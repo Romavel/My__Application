@@ -3,19 +3,18 @@ package pl.pollub.android.myapplication.ui.medications;
 import java.io.Serializable;
 import java.util.List;
 
-public class ScheduleItem implements Serializable {
+public class OtherScheduleItem implements Serializable {
     double dose;
     List<Integer> daysOfWeek;
-    String time;
 
-    public ScheduleItem() {
+
+    public OtherScheduleItem() {
         // Empty constructor needed for Firestore deserialization
     }
 
-    public ScheduleItem(double dose, List<Integer> daysOfWeek, String time) {
+    public OtherScheduleItem(double dose, List<Integer> daysOfWeek) {
         this.dose = dose;
         this.daysOfWeek = daysOfWeek;
-        this.time = time;
     }
 
     // Add appropriate getters and setters
@@ -35,11 +34,4 @@ public class ScheduleItem implements Serializable {
         this.daysOfWeek = daysOfWeek;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 }

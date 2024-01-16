@@ -165,10 +165,20 @@ public class MainActivity extends AppCompatActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottomsheet_medications_layout);
 
+        LinearLayout mainMedicationLayout = dialog.findViewById(R.id.layout_MainMedication);
         LinearLayout medicationsLayout = dialog.findViewById(R.id.layout_Medications);
         LinearLayout symptomsLayout = dialog.findViewById(R.id.layout_Symptoms);
         LinearLayout symptomsList = dialog.findViewById(R.id.layout_Symptoms_List);
         ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
+
+        mainMedicationLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Wywołaj metodę handleMedicationDialog() w MedicationsFragment
+                handleMainMedicationDialog();
+                dialog.dismiss();
+            }
+        });
         medicationsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,6 +290,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void handleMainMedicationDialog() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+        if (currentFragment instanceof MedicationsFragment) {
+            ((MedicationsFragment) currentFragment).showMainMedicationDialog();
+        }
+    }
 
 
     // Metody do obsługi akcji w MedicationsFragment

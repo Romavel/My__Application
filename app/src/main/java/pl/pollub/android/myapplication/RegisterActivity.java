@@ -31,6 +31,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -38,6 +39,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import pl.pollub.android.myapplication.ui.medications.Medication;
 
 public class RegisterActivity extends AppCompatActivity {
     private EditText editTextUsername;
@@ -164,6 +167,9 @@ public class RegisterActivity extends AppCompatActivity {
         user.setBirth_date("");
         user.setCountry("");
         user.setGender("");
+        user.setIllness("");
+        user.setRole("patient");
+        user.setMedication(medication);
 
         // Dodaj kod do rejestracji użytkownika w Firebase Authentication
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
@@ -183,6 +189,9 @@ public class RegisterActivity extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
+                                            // Dodaj dane do kolekcji Medications w Firestore
+                                            addMedicationToFirestore(userId, medication);
+
                                             Log.d("RegisterActivity", "Pomyślnie zarejestrowano użytkownika");
                                             Toast.makeText(RegisterActivity.this, "Rejestracja udana", Toast.LENGTH_SHORT).show();
                                             finish();
@@ -203,6 +212,30 @@ public class RegisterActivity extends AppCompatActivity {
                     private String getCurrentDateTime() {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                         return sdf.format(new Date());
+                    }
+                });
+    }
+
+    private void addMedicationToFirestore(String userId, String medication) {
+        // Utwórz obiekt Medication
+        Medication userMedication = new Medication();
+        userMedication.setName(medication);
+        userMedication.setForm("tablet");
+
+        // Dodaj dokument do kolekcji Medications w Firestore
+        FirebaseFirestore.getInstance().collection("Users").document(userId)
+                .collection("Medications").document()
+                .set(userMedication)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("RegisterActivity", "Pomyślnie dodano lek do Firestore");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("RegisterActivity", "Błąd dodawania leku do Firestore");
                     }
                 });
     }
