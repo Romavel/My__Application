@@ -38,6 +38,7 @@ public class ScheduleLayout extends LinearLayout {
     private Button buttonOpenTimePicker;
     private TextView textViewNotificationTime;
     private Button btnDeleteSchedule;
+    private View divider0, divider1, divider2;
 
     private boolean isDeleteClicked = false;
     private ScheduleItem scheduleItem;
@@ -61,6 +62,7 @@ public class ScheduleLayout extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.layout_schedule, this);
 
+        divider0 = findViewById(R.id.divider0);
         textViewDose = findViewById(R.id.textViewDose);
         editTextDose = findViewById(R.id.editTextDose);
         textViewSelectDaysOfWeek = findViewById(R.id.textViewSelectDaysOfWeek);
@@ -68,7 +70,9 @@ public class ScheduleLayout extends LinearLayout {
         textViewSelectNotificationTime = findViewById(R.id.textViewSelectNotificationTime);
         buttonOpenTimePicker = findViewById(R.id.buttonOpenTimePicker);
         textViewNotificationTime = findViewById(R.id.textViewNotificationTime);
+        divider1 = findViewById(R.id.divider1);
         btnDeleteSchedule = findViewById(R.id.btnDeleteSchedule);
+        divider2 = findViewById(R.id.divider2);
 
         setupUI();
     }

@@ -83,10 +83,6 @@ public class MainActivity extends AppCompatActivity {
             // Obsługa dodawania składników żywieniowych i używek
             //handleDietDialog();
             showDietBottomDialog();
-        } else if (currentFragment instanceof ProfileFragment) {
-            // Obsługa dodawania informacji do profilu
-            // Dodaj obsługę dla ProfileFragment
-
         }
     }
 

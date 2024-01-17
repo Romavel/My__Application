@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
+        android:layout_margin="5dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/custom_edittext"
@@ -17,7 +18,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_margin="10dp">
+
+            <View
+                android:id="@+id/divider0"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginTop="12dp"
+                android:background="?android:attr/listDivider"/>
+
 
             <!-- TextView z dawką -->
             <TextView
