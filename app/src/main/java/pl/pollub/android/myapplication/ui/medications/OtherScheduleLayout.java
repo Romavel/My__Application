@@ -1,32 +1,20 @@
 package pl.pollub.android.myapplication.ui.medications;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.content.Context;
+        import android.util.AttributeSet;
+        import android.view.LayoutInflater;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.LinearLayout;
+        import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
+        import androidx.annotation.Nullable;
+        import androidx.appcompat.app.AlertDialog;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
+        import java.util.ArrayList;
+        import java.util.List;
 
-import pl.pollub.android.myapplication.MainActivity;
-import pl.pollub.android.myapplication.R;
-import pl.pollub.android.myapplication.TimePickerFragment;
+        import pl.pollub.android.myapplication.R;
 
 public class OtherScheduleLayout extends LinearLayout {
 
@@ -34,13 +22,10 @@ public class OtherScheduleLayout extends LinearLayout {
     private EditText editTextDose;
     private TextView textViewSelectDaysOfWeek;
     private TextView textViewDaysOfWeek;
-    private TextView textViewSelectNotificationTime;
-    private Button buttonOpenTimePicker;
-    private TextView textViewNotificationTime;
     private Button btnDeleteSchedule;
 
     private boolean isDeleteClicked = false;
-    private OtherScheduleItem otherScheduleItem;
+    private OtherScheduleItem scheduleItem;
 
     public OtherScheduleLayout(Context context) {
         super(context);
@@ -59,7 +44,7 @@ public class OtherScheduleLayout extends LinearLayout {
 
     private void initializeViews(Context context) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.layout_schedule, this);
+        inflater.inflate(R.layout.layout_other_schedule, this);
 
         textViewDose = findViewById(R.id.textViewDose);
         editTextDose = findViewById(R.id.editTextDose);
@@ -71,27 +56,14 @@ public class OtherScheduleLayout extends LinearLayout {
     }
 
     private void setupUI() {
-        // Set initial text values
         textViewDose.setText("Dawka:");
         textViewSelectDaysOfWeek.setText("Wybierz dni tygodnia:");
 
+        textViewDaysOfWeek.setOnClickListener(v -> showDaysOfWeekDialog());
 
-        // Set up Days of Week dialog
-        textViewDaysOfWeek.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDaysOfWeekDialog();
-            }
-        });
-
-        // Set up Delete button
-        btnDeleteSchedule.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("ScheduleLayout", "ScheduleItem will be nulled");
-                isDeleteClicked = true;
-                removeFromParent();
-            }
+        btnDeleteSchedule.setOnClickListener(v -> {
+            isDeleteClicked = true;
+            removeFromParent();
         });
     }
 
@@ -132,28 +104,24 @@ public class OtherScheduleLayout extends LinearLayout {
     }
 
     public OtherScheduleItem getScheduleItem() {
-        // Get data from UI and populate the ScheduleItem
         try {
             double dose = Double.parseDouble(editTextDose.getText().toString());
             List<Integer> selectedDays = getSelectedDays();
-            //Log.d("ScheduleLayout", "selectedDays inside getScheduleItem(): " + selectedDays);
-            String time = textViewNotificationTime.getText().toString();
 
             if (isDeleteClicked) {
-                otherScheduleItem = null;
+                scheduleItem = null;
             } else {
-                otherScheduleItem = new OtherScheduleItem(dose, selectedDays);
+                scheduleItem = new OtherScheduleItem(dose, selectedDays);
             }
-            return otherScheduleItem;
+            return scheduleItem;
         } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), "Wprowadź poprawną dawkę.", Toast.LENGTH_SHORT).show();
             return null;
         }
     }
 
-
     private List<Integer> getSelectedDays() {
         List<Integer> selectedDays = new ArrayList<>();
+        String[] daysOfWeekArray = getResources().getStringArray(R.array.days_of_week_array);
 
         String selectedDaysText = textViewDaysOfWeek.getText().toString();
         //Log.d("ScheduleLayout", "selectedDaysText inside getSelectedDays(): " + selectedDaysText);
@@ -190,9 +158,6 @@ public class OtherScheduleLayout extends LinearLayout {
     }
 
     private void removeFromParent() {
-        ((ViewGroup) getParent()).removeView(this);
+        ((LinearLayout) getParent()).removeView(this);
     }
-
-
-
 }
