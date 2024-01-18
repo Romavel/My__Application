@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/topBorderBox"
+                    android:id="@+id/upperBorderBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -69,7 +69,7 @@
                     android:layout_marginBottom="10dp"
                     android:backgroundTint="@color/colorBlue"
                     android:hint="Górna granica"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:textColor="@color/colorBlue"
                     android:textColorHint="@color/colorGray"
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/bottomBorderBox"
+                    android:id="@+id/lowerBorderBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -92,7 +92,7 @@
                     android:layout_marginBottom="10dp"
                     android:backgroundTint="@color/colorBlue"
                     android:hint="Dolna granica"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:textColor="@color/colorBlue"
                     android:textColorHint="@color/colorGray"
@@ -139,7 +139,7 @@
                     android:layout_marginEnd="40dp"
                     android:layout_marginBottom="10dp"
                     android:backgroundTint="@color/colorBlue"
-                    android:text="Zmień"
+                    android:text="Zapisz"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     app:cornerRadius="20dp"

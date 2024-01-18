@@ -1,6 +1,8 @@
 package pl.pollub.android.myapplication.ui.profile;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -32,6 +34,10 @@ import pl.pollub.android.myapplication.databinding.FragmentProfileBinding;
 public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
+
+    // Klucze SharedPreferences dla dolnej i górnej granicy
+    private static final String PREF_LOWER_THRESHOLD = "lower_threshold";
+    private static final String PREF_UPPER_THRESHOLD = "upper_threshold";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -80,6 +86,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 // Obsługa kliknięcia w ustaw przediał terapeutyczny
                 // Dodaj tutaj kod, który ma zostać wykonany po kliknięciu
+                showEditTherapeuticRangeDialog();
             }
         });
 
@@ -97,6 +104,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 // Obsługa kliknięcia w zmień lek główny
                 // Dodaj tutaj kod, który ma zostać wykonany po kliknięciu
+                showEditMainMedicationDialog();
             }
         });
 
@@ -208,14 +216,14 @@ public class ProfileFragment extends Fragment {
             textCountry.setVisibility(View.GONE);
         }
 
-        if (document.contains("condition")) {
-            textCondition.setText(String.format("Główne schorzenie: %s", document.getString("condition")));
+        if (document.contains("illness")) {
+            textCondition.setText(String.format("Główne schorzenie: %s", document.getString("illness")));
         } else {
             textCondition.setVisibility(View.GONE);
         }
 
-        if (document.contains("main_medication")) {
-            textMainMedication.setText(String.format("Główny lek: %s", document.getString("main_medication")));
+        if (document.contains("medication")) {
+            textMainMedication.setText(String.format("Główny lek: %s", document.getString("medication")));
         } else {
             textMainMedication.setVisibility(View.GONE);
         }
@@ -252,6 +260,73 @@ public class ProfileFragment extends Fragment {
         FragmentManager fragmentManager = getParentFragmentManager();
         EditPersonalDataDialogFragment editPersonalDataDialogFragment = new EditPersonalDataDialogFragment(user);
         editPersonalDataDialogFragment.show(fragmentManager, "EditPersonalDataDialogFragment");
+    }
+
+    public void showEditMainMedicationDialog() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            // Pobierz identyfikator zalogowanego użytkownika
+            String userId = currentUser.getUid();
+
+            // Pobierz dokument z kolekcji "Users" dla zalogowanego użytkownika
+            FirebaseFirestore.getInstance().collection("Users").document(userId).get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                // Jeśli dokument istnieje, pobierz dane i przekaż do dialogu
+                                User userData = document.toObject(User.class);
+                                if (userData != null) {
+                                    showEditMainMedicationDialog(userData);
+                                }
+                            } else {
+                                Log.d("ProfilFragment", "Nie udało się pobrać danych użytkownika");
+                            }
+                        } else {
+                            Log.d("ProfilFragment", "Błąd przy pobieraniu danych użytkownika");
+                        }
+                    });
+        }
+    }
+
+    private void showEditMainMedicationDialog(User user) {
+        // Wywołaj dialog przekazując obiekt User
+        if (getActivity() != null) {
+            EditMainMedicationDialogFragment editMainMedicationDialogFragment = new EditMainMedicationDialogFragment(user);
+            editMainMedicationDialogFragment.show(getActivity().getSupportFragmentManager(), "EditMainMedicationDialogFragment");
+        }
+    }
+
+    // Dodaj metodę do obsługi wyświetlania dialogu granic INR
+    public void showEditTherapeuticRangeDialog() {
+        Log.d("ProfileFragment", "Show Edit Therapeutic Range Dialog");
+
+        FragmentManager fragmentManager = getParentFragmentManager();
+        EditTherapeuticRangeDialogFragment editTherapeuticRangeDialogFragment = new EditTherapeuticRangeDialogFragment();
+
+        // Przekazanie aktualnych wartości granic do dialogu
+        Bundle args = new Bundle();
+        args.putFloat("lowerThreshold", getThresholdFromPreferences(PREF_LOWER_THRESHOLD));
+        args.putFloat("upperThreshold", getThresholdFromPreferences(PREF_UPPER_THRESHOLD));
+        editTherapeuticRangeDialogFragment.setArguments(args);
+
+        editTherapeuticRangeDialogFragment.show(fragmentManager, "EditTherapeuticRangeDialog");
+    }
+
+
+    // Metoda do pobrania wartości granicy z SharedPreferences
+    private float getThresholdFromPreferences(String key) {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("your_preferences_name", Context.MODE_PRIVATE);
+        // Zwróć wartość dla danego klucza, jeśli nie ma - domyślnie 0.0f
+        return sharedPreferences.getFloat(key, 0.0f);
+    }
+
+    // Dodaj metodę do zapisywania wartości granicy do SharedPreferences
+    private void saveThresholdToPreferences(String key, float value) {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("your_preferences_name", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putFloat(key, value);
+        editor.apply();
     }
 
     @Override
