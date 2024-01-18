@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import pl.pollub.android.myapplication.LoginActivity;
+import pl.pollub.android.myapplication.R;
+import pl.pollub.android.myapplication.User;
 import pl.pollub.android.myapplication.databinding.FragmentProfileBinding;
 
 public class ProfileFragment extends Fragment {
@@ -36,7 +40,6 @@ public class ProfileFragment extends Fragment {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
 
 
         // Inicjalizacja widoków
@@ -85,6 +88,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 // Obsługa kliknięcia w edytuj dane
                 // Dodaj tutaj kod, który ma zostać wykonany po kliknięciu
+                showEditPersonalDataDialog();
             }
         });
 
@@ -107,6 +111,13 @@ public class ProfileFragment extends Fragment {
         // Pobierz dane użytkownika i ustaw widoki
         loadUserData();
 
+        SwipeRefreshLayout swipeRefreshLayout = root.findViewById(R.id.profileSwipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            // Odśwież dane po przeciągnięciu
+            loadUserData();
+            swipeRefreshLayout.setRefreshing(false);
+        });
+
         return root;
     }
 
@@ -120,12 +131,13 @@ public class ProfileFragment extends Fragment {
         startActivity(intent);
         requireActivity().finish(); // Jeśli chcesz, aby użytkownik nie mógł wrócić do ProfileFragment przyciskiem "wstecz"
     }
+
     private void loadUserData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // Pobierz identyfikator zalogowanego użytkownika
             String userId = user.getUid();
-            Log.d("ProfilFragment","UserID: " + userId.toString());
+            Log.d("ProfilFragment", "UserID: " + userId.toString());
             // Pobierz dokument z kolekcji "Users" dla zalogowanego użytkownika
             FirebaseFirestore.getInstance().collection("Users").document(userId).get()
                     .addOnCompleteListener(task -> {
@@ -134,13 +146,13 @@ public class ProfileFragment extends Fragment {
                             if (document.exists()) {
                                 // Jeśli dokument istnieje, pobierz dane
                                 displayUserData(document);
-                                Log.d("ProfilFragment","Pobrano dane użytkownika");
+                                Log.d("ProfilFragment", "Pobrano dane użytkownika");
                             } else {
                                 // Jeśli dokument nie istnieje, obsłuż sytuację braku danych
-                                Log.d("ProfilFragment","Nie udało się pobrać danych użytkownika");
+                                Log.d("ProfilFragment", "Nie udało się pobrać danych użytkownika");
                             }
                         } else {
-                            Log.d("ProfilFragment","Błąd przy pobieraniu danych użytkownika");
+                            Log.d("ProfilFragment", "Błąd przy pobieraniu danych użytkownika");
                         }
                     });
         }
@@ -151,6 +163,7 @@ public class ProfileFragment extends Fragment {
         TextView textRegistrationDate = binding.textRegistrationDate;
         TextView textFullName = binding.textFullName;
         TextView textCountry = binding.textCountry;
+        TextView textGender = binding.textGender;
         TextView textCondition = binding.textCondition;
         TextView textMainMedication = binding.textMainMedication;
 
@@ -179,10 +192,18 @@ public class ProfileFragment extends Fragment {
         }
 
 
-
+        if (document.contains("gender")) {
+            String genderValue = document.getString("gender");
+            Genders gender = Genders.valueOf(genderValue.toUpperCase());
+            textGender.setText(String.format("Płeć: %s", gender.getDescription()));
+        } else {
+            textGender.setVisibility(View.GONE);
+        }
 
         if (document.contains("country")) {
-            textCountry.setText(String.format("Kraj: %s", document.getString("country")));
+            String countryValue = document.getString("country");
+            Countries country = Countries.valueOf(countryValue.toUpperCase());
+            textCountry.setText(String.format("Kraj: %s", country.getDescription()));
         } else {
             textCountry.setVisibility(View.GONE);
         }
@@ -198,6 +219,39 @@ public class ProfileFragment extends Fragment {
         } else {
             textMainMedication.setVisibility(View.GONE);
         }
+    }
+
+    public void showEditPersonalDataDialog() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            // Pobierz identyfikator zalogowanego użytkownika
+            String userId = currentUser.getUid();
+
+            // Pobierz dokument z kolekcji "Users" dla zalogowanego użytkownika
+            FirebaseFirestore.getInstance().collection("Users").document(userId).get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                // Jeśli dokument istnieje, pobierz dane i przekaż do dialogu
+                                User userData = document.toObject(User.class);
+                                if (userData != null) {
+                                    showEditPersonalDataDialog(userData);
+                                }
+                            } else {
+                                Log.d("ProfilFragment", "Nie udało się pobrać danych użytkownika");
+                            }
+                        } else {
+                            Log.d("ProfilFragment", "Błąd przy pobieraniu danych użytkownika");
+                        }
+                    });
+        }
+    }
+
+    public void showEditPersonalDataDialog(User user) {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        EditPersonalDataDialogFragment editPersonalDataDialogFragment = new EditPersonalDataDialogFragment(user);
+        editPersonalDataDialogFragment.show(fragmentManager, "EditPersonalDataDialogFragment");
     }
 
     @Override

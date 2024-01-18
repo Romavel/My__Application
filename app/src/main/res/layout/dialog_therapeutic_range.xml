@@ -9,14 +9,14 @@
     android:id="@+id/dialogPressure">
 
     <LinearLayout
-        android:id="@+id/dialogBoxPressure"
+        android:id="@+id/dialogBoxInrBorder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/dialog_popup">
 
         <TextView
-            android:id="@+id/pressureTitle"
+            android:id="@+id/inrBorderTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/blue_round"
@@ -60,13 +60,15 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/bottomBorderBox"
-                    android:layout_width="290dp"
+                    android:id="@+id/topBorderBox"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginBottom="0dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:backgroundTint="@color/colorBlue"
-                    android:hint="Dolna granica"
+                    android:hint="Górna granica"
                     android:inputType="number"
                     android:maxLines="1"
                     android:textColor="@color/colorBlue"
@@ -81,13 +83,15 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/topBorderBox"
-                    android:layout_width="290dp"
+                    android:id="@+id/bottomBorderBox"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginBottom="0dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:backgroundTint="@color/colorBlue"
-                    android:hint="Górna granica"
+                    android:hint="Dolna granica"
                     android:inputType="number"
                     android:maxLines="1"
                     android:textColor="@color/colorBlue"
@@ -96,6 +100,8 @@
                     android:textSize="16sp"/>
 
             </RelativeLayout>
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -105,23 +111,42 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <Button
-                    android:id="@+id/btnSaveTherapeuticRange"
-                    android:layout_width="match_parent"
+                    android:id="@+id/buttonCancelEditTherapeuticRange"
+                    android:layout_width="120dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
                     android:backgroundTint="@color/colorBlue"
-                    android:text="Zapisz"
+                    android:text="Anuluj"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     app:cornerRadius="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintEnd_toStartOf="@id/buttonSaveEditTherapeuticRange"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <Button
+                    android:id="@+id/buttonSaveEditTherapeuticRange"
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginBottom="10dp"
+                    android:backgroundTint="@color/colorBlue"
+                    android:text="Zmień"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:cornerRadius="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/buttonCancelEditTherapeuticRange" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

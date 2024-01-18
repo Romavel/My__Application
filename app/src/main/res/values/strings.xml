@@ -35,15 +35,15 @@
 
 
     <string-array name="countries_array">
-        <item>Wybierz kraj</item>
+        <item>Polska</item>
+        <item>Wielka Brytania</item>
+        <item>Stany Zjednoczone</item>
         <item>Australia</item>
-        <item>Brasil</item>
-        <item>Germany</item>
-        <item>Poland</item>
-        <item>United Kingdom</item>
-        <item>United States</item>
-        <!-- Dodaj inne kraje, jeśli są potrzebne -->
+        <item>Kanada</item>
+        <item>Nowa Zelandia</item>
+        <item>Wolę nie podawać</item>
     </string-array>
+
     <string-array name="unit_array">
         <item>mg</item>
         <item>ml</item>

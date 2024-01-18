@@ -45,9 +45,10 @@
 
         <EditText
             android:id="@+id/pressureSystolicEditBox"
-            android:layout_width="290dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="0dp"
             android:backgroundTint="@color/colorBlue"
             android:hint="Ciśnienie skurczowe"
@@ -58,13 +59,15 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/pressureDiastolicEditBox"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pressureEditTitle" />
 
         <EditText
             android:id="@+id/pressureDiastolicEditBox"
-            android:layout_width="290dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="0dp"
             android:backgroundTint="@color/colorBlue"
             android:hint="Ciśnienie rozkurczowe"
@@ -75,13 +78,15 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/pulseEditBox"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pressureSystolicEditBox" />
 
         <EditText
             android:id="@+id/pulseEditBox"
-            android:layout_width="290dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="50dp"
             android:backgroundTint="@color/colorBlue"
             android:hint="Puls"
@@ -92,6 +97,7 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pressureDiastolicEditBox" />
 
         <Button

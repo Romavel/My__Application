@@ -1,62 +1,177 @@
 package pl.pollub.android.myapplication.ui.profile;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import pl.pollub.android.myapplication.R;
+import pl.pollub.android.myapplication.User;
 
 public class EditPersonalDataDialogFragment extends DialogFragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private EditText editNameBox;
+    private EditText editSurnameBox;
+    private EditText editPhoneNumberBox;
+    private EditText editMainIllnessBox;
+    private Spinner genderSpinner;
+    private Spinner countriesSpinner;
+    private Button buttonSaveEditPersonalData;
+    private Button buttonCancelEditPersonalData;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private User currentUser; // Przechowuje dane aktualnie zalogowanego użytkownika
 
-    public EditPersonalDataDialogFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EditPersonalDataDialogFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EditPersonalDataDialogFragment newInstance(String param1, String param2) {
-        EditPersonalDataDialogFragment fragment = new EditPersonalDataDialogFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public EditPersonalDataDialogFragment(User currentUser) {
+        this.currentUser = currentUser;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_edit_personal_data_dialog, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Inicjalizacja pól
+        editNameBox = view.findViewById(R.id.editNameBox);
+        editSurnameBox = view.findViewById(R.id.editSurnameBox);
+        editPhoneNumberBox = view.findViewById(R.id.editPhoneNumberBox);
+        editMainIllnessBox = view.findViewById(R.id.editMainIllnessBox);
+        genderSpinner = view.findViewById(R.id.genderSpinner);
+        countriesSpinner = view.findViewById(R.id.countriesSpinner);
+        buttonSaveEditPersonalData = view.findViewById(R.id.buttonSaveEditPersonalData);
+        buttonCancelEditPersonalData = view.findViewById(R.id.buttonCancelEditPersonalData);
+
+        // Ustawienie dostępnych opcji dla spinnerów
+        setupGenderSpinner();
+        setupCountriesSpinner();
+
+        // Obsługa kliknięcia przycisku Anuluj
+        buttonCancelEditPersonalData.setOnClickListener(v -> dismiss());
+
+        // Obsługa kliknięcia przycisku Zmień
+        buttonSaveEditPersonalData.setOnClickListener(v -> saveChanges());
+
+        // Wypełnienie pól danymi użytkownika
+        fillUserData();
+    }
+
+
+    private void setupGenderSpinner() {
+        List<String> genderList = new ArrayList<>();
+        for (Genders gender : Genders.values()) {
+            genderList.add(gender.getDescription());
+        }
+
+        // Dla genderSpinner
+        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                genderList
+        );
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderSpinner.setAdapter(genderAdapter);
+
+    }
+
+    private void setupCountriesSpinner() {
+        List<String> countriesList = new ArrayList<>();
+        for (Countries country : Countries.values()) {
+            countriesList.add(country.getDescription());
+        }
+
+        // Dla countriesSpinner
+        ArrayAdapter<String> countriesAdapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                countriesList
+        );
+        countriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        countriesSpinner.setAdapter(countriesAdapter);
+    }
+
+
+    private void fillUserData() {
+        if (currentUser != null) {
+            editNameBox.setText(currentUser.getFirst_name());
+            editSurnameBox.setText(currentUser.getLast_name());
+            editPhoneNumberBox.setText(currentUser.getPhone_number());
+            editMainIllnessBox.setText(currentUser.getIllness());
+
+            // Ustawienie wybranej opcji w spinnerach
+            //setSpinnerSelection(genderSpinner, currentUser.getGender());
+            Log.d("ProfileFragment", "Gender spinner: " + currentUser.getGender());
+            setSpinnerSelection(countriesSpinner, currentUser.getCountry());
+            Log.d("ProfileFragment", "Gender spinner: " + currentUser.getCountry());
+        }
+    }
+
+    private void setSpinnerSelection(Spinner spinner, String value) {
+        if (value != null) {
+            int position = ((ArrayAdapter<String>) spinner.getAdapter()).getPosition(value);
+            spinner.setSelection(position);
+        }
+    }
+
+    private void saveChanges() {
+        // Pobierz wartości z pól
+        String newName = editNameBox.getText().toString();
+        String newSurname = editSurnameBox.getText().toString();
+        String newPhoneNumber = editPhoneNumberBox.getText().toString();
+        String newMainIllness = editMainIllnessBox.getText().toString();
+        String newGender = Genders.values()[genderSpinner.getSelectedItemPosition()].getValue();
+        String newCountry = Countries.values()[countriesSpinner.getSelectedItemPosition()].getValue();
+
+
+        // Zaktualizuj obiekt użytkownika
+        currentUser.setFirst_name(newName);
+        currentUser.setLast_name(newSurname);
+        currentUser.setPhone_number(newPhoneNumber);
+        currentUser.setIllness(newMainIllness);
+        currentUser.setGender(newGender);
+        currentUser.setCountry(newCountry);
+
+        // Tutaj dodaj logikę zapisywania zmian do bazy danych Firebase Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("Users").document(userId).set(currentUser)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Zapisano pomyślnie
+                        dismiss();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Błąd zapisu
+                        // Tutaj możesz dodać odpowiednie obszary kodu obsługujące błędy
+                        Toast.makeText(requireContext(), "Błąd zapisu danych", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
 }
