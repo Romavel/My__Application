@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -42,7 +46,7 @@ public class MeasurementsFragment extends Fragment {
     private LinearLayout chartLayout;
     private BarChart barChart;
     private LineChart lineChart;
-
+    private double lowerThresholdLoaded, upperThresholdLoaded;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +55,7 @@ public class MeasurementsFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_measurements, container, false);
 
+        checkAndLoadThresholds();
         final TextView textView = root.findViewById(R.id.text_measurements);
         chartLayout = root.findViewById(R.id.chartLayout);
         barChart = root.findViewById(R.id.barChart);
@@ -73,6 +78,7 @@ public class MeasurementsFragment extends Fragment {
         SwipeRefreshLayout swipeRefreshLayout = root.findViewById(R.id.measurementSwipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             // Odśwież dane po przeciągnięciu
+            checkAndLoadThresholds();
             getLatestInrMeasurements();
             getLatestPressureMeasurements();
             swipeRefreshLayout.setRefreshing(false);
@@ -200,8 +206,9 @@ public class MeasurementsFragment extends Fragment {
             dates.add(formatDateWithoutTime(measurement.getTime().toDate()));
         }
 
+        checkAndLoadThresholds();
         BarChartHelper barChartHelper = new BarChartHelper(barChart);
-        barChartHelper.displayBarChart(values, dates);
+        barChartHelper.displayBarChart(values, dates, lowerThresholdLoaded,  upperThresholdLoaded);
     }
 
     // Metoda do formatowania daty bez czasu
@@ -219,6 +226,47 @@ public class MeasurementsFragment extends Fragment {
         String formattedDate = dateFormat.format(calendar.getTime());
 
         return dayOfWeek + ", " + formattedDate;
+    }
+
+    private void checkAndLoadThresholds() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Users")
+                .document(userId)
+                .collection("Range")
+                .document("INR")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            // Dokument "Range" istnieje, wczytaj wartości
+                            Double upperThreshold = documentSnapshot.getDouble("upperThreshold");
+                            Double lowerThreshold = documentSnapshot.getDouble("lowerThreshold");
+                            Log.d("MeasurementsFragment", "upperThreshold: " + upperThreshold);
+                            Log.d("MeasurementsFragment", "lowerThreshold: " + lowerThreshold);
+
+                            if (upperThreshold != null && lowerThreshold != null) {
+                                // Ustaw wartości w EditText
+                                upperThresholdLoaded = upperThreshold;
+                                Log.d("MeasurementsFragment", "upperThresholdLoaded: " + upperThresholdLoaded);
+                                lowerThresholdLoaded = lowerThreshold;
+                                Log.d("MeasurementsFragment", "lowerThresholdLoaded: " + lowerThresholdLoaded);
+                            } else{
+                                upperThresholdLoaded = 0.8;
+                                lowerThresholdLoaded = 1.2;
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Błąd odczytu z bazy danych
+                        Toast.makeText(requireContext(), "Błąd odczytu z bazy danych", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override

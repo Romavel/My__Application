@@ -100,7 +100,7 @@ public class DietHistoryAdapter extends RecyclerView.Adapter<DietHistoryAdapter.
         }
 
         public void bind(NewDiet newDiet) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
             String formattedDate = sdf.format(newDiet.getDay().toDate());
             textViewHistoryDate.setText(formattedDate);
 

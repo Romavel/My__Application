@@ -35,10 +35,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import pl.pollub.android.myapplication.ui.medications.Medication;
 
@@ -208,10 +204,6 @@ public class RegisterActivity extends AppCompatActivity {
                             Log.d("RegisterActivity", "Nie udało się zarejestrować użytkownika");
                             Toast.makeText(RegisterActivity.this, "Błąd rejestracji", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                    private String getCurrentDateTime() {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-                        return sdf.format(new Date());
                     }
                 });
     }

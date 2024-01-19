@@ -19,23 +19,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:cardCornerRadius="30dp"
-                app:cardElevation="20dp">
+                android:scrollbars="vertical" />
 
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:scrollbars="vertical" />
-
-
-            </androidx.cardview.widget.CardView>
 
             <Button
                 android:id="@+id/loadMoreButton"

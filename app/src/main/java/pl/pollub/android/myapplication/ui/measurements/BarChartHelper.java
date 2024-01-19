@@ -1,5 +1,8 @@
 package pl.pollub.android.myapplication.ui.measurements;
 
+import android.content.Context;
+import android.graphics.Color;
+
 import androidx.core.content.ContextCompat;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -15,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import pl.pollub.android.myapplication.R;
+
 public class BarChartHelper {
 
     private final BarChart barChart;
@@ -23,7 +28,7 @@ public class BarChartHelper {
         this.barChart = barChart;
     }
 
-    public void displayBarChart(List<Float> values, List<String> dates) {
+    public void displayBarChart(List<Float> values, List<String> dates, double lowerThreshold, double upperThreshold) {
         // Odwróć listy dat
         List<String> reversedDates = new ArrayList<>(dates);
         Collections.reverse(reversedDates);
@@ -32,8 +37,21 @@ public class BarChartHelper {
         List<Float> reversedValues = new ArrayList<>(values);
         Collections.reverse(reversedValues);
 
-        BarDataSet barDataSet = new BarDataSet(getData(reversedValues), "Wartości INR");
-        barDataSet.setColors(new int[]{android.R.color.holo_blue_light}, ContextCompat.getColor(barChart.getContext(), android.R.color.holo_blue_light));
+        List<Integer> colors = new ArrayList<>();
+        List<BarEntry> barEntries = new ArrayList<>();
+
+        for (int i = 0; i < reversedValues.size(); i++) {
+            float value = reversedValues.get(i);
+
+            // Ustaw kolor słupka na podstawie przedziałów
+            int color = getColorForValue(value, lowerThreshold, upperThreshold);
+            colors.add(color);
+
+            barEntries.add(new BarEntry(i, value));
+        }
+
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Wartości INR");
+        barDataSet.setColors(colors);
         barDataSet.setValueTextColor(ContextCompat.getColor(barChart.getContext(), android.R.color.black));
         barDataSet.setValueTextSize(12f);
         barDataSet.setValueFormatter(new MyValueFormatter()); // Set custom ValueFormatter
@@ -61,14 +79,16 @@ public class BarChartHelper {
         barChart.invalidate();
     }
 
-    private List<BarEntry> getData(List<Float> values) {
-        List<BarEntry> data = new ArrayList<>();
+    private int getColorForValue(float value, double lowerThreshold, double upperThreshold) {
 
-        for (int i = 0; i < values.size(); i++) {
-            data.add(new BarEntry(i, values.get(i)));
+        if (value >= lowerThreshold && value <= upperThreshold) {
+            return ContextCompat.getColor(barChart.getContext(), R.color.green); // Zielony kolor dla wartości w przedziale
+        } else if ((value >= lowerThreshold - 0.25 * lowerThreshold && value < lowerThreshold) ||
+                (value > upperThreshold && value <= upperThreshold + 0.25 * upperThreshold)) {
+            return ContextCompat.getColor(barChart.getContext(), R.color.yellow); // Żółty kolor dla wartości w przedziałach żółtych
+        } else {
+            return ContextCompat.getColor(barChart.getContext(), R.color.red); // Czerwony kolor dla pozostałych wartości
         }
-
-        return data;
     }
 
     // Custom ValueFormatter to limit decimal places

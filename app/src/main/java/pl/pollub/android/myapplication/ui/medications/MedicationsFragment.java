@@ -382,7 +382,7 @@ public class MedicationsFragment extends Fragment {
     // Funkcja wyświetlająca Toast z informacją o przyjęciu leku
     private void showMedicationTakenToast() {
         // Pobierz dzisiejszą datę
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         String currentDate = dateFormat.format(new Date());
 
         // Pobierz nazwę leku (możesz dostosować to do własnych potrzeb)

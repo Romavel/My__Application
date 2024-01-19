@@ -2,8 +2,6 @@ package pl.pollub.android.myapplication.ui.profile;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import pl.pollub.android.myapplication.R;
 
@@ -25,10 +28,8 @@ public class EditTherapeuticRangeDialogFragment extends DialogFragment {
 
     private EditText upperThresholdEditText;
     private EditText lowerThresholdEditText;
-    private Button saveButton;
-    private Button cancelButton;
-
-    private static final String FILE_NAME = "therapeutic_range_data.txt";
+    private Button btnCancelEditTherapeuticRange;
+    private Button btnSaveEditTherapeuticRange;
 
     @NonNull
     @Override
@@ -40,24 +41,23 @@ public class EditTherapeuticRangeDialogFragment extends DialogFragment {
 
         upperThresholdEditText = view.findViewById(R.id.upperBorderBox);
         lowerThresholdEditText = view.findViewById(R.id.lowerBorderBox);
-        saveButton = view.findViewById(R.id.buttonSaveEditTherapeuticRange);
-        cancelButton = view.findViewById(R.id.buttonCancelEditTherapeuticRange);
+        btnCancelEditTherapeuticRange = view.findViewById(R.id.buttonCancelEditTherapeuticRange);
+        btnSaveEditTherapeuticRange = view.findViewById(R.id.buttonSaveEditTherapeuticRange);
 
-        // Pobierz wcześniej zapisane wartości
-        loadThresholdValues();
+        // Sprawdź czy kolekcja "Range" istnieje w dokumencie "INR"
+        checkAndLoadThresholds();
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        btnCancelEditTherapeuticRange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveThresholdValues();
                 dismiss();
             }
         });
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
+        btnSaveEditTherapeuticRange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                saveThresholdsToFirestore();
             }
         });
 
@@ -65,54 +65,106 @@ public class EditTherapeuticRangeDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    private void saveThresholdValues() {
-        try (FileOutputStream fos = requireActivity().openFileOutput(FILE_NAME, Context.MODE_PRIVATE)) {
-            // Konwertuj wartości na tekst
-            String upperThresholdText = upperThresholdEditText.getText().toString();
-            String lowerThresholdText = lowerThresholdEditText.getText().toString();
+    private void checkAndLoadThresholds() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            // Zapisz wartości do pliku
-            fos.write(upperThresholdText.getBytes());
-            fos.write("\n".getBytes()); // Dodaj nową linię między wartościami
-            fos.write(lowerThresholdText.getBytes());
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Users")
+                .document(userId)
+                .collection("Range")
+                .document("INR")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            // Dokument "Range" istnieje, wczytaj wartości
+                            Double upperThreshold = documentSnapshot.getDouble("upperThreshold");
+                            Double lowerThreshold = documentSnapshot.getDouble("lowerThreshold");
 
-            // Poinformuj użytkownika o udanym zapisie
-            Toast.makeText(requireContext(), "Zapisano wartości", Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Poinformuj użytkownika o błędzie
-            Toast.makeText(requireContext(), "Błąd zapisu wartości", Toast.LENGTH_SHORT).show();
-        }
+                            if (upperThreshold != null && lowerThreshold != null) {
+                                // Ustaw wartości w EditText
+                                upperThresholdEditText.setText(String.valueOf(upperThreshold));
+                                lowerThresholdEditText.setText(String.valueOf(lowerThreshold));
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Błąd odczytu z bazy danych
+                        Toast.makeText(requireContext(), "Błąd odczytu z bazy danych", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
-    private void loadThresholdValues() {
+    private void saveThresholdsToFirestore() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // Pobierz wartości z pól EditText
+        String upperThresholdStr = upperThresholdEditText.getText().toString();
+        String lowerThresholdStr = lowerThresholdEditText.getText().toString();
+
+        if (upperThresholdStr.isEmpty() || lowerThresholdStr.isEmpty()) {
+            // Sprawdź, czy pola nie są puste
+            Toast.makeText(requireContext(), "Wprowadź wartości dla obu progów", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Sprawdź, czy wprowadzone wartości są liczbami
         try {
-            // Sprawdź, czy plik istnieje
-            if (requireActivity().getFileStreamPath(FILE_NAME).exists()) {
-                // Odczytaj wartości z pliku
-                byte[] buffer = new byte[1024];
-                StringBuilder upperThresholdText = new StringBuilder();
-                StringBuilder lowerThresholdText = new StringBuilder();
+            double upperThreshold = Double.parseDouble(upperThresholdStr);
+            double lowerThreshold = Double.parseDouble(lowerThresholdStr);
 
-                FileInputStream fis = requireActivity().openFileInput(FILE_NAME);
-                int n;
-
-                while ((n = fis.read(buffer)) != -1) {
-                    String chunk = new String(buffer, 0, n);
-                    String[] values = chunk.split("\n");
-
-                    if (values.length >= 2) {
-                        upperThresholdText.append(values[0]);
-                        lowerThresholdText.append(values[1]);
-                    }
-                }
-
-                // Ustaw wczytane wartości w EditText
-                upperThresholdEditText.setText(upperThresholdText.toString());
-                lowerThresholdEditText.setText(lowerThresholdText.toString());
+            // Sprawdź zabezpieczenia
+            if (lowerThreshold > upperThreshold) {
+                // Dolna granica nie może być większa niż górna granica
+                Toast.makeText(requireContext(), "Dolna granica nie może być większa niż górna granica", Toast.LENGTH_SHORT).show();
+                return;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            if (lowerThreshold < 0) {
+                // Dolna granica nie może być mniejsza od 0
+                Toast.makeText(requireContext(), "Dolna granica nie może być mniejsza od 0", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (upperThreshold > 6) {
+                // Górna granica nie może być większa niż 6
+                Toast.makeText(requireContext(), "Górna granica nie może być większa niż 6", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Zapisz wartości do Firestore
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            Map<String, Object> thresholds = new HashMap<>();
+            thresholds.put("upperThreshold", upperThreshold);
+            thresholds.put("lowerThreshold", lowerThreshold);
+
+            db.collection("Users")
+                    .document(userId)
+                    .collection("Range")
+                    .document("INR")
+                    .set(thresholds)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Zapisano pomyślnie
+                            Toast.makeText(requireContext(), "Zapisano wartości progów", Toast.LENGTH_SHORT).show();
+                            dismiss();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Błąd zapisu
+                            Toast.makeText(requireContext(), "Błąd zapisu danych", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } catch (NumberFormatException e) {
+            // Wprowadzone wartości nie są liczbami
+            Toast.makeText(requireContext(), "Wprowadź poprawne liczby dla progów", Toast.LENGTH_SHORT).show();
         }
     }
 }

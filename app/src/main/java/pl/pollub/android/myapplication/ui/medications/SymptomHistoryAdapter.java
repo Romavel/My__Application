@@ -103,7 +103,7 @@ public class SymptomHistoryAdapter extends RecyclerView.Adapter<SymptomHistoryAd
         }
 
         public void bind(NewSymptom newSymptom) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
             String formattedDate = sdf.format(newSymptom.getDay().toDate());
             textViewHistoryDate.setText(formattedDate);
 

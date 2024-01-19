@@ -166,8 +166,7 @@
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginBottom="10dp"
                     android:textColor="@color/colorBlue"
-                    android:layout_centerHorizontal="true"
-                    android:entries="@array/countries_array"/>
+                    android:layout_centerHorizontal="true"/>
 
             </RelativeLayout>
         </LinearLayout>

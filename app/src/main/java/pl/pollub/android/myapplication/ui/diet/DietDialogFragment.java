@@ -468,7 +468,7 @@ public class DietDialogFragment extends DialogFragment {
 
     // Metoda do formatowania daty bez czasu
     public static String formatDateWithoutTime(java.util.Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         return sdf.format(date);
     }
 }
