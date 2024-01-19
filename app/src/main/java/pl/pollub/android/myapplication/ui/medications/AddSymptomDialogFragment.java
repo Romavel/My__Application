@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,7 +47,7 @@ import pl.pollub.android.myapplication.ui.diet.NewDiet;
 import pl.pollub.android.myapplication.ui.diet.NicotineLayout;
 import pl.pollub.android.myapplication.ui.diet.VegetableLayout;
 
-public class AddSymptomDialogFragment extends DialogFragment {
+public class AddSymptomDialogFragment extends Fragment {
 
     private Button btnHeadache, btnBleeding, btnBruises, btnChestPain, btnLegSwelling, btnPalpitations, btnDizzyness, btnHotFlush, btnCoughing, btnOther, btnAddSymptom, btnCancelSymptom;
     private LinearLayout container;
@@ -74,7 +75,7 @@ public class AddSymptomDialogFragment extends DialogFragment {
         btnDizzyness = view.findViewById(R.id.btnDizzyness);
         btnHotFlush = view.findViewById(R.id.btnHotFlush);
         btnCoughing = view.findViewById(R.id.btnCoughing);
-        //btnOther = view.findViewById(R.id.btnOther);
+        btnOther = view.findViewById(R.id.btnOther);
         btnAddSymptom = view.findViewById(R.id.btnAddSymptom);
         btnCancelSymptom = view.findViewById(R.id.btnCancelSymptom);
 
@@ -110,7 +111,7 @@ public class AddSymptomDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 saveDataToDatabase();
-                dismiss(); // Zamknij dialog po dodaniu danych
+                replaceWithMedicationsFragment();
             }
         });
     }
@@ -119,7 +120,7 @@ public class AddSymptomDialogFragment extends DialogFragment {
         btnCancelSymptom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss(); // Zamknij dialog bez zapisywania danych
+                replaceWithMedicationsFragment();
             }
         });
     }
@@ -375,5 +376,13 @@ public class AddSymptomDialogFragment extends DialogFragment {
     public static String formatDateWithoutTime(java.util.Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         return sdf.format(date);
+    }
+
+    private void replaceWithMedicationsFragment() {
+        // Zastąp MainMedicationDialogFragment przez MedicationsFragment
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, new MedicationsFragment())
+                .commit();
     }
 }

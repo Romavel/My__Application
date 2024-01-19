@@ -17,11 +17,18 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import pl.pollub.android.myapplication.R;
 import pl.pollub.android.myapplication.User;
+import pl.pollub.android.myapplication.ui.medications.Medication;
+import pl.pollub.android.myapplication.ui.medications.MedicineTaken;
 
 public class EditMainMedicationDialogFragment extends DialogFragment {
 
@@ -106,16 +113,18 @@ public class EditMainMedicationDialogFragment extends DialogFragment {
         // Zaktualizuj obiekt użytkownika
         currentUser.setMedication(newMainMedication);
 
-        // Tutaj dodaj logikę zapisywania zmian do bazy danych Firebase Firestore
+        // Tutaj dodaj logikę sprawdzania i aktualizacji dokumentu w kolekcji Medications
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        db.collection("Users").document(userId).set(currentUser)
+
+        // Zaktualizuj pole medication w dokumencie userId
+        db.collection("Users").document(userId).update("medication", newMainMedication)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         // Zapisano pomyślnie
-                        dismiss();
+                        Toast.makeText(requireContext(), "Pomyślnie zapisano zmianę leku", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -125,6 +134,94 @@ public class EditMainMedicationDialogFragment extends DialogFragment {
                         // Tutaj możesz dodać odpowiednie obszary kodu obsługujące błędy
                         Toast.makeText(requireContext(), "Błąd zapisu danych", Toast.LENGTH_SHORT).show();
                     }
+                });
+
+        // Sprawdź, czy istnieje dokument w kolekcji Medications z polem name równym nowemu lekowi
+        db.collection("Users")
+                .document(userId)
+                .collection("Medications")
+                .whereEqualTo("name", newMainMedication)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                        if (documents.size() > 0) {
+                            // Dokument istnieje, sprawdź kolekcję MedicineTaken
+                            DocumentSnapshot existingDocument = documents.get(0);
+                            checkAndAddMedicineTaken(existingDocument.getId());
+                        } else {
+                            // Dokument nie istnieje, utwórz nowy
+                            createNewMedicationDocument(newMainMedication);
+                        }
+                    } else {
+                        // Obsługa błędu
+                    }
+                });
+    }
+
+    private void checkAndAddMedicineTaken(String medicationDocumentId) {
+        // Sprawdź, czy kolekcja MedicineTaken istnieje w danym dokumencie
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("Users")
+                .document(userId)
+                .collection("Medications")
+                .document(medicationDocumentId)
+                .collection("MedicineTaken")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        List<DocumentSnapshot> medicineTakenDocuments = task.getResult().getDocuments();
+                        if (medicineTakenDocuments.isEmpty()) {
+                            // Kolekcja MedicineTaken nie istnieje, utwórz nową i dodaj dokument
+                            createMedicineTakenCollectionAndDocument(medicationDocumentId);
+                        } else {
+                            // Kolekcja istnieje, zamknij okno dialogowe
+                            dismiss();
+                        }
+                    } else {
+                        // Obsługa błędu
+                    }
+                });
+    }
+
+    private void createMedicineTakenCollectionAndDocument(String medicationDocumentId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // Utwórz kolekcję MedicineTaken i dodaj do niej dokument
+        db.collection("Users")
+                .document(userId)
+                .collection("Medications")
+                .document(medicationDocumentId)
+                .collection("MedicineTaken")
+                .add(new MedicineTaken(Timestamp.now(), false))
+                .addOnSuccessListener(documentReference -> {
+                    // Zapisano pomyślnie, zamknij okno dialogowe
+                    dismiss();
+                })
+                .addOnFailureListener(e -> {
+                    // Obsługa błędu
+                });
+    }
+
+    private void createNewMedicationDocument(String newMainMedication) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // Utwórz nowy dokument w kolekcji Medications
+        Medication newMedication = new Medication(null, null, newMainMedication, null, new ArrayList<>());
+        db.collection("Users")
+                .document(userId)
+                .collection("Medications")
+                .add(newMedication)
+                .addOnSuccessListener(documentReference -> {
+                    // Zapisano pomyślnie, utwórz kolekcję MedicineTaken i dodaj do niej dokument
+                    createMedicineTakenCollectionAndDocument(documentReference.getId());
+                })
+                .addOnFailureListener(e -> {
+                    // Obsługa błędu
                 });
     }
 }

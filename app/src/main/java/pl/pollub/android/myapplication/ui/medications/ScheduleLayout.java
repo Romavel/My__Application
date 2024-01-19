@@ -219,6 +219,30 @@ public class ScheduleLayout extends LinearLayout {
         ((ViewGroup) getParent()).removeView(this);
     }
 
+    // Dodano funkcję populateData, aby wprowadzić dane do ScheduleLayout
+    public void populateData(ScheduleItem scheduleItem) {
+        // Ustawienie danych w polach layoutu na podstawie obiektu ScheduleItem
+        editTextDose.setText(String.valueOf(scheduleItem.getDose()));
+        List<Integer> selectedDays = scheduleItem.getDaysOfWeek();
+        // Zamień listę dni tygodnia na tekst
+        String selectedDaysText = convertDaysListToString(selectedDays);
+        textViewDaysOfWeek.setText(selectedDaysText);
+        textViewNotificationTime.setText(scheduleItem.getTime());
+    }
 
+    // Funkcja pomocnicza do zamiany listy dni tygodnia na tekst
+    private String convertDaysListToString(List<Integer> selectedDays) {
+        // Mapa dla konwersji numeru dnia tygodnia na tekst
+        String[] daysOfWeekArray = getResources().getStringArray(R.array.days_of_week_array);
+        StringBuilder selectedDaysText = new StringBuilder();
+        for (Integer day : selectedDays) {
+            selectedDaysText.append(daysOfWeekArray[day - 1]).append(", ");
+        }
+        // Usuń ostatnią przecinkę i spację
+        if (selectedDaysText.length() > 0) {
+            selectedDaysText.deleteCharAt(selectedDaysText.length() - 2);
+        }
+        return selectedDaysText.toString();
+    }
 
 }

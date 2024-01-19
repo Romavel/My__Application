@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,7 +32,7 @@ import pl.pollub.android.myapplication.User;
 import pl.pollub.android.myapplication.ui.medications.Medication;
 import pl.pollub.android.myapplication.ui.medications.ScheduleItem;
 
-public class MainMedicationDialogFragment extends DialogFragment {
+public class MainMedicationDialogFragment extends Fragment {
 
     private TextView textViewMainMedicationName;
     private TextView textViewMedicationName;
@@ -51,20 +52,16 @@ public class MainMedicationDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_medication_dialog, container, false);
 
-        //getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
         textViewMainMedicationName = view.findViewById(R.id.textViewMainMedicationName);
         textViewMedicationName = view.findViewById(R.id.textViewMedicationName);
-        textViewSelectMedicationForm  = view.findViewById(R.id.textViewSelectMedicationForm);
-        textViewSelectMedicationUnit  = view.findViewById(R.id.textViewSelectMedicationUnit);
+        textViewSelectMedicationForm = view.findViewById(R.id.textViewSelectMedicationForm);
+        textViewSelectMedicationUnit = view.findViewById(R.id.textViewSelectMedicationUnit);
         spinnerMedicationForm = view.findViewById(R.id.spinnerMedicationForm);
         spinnerUnit = view.findViewById(R.id.spinnerUnit);
         linearLayoutSchedules = view.findViewById(R.id.linearLayoutSchedules);
         btnAddSchedule = view.findViewById(R.id.buttonAddSchedule);
         btnAddMainMedication = view.findViewById(R.id.btnAddMainMedication);
         btnCancelMainMedication = view.findViewById(R.id.btnCancelMainMedication);
-
-        container = view.findViewById(R.id.container);
 
         scheduleLayouts = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
@@ -93,6 +90,7 @@ public class MainMedicationDialogFragment extends DialogFragment {
                                 if (currentUser != null) {
                                     // Przypisz wartość pola medication do zmiennej mainMedication
                                     mainMedication = currentUser.getMedication();
+                                    loadMedicationDataForEdit(); // Dodano funkcję do wczytania danych leku do edycji
                                     setupUI();
 
                                     // W tym miejscu możesz użyć wartości mainMedication według potrzeb
@@ -111,9 +109,71 @@ public class MainMedicationDialogFragment extends DialogFragment {
         }
     }
 
+    // Dodano funkcję do wczytania danych leku do edycji
+    private void loadMedicationDataForEdit() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // Sprawdź, czy już istnieje dokument z takim mainMedication
+        db.collection("Users")
+                .document(userId)
+                .collection("Medications")
+                .whereEqualTo("name", mainMedication)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                        if (documents.size() > 0) {
+                            // Dokument istnieje, wczytaj dane do edycji
+                            DocumentSnapshot existingDocument = documents.get(0);
+                            Medication existingMedication = existingDocument.toObject(Medication.class);
+                            if (existingMedication != null) {
+                                // Wczytaj dane do pól interfejsu użytkownika
+                                loadMedicationDataToUI(existingMedication);
+                            }
+                        }
+                    }
+                });
+    }
+
+    // Dodano funkcję do wczytania danych leku do pól interfejsu użytkownika
+    private void loadMedicationDataToUI(Medication existingMedication) {
+        if (existingMedication != null) {
+            // Wczytaj dane do pól interfejsu użytkownika
+            textViewMedicationName.setText("Nazwa leku głównego:");
+            textViewMainMedicationName.setText(existingMedication.getName());
+            textViewSelectMedicationForm.setText("Wybierz formę leku: ");
+            textViewSelectMedicationUnit.setText("Wybierz jednostkę leku:");
+
+            // Wczytaj dane do Spinnera formy leku
+            ArrayAdapter<CharSequence> formAdapter = ArrayAdapter.createFromResource(requireContext(),
+                    R.array.medication_form_array, android.R.layout.simple_spinner_item);
+            formAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerMedicationForm.setAdapter(formAdapter);
+            spinnerMedicationForm.setSelection(getIndex(spinnerMedicationForm, existingMedication.getForm()));
+
+            // Wczytaj dane do Spinnera jednostki leku (przykład, dostosuj do swoich potrzeb)
+            ArrayAdapter<CharSequence> unitAdapter = ArrayAdapter.createFromResource(requireContext(),
+                    R.array.unit_array, android.R.layout.simple_spinner_item);
+            unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerUnit.setAdapter(unitAdapter);
+            spinnerUnit.setSelection(getIndex(spinnerUnit, existingMedication.getUnit()));
+
+            // Dodaj rozkład graficzny dla każdego planu z existingMedication.getPlans()
+            for (ScheduleItem scheduleItem : existingMedication.getPlans()) {
+                addScheduleLayout(scheduleItem);
+            }
+        }
+    }
+
+    // Funkcja pomocnicza do uzyskania indeksu wybranej wartości w Spinnerze
+    private int getIndex(Spinner spinner, String value) {
+        ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) spinner.getAdapter();
+        return adapter.getPosition(value);
+    }
+
+
     private void setupUI() {
         Log.d("MainMedicationDialog", "Main Medication inside setupUI: " + mainMedication);
-        // Set initial text values
         textViewMedicationName.setText("Nazwa leku głównego:");
         textViewMainMedicationName.setText(mainMedication);
         textViewSelectMedicationForm.setText("Wybierz formę leku: ");
@@ -127,7 +187,7 @@ public class MainMedicationDialogFragment extends DialogFragment {
         btnAddSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addScheduleLayout();
+                addScheduleLayout(null);
             }
         });
 
@@ -141,16 +201,27 @@ public class MainMedicationDialogFragment extends DialogFragment {
         btnCancelMainMedication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                // Zastąp MainMedicationDialogFragment przez MedicationsFragment
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.frame_layout, new MedicationsFragment())
+                        .commit();
             }
         });
     }
 
-    private void addScheduleLayout() {
+    // Zaktualizowano funkcję addScheduleLayout, aby przyjmowała ScheduleItem
+    private void addScheduleLayout(ScheduleItem scheduleItem) {
         ScheduleLayout scheduleLayout = new ScheduleLayout(requireContext());
         scheduleLayouts.add(scheduleLayout);
         linearLayoutSchedules.addView(scheduleLayout);
+
+        // Jeżeli przekazano ScheduleItem, wprowadź dane do nowo utworzonego layoutu
+        if (scheduleItem != null) {
+            scheduleLayout.populateData(scheduleItem);
+        }
     }
+
 
     private void saveMedicationToDatabase() {
         String name = textViewMainMedicationName.getText().toString().trim();
@@ -192,7 +263,8 @@ public class MainMedicationDialogFragment extends DialogFragment {
                                     .document(existingDocument.getId())
                                     .set(medication)
                                     .addOnSuccessListener(documentReference -> {
-                                        dismiss();
+                                        // Zastąp MainMedicationDialogFragment przez MedicationsFragment
+                                        replaceWithMedicationsFragment();
                                     })
                                     .addOnFailureListener(e -> {
                                         // Handle failure
@@ -204,7 +276,8 @@ public class MainMedicationDialogFragment extends DialogFragment {
                                     .collection("Medications")
                                     .add(medication)
                                     .addOnSuccessListener(documentReference -> {
-                                        dismiss();
+                                        // Zastąp MainMedicationDialogFragment przez MedicationsFragment
+                                        replaceWithMedicationsFragment();
                                     })
                                     .addOnFailureListener(e -> {
                                         // Handle failure
@@ -215,5 +288,14 @@ public class MainMedicationDialogFragment extends DialogFragment {
                     }
                 });
     }
+
+    private void replaceWithMedicationsFragment() {
+        // Zastąp MainMedicationDialogFragment przez MedicationsFragment
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, new MedicationsFragment())
+                .commit();
+    }
+
 
 }

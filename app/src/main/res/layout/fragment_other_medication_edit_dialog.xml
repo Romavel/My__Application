@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="80dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.medications.MainMedicationDialogFragment">
+    tools:context=".ui.medications.OtherMedicationEditDialogFragment">
 
     <FrameLayout
-        android:id="@+id/cardViewMedication"
+        android:id="@+id/cardViewEditMedication"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"
@@ -16,12 +16,12 @@
         app:cardElevation="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/editMedicationBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/addMedicationBox">
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/addMedication"
+                android:id="@+id/editMedication"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -29,20 +29,20 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/textViewMedicationName"
+                    android:id="@+id/textViewEditMedicationName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Podaj nazwę leku"
+                    android:text="Zmień nazwę leku"
                     android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/textViewMainMedicationName"
+                <EditText
+                    android:id="@+id/editTextEditOtherMedicationName"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:inputType="text"
                     android:padding="8dp"
-                    android:textSize="20dp" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/textViewSelectMedicationForm"
@@ -50,14 +50,14 @@
                     android:layout_height="wrap_content"
                     android:text="Wybierz formę leku"
                     android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <Spinner
                     android:id="@+id/spinnerMedicationForm"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:padding="8dp"
-                    android:entries="@array/medication_form_array"/>
+                    android:entries="@array/medication_form_array"
+                    android:padding="8dp" />
 
                 <TextView
                     android:id="@+id/textViewSelectMedicationUnit"
@@ -65,28 +65,28 @@
                     android:layout_height="wrap_content"
                     android:text="Jednostka przyjmowanego leku"
                     android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
                 <!-- Spinner z jednostkami -->
                 <Spinner
                     android:id="@+id/spinnerUnit"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:padding="8dp"
-                    android:entries="@array/unit_array"/>
+                    android:entries="@array/unit_array"
+                    android:padding="8dp" />
 
 
                 <LinearLayout
                     android:id="@+id/container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical" />
 
                 <LinearLayout
-                    android:id="@+id/linearLayoutSchedules"
+                    android:id="@+id/linearLayoutOtherSchedules"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="16dp">
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical">
 
                     <!-- Tutaj dodaj harmonogramy dynamicznie w kodzie Java w zależności od ilości harmonogramów -->
                     <!-- Każdy harmonogram to CardView utworzony programowo i dodany do linearLayoutSchedules -->
@@ -96,28 +96,31 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <Button
                         android:id="@+id/buttonAddSchedule"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dodaj harmonogram"
                         android:layout_marginStart="10dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="18dp"
                         android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="8dp"
                         android:backgroundTint="@color/colorBlue"
+                        android:text="Dodaj harmonogram"
                         android:textColor="@color/white"
                         android:textSize="14sp"
-                        app:cornerRadius = "20dp"
-                        android:layout_marginTop="18dp"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:cornerRadius="20dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <Button
-                        android:id="@+id/btnCancelMainMedication"
+                        android:id="@+id/btnCancelEditOtherMedication"
                         android:layout_width="160dp"
                         android:layout_height="60dp"
                         android:layout_marginTop="10dp"
@@ -126,25 +129,25 @@
                         android:text="Anuluj"
                         android:textSize="14sp"
                         app:cornerRadius="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/btnEditOtherMedication"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/btnAddMainMedication"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <Button
-                        android:id="@+id/btnAddMainMedication"
+                        android:id="@+id/btnEditOtherMedication"
                         android:layout_width="160dp"
                         android:layout_height="60dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="8dp"
                         android:backgroundTint="@color/colorBlue"
-                        android:text="Dodaj"
+                        android:text="Zmień"
                         android:textSize="14sp"
                         app:cornerRadius="20dp"
-                        app:layout_constraintStart_toEndOf="@id/btnCancelMainMedication"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:layout_constraintStart_toEndOf="@id/btnCancelEditOtherMedication"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

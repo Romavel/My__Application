@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,7 +30,7 @@ import java.util.List;
 import pl.pollub.android.myapplication.R;
 import pl.pollub.android.myapplication.User;
 
-public class OtherMedicationDialogFragment extends DialogFragment {
+public class OtherMedicationDialogFragment extends Fragment {
 
     private EditText editTextOtherMedicationName;
     private TextView textViewMedicationName;
@@ -67,6 +69,7 @@ public class OtherMedicationDialogFragment extends DialogFragment {
         return view;
     }
 
+
     private void setupUI() {
         textViewMedicationName.setText("Podaj nazwę leku:");
         textViewSelectMedicationForm.setText("Wybierz formę leku:");
@@ -81,7 +84,10 @@ public class OtherMedicationDialogFragment extends DialogFragment {
 
         btnAddOtherMedication.setOnClickListener(v -> saveMedicationToDatabase());
 
-        btnCancelOtherMedication.setOnClickListener(v -> dismiss());
+        btnCancelOtherMedication.setOnClickListener(v -> {
+            // Zastąp OtherMedicationDialogFragment przez inny Fragment (jeśli wymagane)
+            replaceWithMedicationsFragment();
+        });
     }
 
     private void addOtherScheduleLayout() {
@@ -129,7 +135,7 @@ public class OtherMedicationDialogFragment extends DialogFragment {
                             .collection("Medications")
                             .document(existingDocument.getId())
                             .set(medication)
-                            .addOnSuccessListener(documentReference -> dismiss())
+                            .addOnSuccessListener(documentReference -> replaceWithMedicationsFragment())
                             .addOnFailureListener(e -> {
                                 // Handle failure
                             });
@@ -139,7 +145,7 @@ public class OtherMedicationDialogFragment extends DialogFragment {
                             .document(userId)
                             .collection("Medications")
                             .add(medication)
-                            .addOnSuccessListener(documentReference -> dismiss())
+                            .addOnSuccessListener(documentReference -> replaceWithMedicationsFragment())
                             .addOnFailureListener(e -> {
                                 // Handle failure
                             });
@@ -148,5 +154,13 @@ public class OtherMedicationDialogFragment extends DialogFragment {
                 // Handle failure
             }
         });
+    }
+
+    private void replaceWithMedicationsFragment() {
+        // Zastąp MainMedicationDialogFragment przez MedicationsFragment
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, new MedicationsFragment())
+                .commit();
     }
 }

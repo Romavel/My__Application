@@ -67,6 +67,31 @@ public class OtherScheduleLayout extends LinearLayout {
         });
     }
 
+    public void setScheduleItem(OtherScheduleItem scheduleItem) {
+        if (scheduleItem != null) {
+            editTextDose.setText(String.valueOf(scheduleItem.getDose()));
+            List<Integer> selectedDays = scheduleItem.getDaysOfWeek();
+            updateDaysOfWeekText(selectedDays);
+        }
+    }
+
+    private void updateDaysOfWeekText(List<Integer> selectedDays) {
+        String[] daysOfWeekArray = getResources().getStringArray(R.array.days_of_week_array);
+        StringBuilder selectedDaysText = new StringBuilder();
+
+        for (int i = 0; i < daysOfWeekArray.length; i++) {
+            if (selectedDays.contains(i + 1)) {
+                selectedDaysText.append(daysOfWeekArray[i]).append(", ");
+            }
+        }
+
+        if (selectedDaysText.length() > 0) {
+            selectedDaysText.deleteCharAt(selectedDaysText.length() - 2); // Remove trailing comma and space
+        }
+
+        textViewDaysOfWeek.setText(selectedDaysText.toString());
+    }
+
     private void showDaysOfWeekDialog() {
         final String[] daysOfWeekArray = getResources().getStringArray(R.array.days_of_week_array);
         final boolean[] checkedItems = new boolean[daysOfWeekArray.length];

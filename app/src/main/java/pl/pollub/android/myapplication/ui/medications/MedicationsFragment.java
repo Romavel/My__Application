@@ -90,6 +90,8 @@ public class MedicationsFragment extends Fragment {
         checkExistingSymptomDocument();
         fetchOtherMedicationsData();
         setupOtherMedicationsRecyclerView();
+
+
         // Ustaw Swipe to Refresh
         SwipeRefreshLayout swipeRefreshLayout = root.findViewById(R.id.medicationsSwipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -100,6 +102,7 @@ public class MedicationsFragment extends Fragment {
             checkExistingSymptomDocument();
             swipeRefreshLayout.setRefreshing(false);
         });
+
 
 
         return root;
@@ -137,8 +140,6 @@ public class MedicationsFragment extends Fragment {
             Log.d("MedicationsFragment", "isTaken: " + isMedicationTaken);
         });
     }
-
-
 
     private void checkExistingMainMedicineDocument() {
         // Pobierz ID aktualnie zalogowanego użytkownika
@@ -307,7 +308,6 @@ public class MedicationsFragment extends Fragment {
                 });
     }
 
-    // Dodaj tę metodę do klasy MedicationsFragment
     private void setupSymptomsRecyclerView(List<String> symptomsList) {
         // Ustawienie layoutu w RecyclerView
         recyclerViewSymptoms.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -315,6 +315,9 @@ public class MedicationsFragment extends Fragment {
         // Utworzenie adaptera i przypisanie go do RecyclerView
         symptomAdapter = new SymptomAdapter(symptomsList);
         recyclerViewSymptoms.setAdapter(symptomAdapter);
+
+        // Wyłącz przewijanie wewnątrz RecyclerView
+        recyclerViewSymptoms.setNestedScrollingEnabled(false);
     }
 
     private void setupOtherMedicationsRecyclerView() {
@@ -322,25 +325,14 @@ public class MedicationsFragment extends Fragment {
         otherMedicationsAdapter = new OtherMedicationsAdapter(otherMedicationsList);
         recyclerViewOtherMedications.setAdapter(otherMedicationsAdapter);
 
-        /*
-        // Dodaj obsługę kliknięcia na element na liście
-        recyclerViewOtherMedications.addOnItemTouchListener(
-                new RecyclerItemClickListener(requireContext(), recyclerViewOtherMedications,
-                        new RecyclerItemClickListener.OnItemClickListener() {
+        // Wyłącz przewijanie wewnątrz RecyclerView
+        recyclerViewOtherMedications.setNestedScrollingEnabled(false);
 
-
-                            @Override
-                            public void onLongItemClick(View view, int position) {
-                                // Obsługa przytrzymania elementu na liście (jeśli potrzebujesz)
-                            }
-                        })
-        );
-         */
         // Pobierz dane o innych lekach z bazy danych i zaktualizuj listę
         fetchOtherMedicationsData();
     }
 
-    // Dodaj do klasy MedicationsFragment poniższą funkcję
+
     private void fetchOtherMedicationsData() {
         // Pobierz ID aktualnie zalogowanego użytkownika
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -449,47 +441,47 @@ public class MedicationsFragment extends Fragment {
 
     private class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
 
-        public SwipeToDeleteCallback() {
-            super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        }
-
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-            return false;
-        }
-
-        @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            int position = viewHolder.getAdapterPosition();
-
-            // Obsługa przesunięcia w lewo (usunięcie)
-            if (direction == ItemTouchHelper.LEFT) {
-                showDeleteConfirmation(position);
+            public SwipeToDeleteCallback() {
+                super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
             }
-            // Obsługa przesunięcia w prawo (edycja)
-            else if (direction == ItemTouchHelper.RIGHT) {
-                // Dodaj obsługę edycji dla innych leków, jeśli potrzebujesz
-                showDeleteConfirmation(position);
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
             }
-        }
 
-        @Override
-        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
-                                @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
-                                int actionState, boolean isCurrentlyActive) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
 
-            new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorSwipeDelete))
-                    .addSwipeLeftActionIcon(R.drawable.ic_delete)
-                    .addSwipeRightBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorSwipeDelete))
-                    .addSwipeRightActionIcon(R.drawable.ic_delete)
-                    .create()
-                    .decorate();
+                // Obsługa przesunięcia w lewo (usunięcie)
+                if (direction == ItemTouchHelper.LEFT) {
+                    showDeleteConfirmation(position);
+                }
+                // Obsługa przesunięcia w prawo (edycja)
+                else if (direction == ItemTouchHelper.RIGHT) {
+                    // Dodaj obsługę edycji dla innych leków, jeśli potrzebujesz
+                    editMedication(position);
+                }
+            }
 
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-        }
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                                    int actionState, boolean isCurrentlyActive) {
 
-        private void showDeleteConfirmation(int position) {
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorSwipeDelete))
+                        .addSwipeLeftActionIcon(R.drawable.ic_delete)
+                        .addSwipeRightBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorSwipeEdit))
+                        .addSwipeRightActionIcon(R.drawable.ic_edit)
+                        .create()
+                        .decorate();
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+
+            private void showDeleteConfirmation(int position) {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             builder.setTitle("Potwierdź usunięcie")
                     .setMessage("Czy na pewno chcesz usunąć ten lek?")
@@ -538,5 +530,49 @@ public class MedicationsFragment extends Fragment {
                     });
         }
     }
+
+    private void editMedication(int position) {
+        // Pobierz dane leku, który chcesz edytować
+        OtherMedication medicationToEdit = otherMedicationsList.get(position);
+
+        // Otwórz nowy fragment do edycji, przekazując dane leku
+        FragmentManager fragmentManager = getParentFragmentManager();
+        OtherMedicationEditDialogFragment editFragment = new OtherMedicationEditDialogFragment(medicationToEdit);
+        editFragment.setOnEditCompleteListener(new OtherMedicationEditDialogFragment.OnEditCompleteListener() {
+            @Override
+            public void onEditComplete(OtherMedication updatedMedication) {
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                String medicationId = otherMedicationsList.get(position).getDocumentId();
+
+                FirebaseFirestore.getInstance()
+                        .collection("Users")
+                        .document(userId)
+                        .collection("Medications")
+                        .document(medicationId)
+                        .update(
+                                "name", updatedMedication.getName(),
+                                "form", updatedMedication.getForm(),
+                                "unit", updatedMedication.getUnit(),
+                                "plans", updatedMedication.getPlans()
+                        )
+                        .addOnSuccessListener(aVoid -> {
+                            // Zaktualizowano pomyślnie
+                            otherMedicationsList.set(position, updatedMedication);
+                            otherMedicationsAdapter.notifyItemChanged(position);
+                        })
+                        .addOnFailureListener(e -> {
+                            Log.e("MedicationsFragment", "Błąd podczas aktualizacji leku", e);
+                        });
+            }
+        });
+
+        // Zastąp bieżący fragment nowym fragmentem edycji
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, editFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+
 
 }
