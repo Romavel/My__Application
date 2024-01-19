@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout medicationsLayout = dialog.findViewById(R.id.layout_Medications);
         LinearLayout symptomsLayout = dialog.findViewById(R.id.layout_Symptoms);
         LinearLayout symptomsList = dialog.findViewById(R.id.layout_Symptoms_List);
+        LinearLayout layoutCalendar  = dialog.findViewById(R.id.layout_Calendar);
         ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
 
         mainMedicationLayout.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Wywołaj metodę handleMedicationDialog() w MedicationsFragment
                 handleMainMedicationDialog();
+                binding.fab.hide();
                 dialog.dismiss();
             }
         });
@@ -180,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Wywołaj metodę handleMedicationDialog() w MedicationsFragment
                 handleMedicationDialog();
+                binding.fab.hide();
                 dialog.dismiss();
             }
         });
@@ -189,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Wywołaj metodę showPressureMeasurementDialog() w MedicationsFragment
                 handleSymptomDialog();
+                binding.fab.hide();
                 dialog.dismiss();
             }
         });
@@ -199,6 +203,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Wywołaj metodę handleSymptomsList() w MedicationsFragment
                 handleSymptomsList();
+                binding.fab.hide();
+                dialog.dismiss();
+            }
+        });
+
+        layoutCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Wywołaj metodę handleSymptomsList() w MedicationsFragment
+                handleCalendar();
+                binding.fab.hide();
                 dialog.dismiss();
             }
         });
@@ -230,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Wywołaj metodę showInrMeasurementDialog() w MeasurementsFragment
                 handleDietDialog();
+                binding.fab.hide();
                 dialog.dismiss();
             }
         });
@@ -313,6 +329,13 @@ public class MainActivity extends AppCompatActivity {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
         if (currentFragment instanceof MedicationsFragment) {
             ((MedicationsFragment) currentFragment).showSymptomList();
+        }
+    }
+
+    private void handleCalendar() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+        if (currentFragment instanceof MedicationsFragment) {
+            ((MedicationsFragment) currentFragment).showCalendar();
         }
     }
 

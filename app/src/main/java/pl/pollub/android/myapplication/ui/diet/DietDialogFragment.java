@@ -17,6 +17,7 @@ import android.widget.Button;
 
 import pl.pollub.android.myapplication.R;
 import pl.pollub.android.myapplication.ui.measurements.InrMeasurement;
+import pl.pollub.android.myapplication.ui.medications.MedicationsFragment;
 
 import android.widget.LinearLayout;
 
@@ -58,7 +59,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import org.checkerframework.checker.units.qual.A;
 
-public class DietDialogFragment extends DialogFragment {
+public class DietDialogFragment extends Fragment {
 
     private Button btnCaffeine, btnNicotine, btnAlcohol, btnSugar, btnVegetables, btnOther, btnAddDiet, btnCancelDiet;
     private LinearLayout container;
@@ -91,9 +92,9 @@ public class DietDialogFragment extends DialogFragment {
         setupButton(btnCaffeine, "Caffeine");
         setupButton(btnNicotine, "Nicotine");
         setupButton(btnAlcohol, "Alcohol");
-       // setupButton(btnSugar, "Sugar");
+        // setupButton(btnSugar, "Sugar");
         setupButton(btnVegetables, "Vegetables");
-        setupButton(btnOther, "Other");
+        //setupButton(btnOther, "Other");
 
         setupAddButton();
         setupCancelButton();
@@ -113,7 +114,7 @@ public class DietDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 saveDataToDatabase();
-                dismiss(); // Zamknij dialog po dodaniu danych
+                replaceWithDietFragment();
             }
         });
     }
@@ -122,7 +123,7 @@ public class DietDialogFragment extends DialogFragment {
         btnCancelDiet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss(); // Zamknij dialog bez zapisywania danych
+                replaceWithDietFragment();
             }
         });
     }
@@ -470,6 +471,14 @@ public class DietDialogFragment extends DialogFragment {
     public static String formatDateWithoutTime(java.util.Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         return sdf.format(date);
+    }
+
+    private void replaceWithDietFragment() {
+        // Zastąp MainMedicationDialogFragment przez MedicationsFragment
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, new DietFragment())
+                .commit();
     }
 }
 

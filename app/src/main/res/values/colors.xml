@@ -21,7 +21,7 @@
     <color name="colorSugar" />
     <color name="green">#4CAF50</color>
     <color name="yellow">#FFEB3B</color>
-    <color name="red">#BE1C10</color> <!-- Green -->
-
+    <color name="red">#BE1C10</color>
+    <color name="cyan">#00FFFF</color>
 
 </resources>

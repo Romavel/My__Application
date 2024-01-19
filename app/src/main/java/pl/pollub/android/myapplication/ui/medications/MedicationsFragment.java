@@ -422,13 +422,13 @@ public class MedicationsFragment extends Fragment {
                 .commit();
     }
 
-    public void showPressureMeasurementList() {
+    public void showCalendar() {
         // Otwórz nowy fragment z listą pomiarów ciśnienia
         FragmentManager fragmentManager = getParentFragmentManager();
-        PressureMeasurementListFragment pressureListFragment = new PressureMeasurementListFragment();
+        CalendarFragment calendarFragment = new CalendarFragment();
         fragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, pressureListFragment)
-                //.addToBackStack(null)
+                .replace(R.id.frame_layout, calendarFragment)
+                .addToBackStack(null)
                 .commit();
     }
 

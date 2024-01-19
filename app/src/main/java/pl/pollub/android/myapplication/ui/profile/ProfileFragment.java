@@ -30,6 +30,7 @@ import pl.pollub.android.myapplication.LoginActivity;
 import pl.pollub.android.myapplication.R;
 import pl.pollub.android.myapplication.User;
 import pl.pollub.android.myapplication.databinding.FragmentProfileBinding;
+import pl.pollub.android.myapplication.ui.measurements.PressureMeasurementListFragment;
 
 public class ProfileFragment extends Fragment {
 
@@ -70,6 +71,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 // Obsługa kliknięcia w ustawienia dostępności
                 // Dodaj tutaj kod, który ma zostać wykonany po kliknięciu
+                showAccessibilityDialog();
             }
         });
 
@@ -260,6 +262,15 @@ public class ProfileFragment extends Fragment {
         FragmentManager fragmentManager = getParentFragmentManager();
         EditPersonalDataDialogFragment editPersonalDataDialogFragment = new EditPersonalDataDialogFragment(user);
         editPersonalDataDialogFragment.show(fragmentManager, "EditPersonalDataDialogFragment");
+    }
+
+    public void showAccessibilityDialog() {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        AccessibilityFragment accessibilityFragment = new AccessibilityFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, accessibilityFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     public void showEditMainMedicationDialog() {

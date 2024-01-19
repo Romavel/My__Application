@@ -124,7 +124,10 @@ public class EditMainMedicationDialogFragment extends DialogFragment {
                     @Override
                     public void onSuccess(Void aVoid) {
                         // Zapisano pomyślnie
-                        Toast.makeText(requireContext(), "Pomyślnie zapisano zmianę leku", Toast.LENGTH_SHORT).show();
+                        if (isAdded() && getContext() != null) {
+                            Toast.makeText(requireContext(), "Pomyślnie zapisano zmianę leku", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -132,7 +135,9 @@ public class EditMainMedicationDialogFragment extends DialogFragment {
                     public void onFailure(@NonNull Exception e) {
                         // Błąd zapisu
                         // Tutaj możesz dodać odpowiednie obszary kodu obsługujące błędy
-                        Toast.makeText(requireContext(), "Błąd zapisu danych", Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(requireContext(), "Błąd zapisu danych", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 

@@ -54,8 +54,6 @@ public class MeasurementsFragment extends Fragment {
                 new ViewModelProvider(this).get(MeasurementsViewModel.class);
 
         View root = inflater.inflate(R.layout.fragment_measurements, container, false);
-
-        checkAndLoadThresholds();
         final TextView textView = root.findViewById(R.id.text_measurements);
         chartLayout = root.findViewById(R.id.chartLayout);
         barChart = root.findViewById(R.id.barChart);
@@ -68,6 +66,7 @@ public class MeasurementsFragment extends Fragment {
         textView.setText(currentDayAndDate);
 
         //final TextView textView = root.findViewById(R.id.text_pomiary);
+        checkAndLoadThresholds();
         // Wywołaj metodę do pobierania i rysowania wykresu
         getLatestInrMeasurements();
 
