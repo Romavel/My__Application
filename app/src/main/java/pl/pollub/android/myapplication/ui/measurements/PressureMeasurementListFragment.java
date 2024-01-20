@@ -208,14 +208,11 @@ public class PressureMeasurementListFragment extends Fragment {
                 });
     }
 
-    // Metoda do edycji pomiaru (dostosuj do swoich potrzeb)
     private void editPressureMeasurement(int position) {
-        // Pobierz dane pomiaru, który chcesz edytować
         PressureMeasurement measurementToEdit = pressureMeasurements.get(position);
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String measurementId = pressureMeasurements.get(position).getDocument_id();
 
-        // Otwórz nowy fragment do edycji, przekazując dane pomiaru
         FragmentManager fragmentManager = getParentFragmentManager();
         PressureMeasurementEditFragment editFragment = PressureMeasurementEditFragment.newInstance(measurementToEdit);
         editFragment.setOnEditCompleteListener(new PressureMeasurementEditFragment.OnEditCompleteListener() {

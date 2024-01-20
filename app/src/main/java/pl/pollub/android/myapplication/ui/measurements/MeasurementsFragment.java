@@ -22,7 +22,9 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -36,6 +38,7 @@ import java.util.Locale;
 
 
 import pl.pollub.android.myapplication.R;
+import pl.pollub.android.myapplication.User;
 import pl.pollub.android.myapplication.databinding.FragmentMeasurementsBinding;
 import pl.pollub.android.myapplication.databinding.FragmentProfileBinding;
 
@@ -47,6 +50,7 @@ public class MeasurementsFragment extends Fragment {
     private BarChart barChart;
     private LineChart lineChart;
     private double lowerThresholdLoaded, upperThresholdLoaded;
+    private boolean userDocumentExists = false;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +69,7 @@ public class MeasurementsFragment extends Fragment {
         // Ustaw wartość w polu text_measurements
         textView.setText(currentDayAndDate);
 
+        checkIfUserDocumentExists();
         //final TextView textView = root.findViewById(R.id.text_pomiary);
         checkAndLoadThresholds();
         // Wywołaj metodę do pobierania i rysowania wykresu
@@ -105,7 +110,7 @@ public class MeasurementsFragment extends Fragment {
         InrMeasurementListFragment inrListFragment = new InrMeasurementListFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, inrListFragment)
-                //.addToBackStack(null)
+                .addToBackStack(null)
                 .commit();
     }
     public void showPressureMeasurementList() {
@@ -114,7 +119,7 @@ public class MeasurementsFragment extends Fragment {
         PressureMeasurementListFragment pressureListFragment = new PressureMeasurementListFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, pressureListFragment)
-                //.addToBackStack(null)
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -266,6 +271,66 @@ public class MeasurementsFragment extends Fragment {
                         Toast.makeText(requireContext(), "Błąd odczytu z bazy danych", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    // Metoda do sprawdzania istnienia dokumentu użytkownika w bazie danych
+    private void checkIfUserDocumentExists() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseFirestore.getInstance()
+                .collection("Users")
+                .document(userId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            // Dokument użytkownika istnieje
+                            userDocumentExists = true;
+                        } else {
+                            // Dokument użytkownika nie istnieje, dodaj nowy
+                            addUserDocument(userId);
+                        }
+                    } else {
+                        // Błąd podczas sprawdzania istnienia dokumentu
+                        Log.e("MeasurementsFragment", "Błąd podczas sprawdzania dokumentu użytkownika", task.getException());
+                    }
+                });
+    }
+
+    // Metoda do dodawania dokumentu użytkownika w bazie danych
+    private void addUserDocument(String userId) {
+        // Pobierz dane użytkownika z Firebase Authentication
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            User user = new User(
+                    "",
+                    "",
+                    currentUser.getEmail(),
+                    currentUser.getEmail(),
+                    "",
+                    "pl",
+                    "",
+                    "ratherNotSay",
+                    "Warfin",
+                    "patient",
+                    "",
+                    Timestamp.now()
+            );
+
+            // Dodaj dokument użytkownika do bazy danych
+            FirebaseFirestore.getInstance()
+                    .collection("Users")
+                    .document(userId)
+                    .set(user)
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d("MeasurementsFragment", "Dodano nowy dokument użytkownika");
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("MeasurementsFragment", "Błąd podczas dodawania nowego dokumentu użytkownika", e);
+                    });
+        }
+        userDocumentExists = true;
     }
 
     @Override

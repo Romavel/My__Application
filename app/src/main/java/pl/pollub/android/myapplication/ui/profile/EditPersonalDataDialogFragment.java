@@ -119,8 +119,7 @@ public class EditPersonalDataDialogFragment extends DialogFragment {
             editPhoneNumberBox.setText(currentUser.getPhone_number());
             editMainIllnessBox.setText(currentUser.getIllness());
 
-            // Ustawienie wybranej opcji w spinnerach
-            //setSpinnerSelection(genderSpinner, currentUser.getGender());
+            setSpinnerSelection(genderSpinner, currentUser.getGender());
             Log.d("ProfileFragment", "Gender spinner: " + currentUser.getGender());
             setSpinnerSelection(countriesSpinner, currentUser.getCountry());
             Log.d("ProfileFragment", "Gender spinner: " + currentUser.getCountry());

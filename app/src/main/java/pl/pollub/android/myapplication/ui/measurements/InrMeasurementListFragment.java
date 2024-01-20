@@ -83,13 +83,6 @@ public class InrMeasurementListFragment extends Fragment {
 
     // Metoda do pobierania początkowych danych
     private void fetchInitialData() {
-        // Pobierz dane z Firestore Database
-        // Jeżeli użytkownik ma mniej niż 10 pomiarów, pobierz wszystkie
-        // Jeżeli użytkownik ma 10 lub więcej pomiarów, pobierz 10 najnowszych
-        // Wywołaj tę metodę po dodaniu nowego pomiaru, edycji lub usunięciu pomiaru
-        // Jeżeli chcesz dodatkowe dane, dostosuj tę metodę odpowiednio
-        // Poniżej znajdziesz przykładowy kod
-
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         db.getInstance()
@@ -202,7 +195,6 @@ public class InrMeasurementListFragment extends Fragment {
                 .delete()
                 .addOnSuccessListener(aVoid -> {
                     // Usunięto pomyślnie
-
                     inrMeasurements.remove(position);
                     adapter.notifyItemRemoved(position);
                     Log.d("MeasurementIdLog", "Usunięto pomiar o id: " + measurementId);
@@ -212,7 +204,6 @@ public class InrMeasurementListFragment extends Fragment {
                 });
     }
 
-    // Metoda do edycji pomiaru (dostosuj do swoich potrzeb)
 
     private void editInrMeasurement(int position) {
         // Pobierz dane pomiaru, który chcesz edytować

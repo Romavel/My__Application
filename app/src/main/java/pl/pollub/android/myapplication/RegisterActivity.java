@@ -161,8 +161,8 @@ public class RegisterActivity extends AppCompatActivity {
         user.setEmail(email);
         user.setPhone_number("");
         user.setBirth_date("");
-        user.setCountry("");
-        user.setGender("");
+        user.setCountry("ratherNotSay");
+        user.setGender("ratherNotSay");
         user.setIllness("");
         user.setRole("patient");
         user.setMedication(medication);

@@ -166,10 +166,11 @@ public class DietDialogFragment extends Fragment {
             case "Sugar":
                 layout = new SugarLayout(getContext(), null,value);
                 break;
-                 */
+
             case "Other":
                 layout = new OtherLayout(getContext(), null);
                 break;
+                */
             // Dodaj inne przypadki dla innych używek
             default:
                 return;
@@ -316,7 +317,7 @@ public class DietDialogFragment extends Fragment {
                         selectedButtons.add("Caffeine");
                         addLayout("Caffeine",value);
                 }
-                */
+
                     if ("Other".equals(name)) {
                         // Jeśli to jest CaffeineLayout, pobierz dane i dodaj do kolekcji "IntakeArr"
                         //OtherLayout otherLayout = new OtherLayout(getContext(),null);
@@ -326,6 +327,7 @@ public class DietDialogFragment extends Fragment {
                         selectedButtons.add("Other");
                         addLayout("Other",value);
                     }
+                */
             }
         }
         else

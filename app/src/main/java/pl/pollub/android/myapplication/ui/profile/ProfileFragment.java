@@ -98,6 +98,7 @@ public class ProfileFragment extends Fragment {
                 // Obsługa kliknięcia w edytuj dane
                 // Dodaj tutaj kod, który ma zostać wykonany po kliknięciu
                 showEditPersonalDataDialog();
+                Log.d("ProfileFragment","Kliknieto w zmianę danych osobowych");
             }
         });
 
@@ -107,6 +108,7 @@ public class ProfileFragment extends Fragment {
                 // Obsługa kliknięcia w zmień lek główny
                 // Dodaj tutaj kod, który ma zostać wykonany po kliknięciu
                 showEditMainMedicationDialog();
+                Log.d("ProfileFragment","Kliknieto w zmianę głównego leku");
             }
         });
 
@@ -176,21 +178,17 @@ public class ProfileFragment extends Fragment {
         TextView textGender = binding.textGender;
         TextView textCondition = binding.textCondition;
         TextView textMainMedication = binding.textMainMedication;
-
-        // Ustaw dane w widokach
         textWelcome.setText(String.format("Witaj %s", document.getString("username")));
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         if (document.contains("registration_date")) {
-            textRegistrationDate.setText(String.format("Data rejestracji: %s", dateFormat.format(document.getDate("registration_date"))));
+            textRegistrationDate.setText(String.format("Data rejestracji: %s",
+                    dateFormat.format(document.getDate("registration_date"))));
         } else {
             textRegistrationDate.setVisibility(View.GONE);
         }
-
         if (document.contains("first_name") && document.contains("last_name")) {
             String firstName = document.getString("first_name");
             String lastName = document.getString("last_name");
-
             if (!TextUtils.isEmpty(firstName) || !TextUtils.isEmpty(lastName)) {
                 String fullName = String.format("%s %s", firstName, lastName).trim();
                 textFullName.setText(String.format("Imię i nazwisko: %s", fullName));
@@ -200,8 +198,6 @@ public class ProfileFragment extends Fragment {
         } else {
             textFullName.setVisibility(View.GONE);
         }
-
-
         if (document.contains("gender")) {
             String genderValue = document.getString("gender");
             Genders gender = Genders.valueOf(genderValue.toUpperCase());
@@ -209,7 +205,6 @@ public class ProfileFragment extends Fragment {
         } else {
             textGender.setVisibility(View.GONE);
         }
-
         if (document.contains("country")) {
             String countryValue = document.getString("country");
             Countries country = Countries.valueOf(countryValue.toUpperCase());
@@ -217,13 +212,11 @@ public class ProfileFragment extends Fragment {
         } else {
             textCountry.setVisibility(View.GONE);
         }
-
         if (document.contains("illness")) {
             textCondition.setText(String.format("Główne schorzenie: %s", document.getString("illness")));
         } else {
             textCondition.setVisibility(View.GONE);
         }
-
         if (document.contains("medication")) {
             textMainMedication.setText(String.format("Główny lek: %s", document.getString("medication")));
         } else {

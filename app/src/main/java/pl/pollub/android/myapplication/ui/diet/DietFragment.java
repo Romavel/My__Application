@@ -65,38 +65,25 @@ public class DietFragment extends Fragment {
     }
 
     private void checkExistingDocument() {
-        // Pobierz ID aktualnie zalogowanego użytkownika
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        // Utwórz kolekcję "Intakes" wewnątrz kolekcji "Users"
         final CollectionReference intakesCollection = db.collection("Users").document(userId).collection("Intakes");
-
-
-        // Utwórz zapytanie, aby pobrać dokumenty z datą nie wcześniejszą niż dzisiaj
         Query query = intakesCollection
                 .orderBy("day", Query.Direction.DESCENDING)
                 .limit(1);
-
         Log.d("DietFragment", "Query: " + query);
         query.get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
-                        // Załóżmy, że zakładamy, że istnieje tylko jeden dokument z dzisiejszą datą,
-                        // Jeśli istnieje więcej niż jeden, musisz dostosować to odpowiednio
                         DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
                         newDiet = documentSnapshot.toObject(NewDiet.class);
-                        // Pobierz dzisiejszą datę
                         Date todayDate = Calendar.getInstance().getTime();
-                        // Pobierz datę z ostatniego dokumentu
                         Date documentDate = newDiet.getDay().toDate();
                         Log.d("DietFragment", "Before MatchingDate: " + matchingDate);
                         if (isSameDay(documentDate, todayDate)) {
                             Log.d("DietFragment", "MatchingDate changed to True");
                             matchingDate = true;
                         }
-
                         if (newDiet != null && matchingDate) {
-                            // Wyświetl item_diet
                             setupRecyclerView(newDiet);
                         }
                         Log.d("DietFragment", "After MatchingDate: " + matchingDate);

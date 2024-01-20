@@ -143,53 +143,31 @@ public class AddSymptomDialogFragment extends Fragment {
     }
 
     private void checkExistingDocument() {
-        // Pobierz ID aktualnie zalogowanego użytkownika
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        // Utwórz kolekcję "Symptoms" wewnątrz kolekcji "Users"
         final CollectionReference symptomsCollection = db.collection("Users").document(userId).collection("Symptoms");
-
-        // Utwórz zapytanie, aby pobrać dokumenty z datą nie wcześniejszą niż dzisiaj
         Query query = symptomsCollection
                 .orderBy("day", Query.Direction.DESCENDING)
                 .limit(1);
-
-        Log.d("AddSymptomDialogFragment", "Query: " + query);
         query.get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
-
-                        Log.d("AddSymptomDialogFragment", "DocumentSnapshot: " + documentSnapshot);
                         NewSymptom newSymptom = documentSnapshot.toObject(NewSymptom.class);
-
-                        // Pobierz dzisiejszą datę
                         Date todayDate = Calendar.getInstance().getTime();
                         String today = formatDateWithoutTime(todayDate);
-
-                        Log.d("AddSymptomDialogFragment", "Today's date: " + today);
-
-                        // Pobierz datę z ostatniego dokumentu
                         Date documentDate = newSymptom.getDay().toDate();
                         String document = formatDateWithoutTime(documentDate);
-                        Log.d("AddSymptomDialogFragment", "CheckDate's date: " + document);
-
-                        Log.d("AddSymptomDialogFragment", "Before MatchingDate" + matchingDate);
                         if (isSameDay(documentDate, todayDate)) {
-                            Log.d("AddSymptomDialogFragment", "MatchingDate changed to True");
                             matchingDate = true;
                         }
 
                         Log.d("AddSymptomDialogFragment", "After MatchingDate" + matchingDate);
                         if (newSymptom != null && matchingDate) {
-                            // Jeśli istnieją dokumenty z dzisiejszą datą, to jest to aktualizacja
                             isUpdate = true;
-                            Log.d("AddSymptomDialogFragment", "NewSymptom symptomArray: " + newSymptom.getSymptom_arr() + " NewSymptom documentId: " + newSymptom.getDocumentId() + " NewSymptom day: " + newSymptom.getDay());
                             documentId = newSymptom.getDocumentId();
                             handleExistingData(newSymptom);
                         }
                     } else {
-                        // Brak dokumentów dla dzisiejszej daty
                         matchingDate = false;
                     }
                 })
@@ -201,65 +179,37 @@ public class AddSymptomDialogFragment extends Fragment {
 
     private void handleExistingData(NewSymptom newSymptom) {
         Timestamp day = newSymptom.getDay();
-        Log.d("AddSymptomDialogFragment", "GetSymptomArray: " + newSymptom.getSymptom_arr());
-
-        // Iteruj przez zaznaczone przyciski
         if (newSymptom.getSymptom_arr() != null) {
             for (String symptom : newSymptom.getSymptom_arr()) {
                 View layout = layoutMap.get(symptom);
-
                 if ("Headache".equals(symptom)) {
-                    // Oznacz przycisk "Headache" jako zaznaczony
                     btnHeadache.setBackgroundColor(Color.parseColor("#0A900A"));
                     selectedButtons.add("Headache");
-                }
-                if ("Bleeding".equals(symptom)) {
-                    // Oznacz przycisk "Bleeding" jako zaznaczony
+                }if ("Bleeding".equals(symptom)) {
                     btnBleeding.setBackgroundColor(Color.parseColor("#0A900A"));
                     selectedButtons.add("Bleeding");
-                }
-                if ("Bruises".equals(symptom)) {
-                    // Oznacz przycisk "Bruises" jako zaznaczony
+                }if ("Bruises".equals(symptom)) {
                     btnBruises.setBackgroundColor(Color.parseColor("#0A900A"));
                     selectedButtons.add("Bruises");
-                }
-                if ("Chest_Pain".equals(symptom)) {
-                    // Oznacz przycisk "Chest_Pain" jako zaznaczony
+                }if ("Chest_Pain".equals(symptom)) {
                     btnChestPain.setBackgroundColor(Color.parseColor("#0A900A"));
                     selectedButtons.add("Chest_Pain");
-                }
-                if ("Leg_Swelling".equals(symptom)) {
-                    // Oznacz przycisk "Leg_Swelling" jako zaznaczony
+                }if ("Leg_Swelling".equals(symptom)) {
                     btnLegSwelling.setBackgroundColor(Color.parseColor("#0A900A"));
                     selectedButtons.add("Leg_Swelling");
-                }
-                if ("Palpitations".equals(symptom)) {
-                    // Oznacz przycisk "Palpitations" jako zaznaczony
+                }if ("Palpitations".equals(symptom)) {
                     btnPalpitations.setBackgroundColor(Color.parseColor("#0A900A"));
                     selectedButtons.add("Palpitations");
-                }
-                if ("Dizzyness".equals(symptom)) {
-                    // Oznacz przycisk "Dizzyness" jako zaznaczony
+                }if ("Dizzyness".equals(symptom)) {
                     btnDizzyness.setBackgroundColor(Color.parseColor("#0A900A"));
                     selectedButtons.add("Dizzyness");
-                }
-                if ("Hot_Flush".equals(symptom)) {
-                    // Oznacz przycisk "Hot_Flush" jako zaznaczony
+                }if ("Hot_Flush".equals(symptom)) {
                     btnHotFlush.setBackgroundColor(Color.parseColor("#0A900A"));
                     selectedButtons.add("Hot_Flush");
-                }
-                if ("Coughing".equals(symptom)) {
-                    // Oznacz przycisk "Coughing" jako zaznaczony
+                }if ("Coughing".equals(symptom)) {
                     btnCoughing.setBackgroundColor(Color.parseColor("#0A900A"));
                     selectedButtons.add("Coughing");
                 }
-                /*
-                if ("Other".equals(symptom)) {
-                    // Oznacz przycisk "Other" jako zaznaczony
-                    btnOther.setBackgroundColor(Color.parseColor("#0A900A"));
-                    selectedButtons.add("Other");
-                }
-                */
             }
         } else {
             Log.d("AddSymptomDialogFragment", "Symptom_arr jest pusty");

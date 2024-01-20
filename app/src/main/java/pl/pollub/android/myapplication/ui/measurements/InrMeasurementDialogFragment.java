@@ -34,8 +34,6 @@ public class InrMeasurementDialogFragment extends DialogFragment {
         Button btnCancelInr = view.findViewById(R.id.btnCancelINR);
         Button btnAddInr = view.findViewById(R.id.btnAddINR);
 
-        // ... inne inicjalizacje
-
         btnAddInr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

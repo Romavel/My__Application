@@ -11,12 +11,7 @@ public class PressureMeasurement implements Serializable {
     private int systolic_pressure;
     private int diastolic_pressure;
     private int pulse;
-
     private Timestamp time;
-
-    public PressureMeasurement() {
-        // Konstruktor domyślny wymagany przez Firebase
-    }
 
     public PressureMeasurement(int systolic_pressure, int diastolic_pressure, int pulse, String document_id,Timestamp time) {
         this.systolic_pressure = systolic_pressure;
@@ -26,6 +21,11 @@ public class PressureMeasurement implements Serializable {
         this.time = time;
     }
 
+
+
+    public PressureMeasurement() {
+        // Konstruktor domyślny wymagany przez Firebase
+    }
     public int getSystolic_pressure() {
         return systolic_pressure;
     }

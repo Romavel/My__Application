@@ -70,25 +70,29 @@ public class DietAdapter extends RecyclerView.Adapter<DietAdapter.DietViewHolder
             // Pobierz DietEntry dla bieżącej pozycji
             DietEntry entry = dietEntries.get(position);
 
-            // Ustaw wartości w polach widoku
-            textName.setText(entry.getName() + ": ");
-            textAmount.setText(String.valueOf(entry.getAmount()));
-
             // Ustaw widoczność pola comparison w zależności od warunków
             if ("Caffeine".equals(entry.getName())) {
                 Log.d("DietDialogFragment","Wewnątrz if Caffeine");
+                textName.setText("Kofeina: ");
+                textAmount.setText(String.valueOf(entry.getAmount()));
                 textUnit.setText("mg");
                 textComparison.setText(updateCaffeineComparisonText(entry.getAmount()));
             } else if ("Nicotine".equals(entry.getName())) {
                 Log.d("DietDialogFragment","Wewnątrz if Nicotine");
+                textName.setText("Nikotyna: ");
+                textAmount.setText(String.valueOf(entry.getAmount()));
                 textUnit.setText("mg");
                 textComparison.setText(updateNicotineComparisonText(entry.getAmount()));
             } else if ("Alcohol".equals(entry.getName())) {
                 Log.d("DietDialogFragment","Wewnątrz if Alcohol");
+                textName.setText("Alkohol: ");
+                textAmount.setText(String.valueOf(entry.getAmount()));
                 textUnit.setText("mg");
                 textComparison.setText(updateAlcoholComparisonText(entry.getAmount()));
             } else if ("Green_vegetables".equals(entry.getName())) {
                 Log.d("DietDialogFragment","Wewnątrz if Vegetable");
+                textName.setText("Warzywa Zielone: ");
+                textAmount.setText(String.valueOf(entry.getAmount()));
                 textUnit.setText("μg");
                 textComparison.setText(updateVegetableComparisonText(entry.getAmount()));
             }

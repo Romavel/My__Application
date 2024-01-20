@@ -86,7 +86,7 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
                 case "Coughing":
                     return "Kaszel";
                 default:
-                    return symptom; // Jeśli nie ma tłumaczenia, zwróć sam symptom
+                    return symptom;
             }
         }
     }

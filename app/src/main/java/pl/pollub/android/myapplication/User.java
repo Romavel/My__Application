@@ -28,7 +28,7 @@ public class User {
     // Konstruktor z argumentami
     public User(String first_name, String last_name, String username, String email,
                 String birth_date, String country, String phone_number, String gender,
-                String medication, String role, String illness) {
+                String medication, String role, String illness, Timestamp registration_date) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
@@ -40,6 +40,7 @@ public class User {
         this.illness = illness;
         this.role = role;
         this.medication = medication;
+        this.registration_date = registration_date;
     }
 
     // Getter i setter dla firstName
